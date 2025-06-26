@@ -11,13 +11,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 根据保存的设置或系统偏好设置初始主题
     if (savedTheme) {
-        document.body.className = savedTheme;
-        updateThemeIcon(savedTheme === 'dark-theme');
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme === 'dark');
     } else if (prefersDarkScheme.matches) {
-        document.body.className = 'dark-theme';
+        document.documentElement.setAttribute('data-theme', 'dark');
         updateThemeIcon(true);
     } else {
-        document.body.className = 'light-theme';
+        document.documentElement.setAttribute('data-theme', 'light');
         updateThemeIcon(false);
     }
     
@@ -33,10 +33,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 切换主题
     themeToggle.addEventListener('click', () => {
-        const isDark = document.body.className === 'dark-theme';
-        const newTheme = isDark ? 'light-theme' : 'dark-theme';
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        const isDark = currentTheme === 'dark';
+        const newTheme = isDark ? 'light' : 'dark';
         
-        document.body.className = newTheme;
+        document.documentElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
         updateThemeIcon(!isDark);
     });
@@ -45,8 +46,8 @@ document.addEventListener('DOMContentLoaded', function() {
     prefersDarkScheme.addEventListener('change', (e) => {
         // 只有在用户没有手动设置主题时才跟随系统
         if (!localStorage.getItem('theme')) {
-            const newTheme = e.matches ? 'dark-theme' : 'light-theme';
-            document.body.className = newTheme;
+            const newTheme = e.matches ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
             updateThemeIcon(e.matches);
         }
     });
