@@ -1,290 +1,182 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FNF NovaFlare Engine - Friday Night Funkin' Engine</title>
-    <meta name="description" content="FNF NovaFlare Engine is a powerful, modern engine designed for creating Friday Night Funkin' mods with advanced features and optimized performance.">
+    <title>NovaFlare Engine | 新星闪耀引擎</title>
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/particle-controls.css">
+    <link rel="stylesheet" href="css/themes.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/tech-theme.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
-    <!-- Particle Background -->
-    <div id="particles" class="particle-container"></div>
-    
-    <!-- Particle Engine Controls -->
-    <div id="particle-controls" class="particle-controls">
-        <div class="control-header">
-            <h3>NovaFlare Controls</h3>
-            <button id="toggle-controls" class="toggle-btn"><i class="fas fa-cog"></i></button>
-        </div>
-        <div class="control-panel">
-            <div class="control-group">
-                <label for="particle-count">Particles: <span id="particle-count-value">180</span></label>
-                <input type="range" id="particle-count" min="50" max="300" value="180">
+<body class="light-theme">
+    <!-- 星星背景 -->
+    <canvas id="starfield"></canvas>
+
+    <!-- 导航栏 -->
+    <header>
+        <nav>
+            <div class="logo-container">
+                <img src="images/logo.png" alt="NovaFlare Engine Logo" class="logo">
+                <span class="logo-text" data-en="NovaFlare Engine" data-zh="新星闪耀引擎">新星闪耀引擎</span>
             </div>
-            <div class="control-group">
-                <label for="particle-size">Size: <span id="particle-size-value">1.2</span></label>
-                <input type="range" id="particle-size" min="0.5" max="3" step="0.1" value="1.2">
+            <div class="nav-controls">
+                <button id="theme-toggle" aria-label="切换主题">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button id="lang-toggle" aria-label="切换语言">
+                    <span data-en="中" data-zh="EN">中</span>
+                </button>
+                <button id="menu-toggle" class="mobile-only" aria-label="菜单">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
-            <div class="control-group">
-                <label for="flow-intensity">Flow Intensity: <span id="flow-intensity-value">0.15</span></label>
-                <input type="range" id="flow-intensity" min="0" max="1" step="0.05" value="0.15">
-            </div>
-            <div class="control-group">
-                <label for="energy-strength">Energy Field: <span id="energy-strength-value">0.15</span></label>
-                <input type="range" id="energy-strength" min="0" max="1" step="0.05" value="0.15">
-            </div>
-            <div class="control-toggles">
-                <div class="toggle-switch">
-                    <input type="checkbox" id="show-connections" checked>
-                    <label for="show-connections">Connections</label>
-                </div>
-                <div class="toggle-switch">
-                    <input type="checkbox" id="show-energy-fields" checked>
-                    <label for="show-energy-fields">Energy Fields</label>
-                </div>
-                <div class="toggle-switch">
-                    <input type="checkbox" id="show-debug">
-                    <label for="show-debug">Debug Info</label>
-                </div>
-            </div>
-            <div class="control-actions">
-                <button id="pause-resume" class="control-btn">Pause</button>
-                <button id="reset-defaults" class="control-btn">Reset</button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Scroll Progress Indicator -->
-    <div class="scroll-progress"></div>
-    <!-- Header -->
-    <header class="header">
-        <nav class="nav container">
-                            <a href="#" class="logo">
-                                <img src="212390647.png" alt="NovaFlare Engine Logo">
-                            </a>
             <ul class="nav-links">
-                <li><a href="#features">Features</a></li>
-                <li><a href="#getting-started">Get Started</a></li>
-                <li><a href="#download">Download</a></li>
-                <li><a href="#documentation">Docs</a></li>
-                <li><a href="#community">Community</a></li>
+                <li><a href="#features" data-en="Features" data-zh="特性">特性</a></li>
+                <li><a href="#download" data-en="Download" data-zh="下载">下载</a></li>
+                <li><a href="#docs" data-en="Documentation" data-zh="文档">文档</a></li>
+                <li><a href="#community" data-en="Community" data-zh="社区">社区</a></li>
             </ul>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
         </nav>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1 class="hero-title">Create Amazing FNF Mods with NovaFlare</h1>
-                <p class="hero-subtitle">A powerful, modern Friday Night Funkin' engine designed for the next generation of mod creators</p>
-                <div class="hero-btns">
-                    <a href="#download" class="btn">Download Engine</a>
-                    <a href="#getting-started" class="btn btn-outline">Create Mods</a>
+    <!-- 主页面内容 -->
+    <main>
+        <!-- 英雄区域 -->
+        <section id="hero">
+            <div class="container">
+                <h1 data-en="The Next Generation of FNF Engine" data-zh="下一代 FNF 引擎">下一代 FNF 引擎</h1>
+                <p data-en="Based on Psych Engine, optimized for performance and extensibility" 
+                   data-zh="基于 Psych Engine，为性能和扩展性优化">
+                    基于 Psych Engine，为性能和扩展性优化
+                </p>
+                <div class="cta-buttons">
+                    <a href="#download" class="btn primary" data-en="Get Started" data-zh="开始使用">开始使用</a>
+                    <a href="#docs" class="btn secondary" data-en="Learn More" data-zh="了解更多">了解更多</a>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Features Section -->
-    <section id="features" class="section features">
-        <div class="container">
-            <h2 class="section-title">Powerful Features</h2>
-            <div class="features-grid">
-                <div class="feature-card tech-border">
-                    <i class="fas fa-bolt feature-icon"></i>
-                    <h3 class="feature-title">High Performance</h3>
-                    <p class="feature-text">Optimized for smooth gameplay even with complex charts and effects.</p>
-                </div>
-                <div class="feature-card tech-border">
-                    <i class="fas fa-music feature-icon"></i>
-                    <h3 class="feature-title">Advanced Chart Editor</h3>
-                    <p class="feature-text">Create complex note patterns with our intuitive chart editing tools.</p>
-                </div>
-                <div class="feature-card tech-border">
-                    <i class="fas fa-paint-brush feature-icon"></i>
-                    <h3 class="feature-title">Custom Characters</h3>
-                    <p class="feature-text">Easily add and animate your own characters with our character system.</p>
-                </div>
-                <div class="feature-card tech-border">
-                    <i class="fas fa-code feature-icon"></i>
-                    <h3 class="feature-title">Lua Scripting</h3>
-                    <p class="feature-text">Create complex events and mechanics with the built-in Lua scripting system.</p>
-                </div>
-                <div class="feature-card tech-border">
-                    <i class="fas fa-mobile-alt feature-icon"></i>
-                    <h3 class="feature-title">Multi-Platform</h3>
-                    <p class="feature-text">Play your mods on Windows, macOS, and Android devices.</p>
-                </div>
-                <div class="feature-card tech-border">
-                    <i class="fas fa-gamepad feature-icon"></i>
-                    <h3 class="feature-title">Modding API</h3>
-                    <p class="feature-text">Extend functionality with our comprehensive modding API.</p>
+        <!-- 特性区域 -->
+        <section id="features">
+            <div class="container">
+                <h2 data-en="Features" data-zh="特性">特性</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-bolt"></i>
+                        <h3 data-en="High Performance" data-zh="高性能">高性能</h3>
+                        <p data-en="Optimized rendering and memory management" 
+                           data-zh="优化的渲染和内存管理">优化的渲染和内存管理</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-puzzle-piece"></i>
+                        <h3 data-en="Modular Design" data-zh="模块化设计">模块化设计</h3>
+                        <p data-en="Easy to extend and customize" 
+                           data-zh="易于扩展和定制">易于扩展和定制</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-code"></i>
+                        <h3 data-en="Developer Friendly" data-zh="开发者友好">开发者友好</h3>
+                        <p data-en="Comprehensive API and documentation" 
+                           data-zh="完整的API和文档">完整的API和文档</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Getting Started Section -->
-    <section id="getting-started" class="section getting-started">
-        <div class="container">
-            <h2 class="section-title">Get Started</h2>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h3 class="step-title">Download</h3>
-                    <p class="step-text">Download NovaFlare Engine for your platform of choice.</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h3 class="step-title">Install</h3>
-                    <p class="step-text">Follow our simple installation guide to set up the engine.</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h3 class="step-title">Create</h3>
-                    <p class="step-text">Start creating your first game with our tutorials.</p>
+        <!-- 下载区域 -->
+        <section id="download">
+            <div class="container">
+                <h2 data-en="Download" data-zh="下载">下载</h2>
+                <div class="download-options">
+                    <div class="download-card">
+                        <h3 data-en="Latest Release" data-zh="最新版本">最新版本</h3>
+                        <p data-en="Version 1.0.0" data-zh="版本 1.0.0">版本 1.0.0</p>
+                        <a href="#" class="btn primary" data-en="Download" data-zh="下载">下载</a>
+                    </div>
+                    <div class="download-card">
+                        <h3 data-en="Source Code" data-zh="源代码">源代码</h3>
+                        <p data-en="GitHub Repository" data-zh="GitHub 仓库">GitHub 仓库</p>
+                        <a href="#" class="btn secondary" data-en="View Source" data-zh="查看源码">查看源码</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Download Section -->
-    <section id="download" class="section download">
-        <div class="container">
-            <h2 class="section-title">Download NovaFlare Engine</h2>
-            <div class="download-options">
-                <div class="download-option">
-                    <i class="fab fa-windows download-icon"></i>
-                    <h3 class="download-title">Windows</h3>
-                    <p class="download-text">For Windows 10 and later</p>
-                    <a href="#" class="btn btn-outline download-btn" data-platform="windows" data-version="latest">Download for Windows</a>
-                </div>
-                <div class="download-option">
-                    <i class="fab fa-apple download-icon"></i>
-                    <h3 class="download-title">macOS</h3>
-                    <p class="download-text">For macOS 10.15 and later</p>
-                    <a href="#" class="btn btn-outline download-btn" data-platform="macos" data-version="latest">Download for macOS</a>
-                </div>
-                <div class="download-option">
-                    <i class="fab fa-android download-icon"></i>
-                    <h3 class="download-title">Android</h3>
-                    <p class="download-text">For Android 8.0 and later</p>
-                    <a href="#" class="btn btn-outline download-btn" data-platform="android" data-version="latest">Download for Android</a>
+        <!-- 文档区域 -->
+        <section id="docs">
+            <div class="container">
+                <h2 data-en="Documentation" data-zh="文档">文档</h2>
+                <div class="docs-grid">
+                    <div class="doc-card">
+                        <h3 data-en="Getting Started" data-zh="入门指南">入门指南</h3>
+                        <a href="#" class="btn text" data-en="Read More" data-zh="阅读更多">阅读更多</a>
+                    </div>
+                    <div class="doc-card">
+                        <h3 data-en="API Reference" data-zh="API 参考">API 参考</h3>
+                        <a href="#" class="btn text" data-en="Read More" data-zh="阅读更多">阅读更多</a>
+                    </div>
+                    <div class="doc-card">
+                        <h3 data-en="Examples" data-zh="示例">示例</h3>
+                        <a href="#" class="btn text" data-en="Read More" data-zh="阅读更多">阅读更多</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Documentation Section -->
-    <section id="documentation" class="section documentation">
-        <div class="container">
-            <h2 class="section-title">Documentation</h2>
-            <div class="docs-content">
-                <div class="docs-text">
-                    <h3 class="docs-title">Comprehensive Documentation</h3>
-                    <p class="docs-description">Everything you need to know about NovaFlare Engine, from getting started to advanced topics.</p>
-                    <ul class="docs-links">
-                        <li><a href="#"><i class="fas fa-book"></i> Getting Started Guide</a></li>
-                        <li><a href="#"><i class="fas fa-graduation-cap"></i> Tutorials</a></li>
-                        <li><a href="#"><i class="fas fa-code"></i> API Reference</a></li>
-                        <li><a href="#"><i class="fas fa-puzzle-piece"></i> Plugin Development</a></li>
-                    </ul>
-                </div>
-                <div class="docs-image">
-                    <img src="images/grid-pattern.svg" alt="Documentation Preview">
+        <!-- 社区区域 -->
+        <section id="community">
+            <div class="container">
+                <h2 data-en="Community" data-zh="社区">社区</h2>
+                <div class="community-links">
+                    <a href="#" class="community-card">
+                        <i class="fab fa-discord"></i>
+                        <span data-en="Join Discord" data-zh="加入 Discord">加入 Discord</span>
+                    </a>
+                    <a href="#" class="community-card">
+                        <i class="fab fa-github"></i>
+                        <span data-en="GitHub" data-zh="GitHub">GitHub</span>
+                    </a>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
-    <!-- Community Section -->
-    <section id="community" class="section community">
-        <div class="container">
-            <h2 class="section-title">Join Our Community</h2>
-            <div class="community-platforms">
-                <div class="platform">
-                    <i class="fab fa-discord platform-icon"></i>
-                    <h3 class="platform-name">Discord</h3>
-                    <p class="platform-text">Join our Discord server</p>
-                </div>
-                <div class="platform">
-                    <i class="fab fa-github platform-icon"></i>
-                    <h3 class="platform-name">GitHub</h3>
-                    <p class="platform-text">Contribute to the engine</p>
-                </div>
-                <div class="platform">
-                    <i class="fab fa-reddit platform-icon"></i>
-                    <h3 class="platform-name">Reddit</h3>
-                    <p class="platform-text">Join the discussion</p>
-                </div>
-                <div class="platform">
-                    <i class="fab fa-twitter platform-icon"></i>
-                    <h3 class="platform-name">Twitter</h3>
-                    <p class="platform-text">Follow for updates</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
+    <!-- 页脚 -->
+    <footer>
         <div class="container">
             <div class="footer-content">
-                <div class="footer-column">
-                    <h3>NovaFlare Engine</h3>
-                    <ul class="footer-links">
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#download">Download</a></li>
-                        <li><a href="#documentation">Documentation</a></li>
-                        <li><a href="#community">Community</a></li>
-                    </ul>
+                <div class="footer-logo">
+                    <img src="images/logo.png" alt="NovaFlare Engine Logo" class="logo">
+                    <span class="logo-text" data-en="NovaFlare Engine" data-zh="新星闪耀引擎">新星闪耀引擎</span>
                 </div>
-                <div class="footer-column">
-                    <h3>Resources</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Tutorials</a></li>
-                        <li><a href="#">Showcase</a></li>
-                        <li><a href="#">Support</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Legal</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">License</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Connect</h3>
-                    <div class="footer-social">
-                        <a href="#" class="social-icon"><i class="fab fa-discord"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-icon"><i class="fab fa-reddit"></i></a>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h3 data-en="Resources" data-zh="资源">资源</h3>
+                        <ul>
+                            <li><a href="#" data-en="Documentation" data-zh="文档">文档</a></li>
+                            <li><a href="#" data-en="Tutorials" data-zh="教程">教程</a></li>
+                            <li><a href="#" data-en="Examples" data-zh="示例">示例</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h3 data-en="Community" data-zh="社区">社区</h3>
+                        <ul>
+                            <li><a href="#" data-en="Discord" data-zh="Discord">Discord</a></li>
+                            <li><a href="#" data-en="GitHub" data-zh="GitHub">GitHub</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 NovaFlare Engine. All rights reserved.</p>
+                <p>&copy; 2024 NovaFlare Engine. <span data-en="All rights reserved." data-zh="保留所有权利。">保留所有权利。</span></p>
             </div>
         </div>
     </footer>
 
-    <script src="js/particles.js"></script>
+    <!-- 脚本 -->
+    <script src="js/starfield.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/language.js"></script>
     <script src="js/main.js"></script>
-    <script src="js/animations.js"></script>
 </body>
 </html>

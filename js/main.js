@@ -1,136 +1,139 @@
-// NovaFlare Engine - Official Website JavaScript
+/**
+ * NovaFlare Engine - 主要交互功能
+ */
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Header scroll effect
-    const header = document.querySelector('.header');
-    const scrollThreshold = 50;
-
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > scrollThreshold) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-    });
-
-    // Mobile navigation toggle
-    const hamburger = document.querySelector('.hamburger');
+    // 移动端菜单切换
+    const menuToggle = document.getElementById('menu-toggle');
     const navLinks = document.querySelector('.nav-links');
-
-    if (hamburger) {
-        hamburger.addEventListener('click', function() {
+    
+    if (menuToggle && navLinks) {
+        menuToggle.addEventListener('click', () => {
             navLinks.classList.toggle('active');
-            hamburger.classList.toggle('active');
+            const icon = menuToggle.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+        
+        // 点击导航链接后关闭菜单
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                const icon = menuToggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            });
         });
     }
-
-    // Close mobile menu when clicking on a link
-    const navItems = document.querySelectorAll('.nav-links a');
-    navItems.forEach(item => {
-        item.addEventListener('click', function() {
-            if (navLinks.classList.contains('active')) {
-                navLinks.classList.remove('active');
-                hamburger.classList.remove('active');
-            }
-        });
-    });
-
-    // Smooth scrolling for anchor links
+    
+    // 平滑滚动
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
-            
             const targetId = this.getAttribute('href');
             if (targetId === '#') return;
             
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
-                const headerHeight = header.offsetHeight;
-                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-                
-                window.scrollTo({
-                    top: targetPosition - headerHeight,
-                    behavior: 'smooth'
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
                 });
             }
         });
     });
-
-    // Animation on scroll
-    const animatedElements = document.querySelectorAll('.animate');
     
-    function checkIfInView() {
-        const windowHeight = window.innerHeight;
-        const windowTopPosition = window.scrollY;
-        const windowBottomPosition = windowTopPosition + windowHeight;
+    // 页面加载完成后的渐入效果
+    document.body.classList.add('loaded');
+    
+    // 监听滚动事件，实现导航栏透明度变化
+    let lastScrollTop = 0;
+    const header = document.querySelector('header');
+    
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         
-        animatedElements.forEach(element => {
-            const elementHeight = element.offsetHeight;
-            const elementTopPosition = element.offsetTop;
-            const elementBottomPosition = elementTopPosition + elementHeight;
-            
-            // Check if element is in viewport
-            if (
-                (elementBottomPosition >= windowTopPosition) &&
-                (elementTopPosition <= windowBottomPosition)
-            ) {
-                element.classList.add('animated');
+        // 向下滚动时增加阴影和背景不透明度
+        if (scrollTop > lastScrollTop) {
+            header.style.boxShadow = '0 2px 10px var(--shadow-color)';
+            header.style.backgroundColor = 'var(--bg-primary)';
+        } 
+        // 回到顶部时移除阴影和降低背景不透明度
+        else if (scrollTop === 0) {
+            header.style.boxShadow = 'none';
+            header.style.backgroundColor = 'var(--bg-primary)';
+        }
+        
+        lastScrollTop = scrollTop;
+    });
+    
+    // 添加交互动效
+    const cards = document.querySelectorAll('.feature-card, .download-card, .doc-card, .community-card');
+    
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            card.style.transform = 'translateY(-5px)';
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'translateY(0)';
+        });
+    });
+    
+    // 性能优化：防抖函数
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+    
+    // 优化滚动事件监听
+    const debouncedScroll = debounce(() => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // 添加渐入动画
+        document.querySelectorAll('.feature-card, .download-card, .doc-card, .community-card').forEach(element => {
+            const elementTop = element.getBoundingClientRect().top + scrollTop;
+            if (scrollTop + window.innerHeight > elementTop + 100) {
+                element.classList.add('visible');
             }
         });
-    }
+    }, 16);
     
-    // Run once on page load
-    checkIfInView();
+    window.addEventListener('scroll', debouncedScroll);
     
-    // Run on scroll
-    window.addEventListener('scroll', checkIfInView);
-
-    // Code snippet copy functionality
-    const codeBlocks = document.querySelectorAll('pre code');
-    codeBlocks.forEach(block => {
-        // Create copy button
-        const copyButton = document.createElement('button');
-        copyButton.className = 'copy-btn';
-        copyButton.textContent = 'Copy';
-        
-        // Add button to code block parent
-        block.parentNode.style.position = 'relative';
-        block.parentNode.appendChild(copyButton);
-        
-        // Add click event
-        copyButton.addEventListener('click', function() {
-            const code = block.textContent;
-            navigator.clipboard.writeText(code).then(() => {
-                copyButton.textContent = 'Copied!';
-                setTimeout(() => {
-                    copyButton.textContent = 'Copy';
-                }, 2000);
-            }).catch(err => {
-                console.error('Failed to copy: ', err);
-            });
-        });
+    // 初始化时触发一次
+    debouncedScroll();
+    
+    // 错误处理
+    window.addEventListener('error', function(e) {
+        console.error('页面错误:', e.message);
+        // 这里可以添加错误报告逻辑
     });
-
-    // Version selector functionality
-    const versionSelector = document.getElementById('version-selector');
-    if (versionSelector) {
-        versionSelector.addEventListener('change', function() {
-            const selectedVersion = this.value;
-            // Redirect to the selected version page or update content
-            console.log(`Selected version: ${selectedVersion}`);
-            // Implementation would depend on how versions are structured
+    
+    // 性能监控
+    if ('performance' in window) {
+        window.addEventListener('load', function() {
+            const timing = performance.timing;
+            const loadTime = timing.loadEventEnd - timing.navigationStart;
+            console.log('页面加载时间:', loadTime + 'ms');
         });
     }
+});
 
-    // Download button tracking
-    const downloadButtons = document.querySelectorAll('.download-btn');
-    downloadButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const version = this.getAttribute('data-version');
-            const platform = this.getAttribute('data-platform');
-            
-            // Track download event (could be connected to analytics)
-            console.log(`Download initiated: ${version} for ${platform}`);
-        });
-    });
+// 添加页面可见性变化处理
+document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+        // 页面不可见时暂停一些动画或非必要的更新
+        document.title = 'NovaFlare Engine 😴';
+    } else {
+        // 页面可见时恢复
+        document.title = 'NovaFlare Engine';
+    }
 });
