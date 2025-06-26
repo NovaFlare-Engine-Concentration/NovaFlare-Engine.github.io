@@ -18,13 +18,13 @@ document.addEventListener('DOMContentLoaded', function() {
             ];
 
             const allowedNoGithub = [
-                { login: 'Chiny', contributions: 0, avatarUrl: 'https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/chiny.png', url: 'https://space.bilibili.com/3493288327777064' },
-                { login: 'Careful_Scarf_487', contributions: 0, avatarUrl: 'https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/Careful_Scarf_487.png', url: 'https://b23.tv/DQ1a0jO' },
-                { login: 'MengQi', contributions: 0, avatarUrl: 'https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/mengqi.png', url: 'https://space.bilibili.com/2130239542' },
-                { login: 'AZjessica', contributions: 0, avatarUrl: 'https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/AZjessica.png', url: 'https://youtube.com/@azjessica?si=aRKuPdMHR1LLBxH1' },
-                { login: 'Ben Eyre', contributions: 0, avatarUrl: 'https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/beneyre.png', url: 'https://x.com/hngstngxng83905?t=GDKWYMRZsCMUMXYs0cmYrw&s=09' },
-                { login: 'Als', contributions: 0, avatarUrl: 'https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/als.png', url: 'https://b23.tv/mNNX8R8' },
-                { login: 'blockDDDdark', contributions: 0, avatarUrl: 'https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/ddd.png', url: 'https://space.bilibili.com/401733211' }
+                { login: 'Chiny', contributions: 0, avatar_url: 'https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/chiny.png', url: 'https://space.bilibili.com/3493288327777064' },
+                { login: 'Careful_Scarf_487', contributions: 0, avatar_url: 'https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/Careful_Scarf_487.png', url: 'https://b23.tv/DQ1a0jO' },
+                { login: 'MengQi', contributions: 0, avatar_url: 'https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/mengqi.png', url: 'https://space.bilibili.com/2130239542' },
+                { login: 'AZjessica', contributions: 0, avatar_url: 'https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/AZjessica.png', url: 'https://youtube.com/@azjessica?si=aRKuPdMHR1LLBxH1' },
+                { login: 'Ben Eyre', contributions: 0, avatar_url: 'https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/beneyre.png', url: 'https://x.com/hngstngxng83905?t=GDKWYMRZsCMUMXYs0cmYrw&s=09' },
+                { login: 'Als', contributions: 0, avatar_url: 'https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/als.png', url: 'https://b23.tv/mNNX8R8' },
+                { login: 'blockDDDdark', contributions: 0, avatar_url: 'https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/ddd.png', url: 'https://space.bilibili.com/401733211' }
             ];
 
             const otherContributors = contributors.filter(c => 
