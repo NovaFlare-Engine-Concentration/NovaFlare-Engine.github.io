@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!container) return;
 
     // 从API获取贡献者数据
-    fetch('https://api.github.com/repos/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/contributors?pre_page=100')
+    fetch('https://api.github.com/repos/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/contributors?per_page=100')
         .then(response => response.json())
         .then(contributors => {
             // 过滤掉主开发者(beihu235)
@@ -22,8 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 'Stefan2008Git',
                 'moxie-coder',
-                'sirthegamercoder',
-                'null'
+                'sirthegamercoder'
             ];
 
             const allowedNoGithub = [
