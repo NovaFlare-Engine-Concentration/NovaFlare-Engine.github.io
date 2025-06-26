@@ -207,7 +207,7 @@
 .toggle-btn {
     display: flex;
     align-items: center;
-    background: transparent;
+    background: rgba(var(--bg-card-rgb), 0.7);
     border: 2px solid var(--accent-color);
     border-radius: 20px;
     padding: 8px 15px;
@@ -217,15 +217,24 @@
 
 [data-theme="dark"] .toggle-btn {
     color: white;
+    background: rgba(255, 255, 255, 0.1);
 }
 
 [data-theme="light"] .toggle-btn {
     color: black;
+    background: rgba(0, 0, 0, 0.05);
 }
 
 .toggle-btn:hover {
     background: var(--accent-color);
-    color: white !important;
+}
+
+[data-theme="dark"] .toggle-btn:hover {
+    color: white;
+}
+
+[data-theme="light"] .toggle-btn:hover {
+    color: black;
 }
 
 .toggle-btn i {
