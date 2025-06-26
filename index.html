@@ -59,6 +59,19 @@
             </div>
         </section>
 
+        <!-- 项目概述 -->
+        <section class="project-overview section" style="padding: 80px 0;">
+            <div class="container">
+                <h2 class="section-title" data-en="Overview" data-zh="项目概述">项目概述</h2>
+                <h2 class="overview-content">
+                    <span data-en=
+                          "Engine originally used on VS Camellia fanmade.It was later moved to support modules"
+                          data-zh=
+                          "最初用于 VS Camellia 的自制项目。后来被移至支持模块">最初用于 VS Camellia 的自制项目。后来被移至支持模块</span>
+                </h2>
+            </div>
+        </section>
+
         <!-- 文档区域 - 统一背景样式 -->
         <section class="docs section" id="docs" style="padding: 80px 0; background: rgba(var(--bg-secondary-rgb), 0.8); border-top: 1px solid var(--border-color);">
             <div class="container">
@@ -76,16 +89,21 @@
             </div>
         </section>
 
-        <!-- 项目概述 -->
-        <section class="project-overview section" style="padding: 80px 0;">
+        <!-- 下载栏 - 添加版本信息 -->
+        <section class="download section" id="download" style="padding: 80px 0;">
             <div class="container">
-                <h2 class="section-title" data-en="Overview" data-zh="项目概述">项目概述</h2>
-                <h2 class="overview-content">
-                    <span data-en=
-                          "Engine originally used on VS Camellia fanmade.It was later moved to support modules"
-                          data-zh=
-                          "最初用于 VS Camellia 的自制项目。后来被移至支持模块">最初用于 VS Camellia 的自制项目。后来被移至支持模块</span>
-                </h2>
+                <h2 class="section-title" data-en="Download" data-zh="下载">下载</h2>
+                <div class="download-info">
+                    <div id="version-info">
+                        <span class="version-label" data-en="Latest Version" data-zh="最新版本">最新版本: </span>
+                        <span id="latest-version" class="version-value">-</span>
+                        <span id="release-date" class="version-date"></span>
+                    </div>
+                    <div id="download-buttons" class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <span data-en="Loading download links..." data-zh="正在加载下载链接...">正在加载下载链接...</span>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -117,24 +135,6 @@
                         <h3 style="font-size: 1.3rem; margin-bottom: 10px;">YouTube</h3>
                         <p style="margin-bottom: 20px; color: var(--text-secondary);" data-en="Watch tutorials and demos" data-zh="观看教程和演示">观看教程和演示</p>
                         <a href="https://youtube.com/@beihu235" class="btn btn-primary" style="display: inline-block;" data-en="Subscribe" data-zh="订阅">订阅</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 下载栏 - 添加版本信息 -->
-        <section class="download section" id="download" style="padding: 80px 0;">
-            <div class="container">
-                <h2 class="section-title" data-en="Download" data-zh="下载">下载</h2>
-                <div class="download-info">
-                    <div id="version-info">
-                        <span class="version-label" data-en="Latest Version" data-zh="最新版本">最新版本: </span>
-                        <span id="latest-version" class="version-value">-</span>
-                        <span id="release-date" class="version-date"></span>
-                    </div>
-                    <div id="download-buttons" class="loading-spinner">
-                        <i class="fas fa-spinner fa-spin"></i>
-                        <span data-en="Loading download links..." data-zh="正在加载下载链接...">正在加载下载链接...</span>
                     </div>
                 </div>
             </div>
