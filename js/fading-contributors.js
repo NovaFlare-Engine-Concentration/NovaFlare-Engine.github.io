@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 'Stefan2008Git',
                 'moxie-coder',
-                'sirthegamercoder',
+                'sirthegamercoder'
             ];
 
             const allowedNoGithub = [
