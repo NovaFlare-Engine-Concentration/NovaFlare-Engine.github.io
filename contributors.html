@@ -213,7 +213,7 @@
                 fuck.forEach(contributor => {
                     const card = document.createElement('div');
                     card.className = 'contributor-card';
-                    if (allowedNoGithub.some(item => item.login === contributor.login)) {
+                    if (!allowedNoGithub.some(item => item.login === contributor.login)) {
                         card.innerHTML = `
                             <img src="${contributor.avatar_url}" alt="${contributor.login}" class="contributor-avatar">
                             <h3 class="contributor-name">${contributor.name || contributor.login}</h3>
