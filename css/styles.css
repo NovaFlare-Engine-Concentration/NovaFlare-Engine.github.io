@@ -187,21 +187,23 @@
     margin-bottom: 10px;
 }
 
-/* 收起按钮优化 */
+/* 收起按钮优化 - 改进暗模式可见性 */
 .toggle-btn {
     display: flex;
     align-items: center;
     background: rgba(var(--bg-card-rgb), 0.9);
-    border: 1px solid var(--border-color);
+    border: 2px solid var(--accent-color);
     border-radius: 20px;
     padding: 8px 15px;
     cursor: pointer;
     transition: all 0.3s ease;
+    color: var(--text-primary);
 }
 
 .toggle-btn:hover {
     background: var(--accent-color);
     color: white;
+    border-color: var(--accent-color);
 }
 
 .toggle-btn i {
@@ -211,6 +213,15 @@
 
 .toggle-text {
     font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* 暗模式特定调整 */
+@media (prefers-color-scheme: dark) {
+    .toggle-btn {
+        border-color: var(--accent-color);
+        background: rgba(var(--bg-card-rgb), 0.7);
+    }
 }
 
 /* 最新版本卡片 */
