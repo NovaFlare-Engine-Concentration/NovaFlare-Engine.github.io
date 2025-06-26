@@ -215,18 +215,45 @@
         document.addEventListener('DOMContentLoaded', function() {
             const repoOwner = 'NovaFlare-Engine-Concentration';
             const repoName = 'FNF-NovaFlare-Engine';
-            const perPage = 5; // 每页显示5个版本
+            const perPage = 6; // 每页显示6个版本（2x3网格）
             
             let currentPage = 1;
             let totalPages = 1;
             let allReleases = [];
             let isCollapsed = false;
             
+            // 更新收起按钮文本（根据当前语言）
+            function updateToggleText() {
+                const toggleBtn = document.getElementById('toggle-versions');
+                if (!toggleBtn) return;
+                
+                const text = toggleBtn.querySelector('.toggle-text');
+                const isChinese = document.documentElement.lang === 'zh';
+                
+                if (isCollapsed) {
+                    text.textContent = isChinese ? '展开' : 'Expand';
+                } else {
+                    text.textContent = isChinese ? '收起' : 'Collapse';
+                }
+            }
+            
+            // 监听语言切换
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.attributeName === 'lang') {
+                        updateToggleText();
+                    }
+                });
+            });
+            
+            observer.observe(document.documentElement, {
+                attributes: true
+            });
+            
             // 收起/展开切换
             document.getElementById('toggle-versions').addEventListener('click', function() {
                 const otherVersions = document.getElementById('other-versions');
                 const icon = this.querySelector('i');
-                const text = this.querySelector('.toggle-text');
                 
                 isCollapsed = !isCollapsed;
                 
@@ -234,13 +261,12 @@
                     otherVersions.style.display = 'none';
                     icon.classList.remove('fa-chevron-down');
                     icon.classList.add('fa-chevron-up');
-                    text.textContent = text.dataset.zh === '展开' ? '展开' : 'Expand';
                 } else {
-                    otherVersions.style.display = 'block';
+                    otherVersions.style.display = 'grid'; // 使用网格布局
                     icon.classList.remove('fa-chevron-up');
                     icon.classList.add('fa-chevron-down');
-                    text.textContent = text.dataset.zh === '收起' ? '收起' : 'Collapse';
                 }
+                updateToggleText();
             });
 
             // 简单Markdown转HTML（保留换行和基本格式）
