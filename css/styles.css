@@ -187,31 +187,45 @@
     margin-bottom: 10px;
 }
 
-/* 版本网格布局 */
+/* 版本单列布局 */
 .versions-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
     margin-top: 20px;
 }
 
-/* 收起按钮优化 - 支持主题和语言切换 */
+.version-card {
+    width: 100%;
+    background: rgba(var(--bg-card-rgb), 0.9);
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 收起按钮优化 */
 .toggle-btn {
     display: flex;
     align-items: center;
-    background: rgba(var(--bg-card-rgb), 0.9);
+    background: transparent;
     border: 2px solid var(--accent-color);
     border-radius: 20px;
     padding: 8px 15px;
     cursor: pointer;
     transition: all 0.3s ease;
-    color: var(--text-primary);
+}
+
+[data-theme="dark"] .toggle-btn {
+    color: white;
+}
+
+[data-theme="light"] .toggle-btn {
+    color: black;
 }
 
 .toggle-btn:hover {
     background: var(--accent-color);
-    color: white;
-    border-color: var(--accent-color);
+    color: white !important;
 }
 
 .toggle-btn i {
@@ -224,17 +238,6 @@
     font-weight: 500;
 }
 
-/* 主题切换适配 */
-[data-theme="dark"] .toggle-btn {
-    background: rgba(var(--bg-card-rgb), 0.7);
-    border-color: var(--accent-color);
-}
-
-[data-theme="light"] .toggle-btn {
-    background: rgba(255, 255, 255, 0.9);
-    border-color: var(--accent-color);
-}
-
 /* 语言切换支持 */
 [lang="en"] .toggle-text {
     display: inline;
@@ -243,11 +246,10 @@
     display: inline;
 }
 
-/* 响应式调整 */
-@media (max-width: 768px) {
-    .versions-grid {
-        grid-template-columns: 1fr;
-    }
+/* 确保最新版本和其他版本样式一致 */
+#latest-version-card {
+    margin-bottom: 0;
+    border: none;
 }
 
 /* 最新版本卡片 */
