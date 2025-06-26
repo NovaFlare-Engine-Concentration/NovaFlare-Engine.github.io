@@ -27,11 +27,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 { login: 'blockDDDdark', contributions: 0, avatarUrl: 'https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/ddd.png', url: 'https://space.bilibili.com/401733211' }
             ];
 
-            
             const otherContributors = contributors.filter(c => 
                 allowedContributors.includes(c.login)
             );
-            otherContributors.push(noGithubContributors);
+            
+            allowedNoGithub.forEach(member => {
+                otherContributors.push(member);
+            }
+            
             renderFadingContributors(otherContributors);
         })
         .catch(error => {
