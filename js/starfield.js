@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
       this.size = Math.random() * 1.5 + 0.5;
       this.speed = Math.random() * 0.3 + 0.1;
       this.brightness = Math.random() * 0.5 + 0.5;
-      this.color = Math.random() > 0.5 ? '#3498db' : '#ff69b4';
+      this.color = Math.random() > 0.5 ? '#87CEFA' : '#ff69b4';
       this.direction = Math.random() * Math.PI * 2;
       this.twinkleSpeed = Math.random() * 0.05 + 0.01;
       this.twinklePhase = Math.random() * Math.PI * 2;

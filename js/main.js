@@ -46,26 +46,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // 页面加载完成后的渐入效果
     document.body.classList.add('loaded');
     
-    // 监听滚动事件，实现导航栏透明度变化
-    let lastScrollTop = 0;
+    // 保持导航栏始终可见
     const header = document.querySelector('header');
-    
-    window.addEventListener('scroll', () => {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        
-        // 向下滚动时增加阴影和背景不透明度
-        if (scrollTop > lastScrollTop) {
-            header.style.boxShadow = '0 2px 10px var(--shadow-color)';
-            header.style.backgroundColor = 'var(--bg-primary)';
-        } 
-        // 回到顶部时移除阴影和降低背景不透明度
-        else if (scrollTop === 0) {
-            header.style.boxShadow = 'none';
-            header.style.backgroundColor = 'var(--bg-primary)';
-        }
-        
-        lastScrollTop = scrollTop;
-    });
+    header.style.boxShadow = '0 2px 10px var(--shadow-color)';
+    header.style.backgroundColor = 'var(--bg-primary)';
     
     // 添加交互动效
     const cards = document.querySelectorAll('.feature-card, .download-card, .doc-card, .community-card');
@@ -131,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('visibilitychange', function() {
     if (document.hidden) {
         // 页面不可见时暂停一些动画或非必要的更新
-        document.title = 'NovaFlare Engine 😴';
+        document.title = 'NovaFlare Engine zzzzzzzzz';
     } else {
         // 页面可见时恢复
         document.title = 'NovaFlare Engine';

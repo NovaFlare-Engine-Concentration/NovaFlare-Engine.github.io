@@ -178,14 +178,27 @@ a:hover {
   background-color: var(--bg-secondary);
 }
 
-.mobile-menu-btn {
-  display: none;
-  background: none;
-  border: none;
-  color: var(--text-primary);
-  font-size: 1.5rem;
-  cursor: pointer;
-}
+  .mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+
+  /* 语言切换按钮在移动端的样式 */
+  .navbar-actions button {
+    width: 40px;
+    height: 40px;
+    margin-left: 12px;
+  }
+
+  [data-lang="en"] .navbar-actions button,
+  [data-lang="zh"] .navbar-actions button {
+    width: 40px;
+    height: 40px;
+  }
 
 /* 英雄区域 */
 .hero {
