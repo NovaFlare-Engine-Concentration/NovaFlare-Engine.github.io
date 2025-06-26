@@ -163,21 +163,41 @@
             </div>
         </section>
 
-        <!-- 历史版本区域 - 重构为分页和自动获取 -->
+        <!-- 历史版本区域 - 带收起功能和Markdown支持 -->
         <section class="version-history section" style="padding: 80px 0; background: rgba(var(--bg-secondary-rgb), 0.8); border-top: 1px solid var(--border-color);">
             <div class="container">
-                <h2 class="section-title" data-en="Version History" data-zh="历史版本">历史版本</h2>
-                <div id="versions-container">
-                    <!-- 版本列表将通过JavaScript动态加载 -->
-                    <div class="loading-spinner">
-                        <i class="fas fa-spinner fa-spin"></i>
-                        <span data-en="Loading versions..." data-zh="正在加载版本...">正在加载版本...</span>
+                <div class="section-header">
+                    <h2 class="section-title" data-en="Version History" data-zh="历史版本">历史版本</h2>
+                    <button id="toggle-versions" class="btn btn-icon">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+                <div id="versions-content" style="display: block;">
+                    <div id="versions-container">
+                        <!-- 版本列表将通过JavaScript动态加载 -->
+                        <div class="loading-spinner">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <span data-en="Loading versions..." data-zh="正在加载版本...">正在加载版本...</span>
+                        </div>
+                    </div>
+                    <div class="pagination" id="versions-pagination" style="margin-top: 30px; display: none;">
+                        <button class="btn btn-secondary" id="prev-page" disabled><i class="fas fa-chevron-left"></i></button>
+                        <span id="page-info" style="margin: 0 15px;">1/1</span>
+                        <button class="btn btn-secondary" id="next-page" disabled><i class="fas fa-chevron-right"></i></button>
                     </div>
                 </div>
-                <div class="pagination" id="versions-pagination" style="margin-top: 30px; display: none;">
-                    <button class="btn btn-secondary" id="prev-page" disabled><i class="fas fa-chevron-left"></i></button>
-                    <span id="page-info" style="margin: 0 15px;">1/1</span>
-                    <button class="btn btn-secondary" id="next-page" disabled><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </section>
+
+        <!-- 最新版本下载区域 -->
+        <section class="latest-version section" style="padding: 60px 0; background: var(--bg-primary);">
+            <div class="container">
+                <h2 class="section-title" data-en="Latest Version" data-zh="最新版本">最新版本</h2>
+                <div id="latest-version-container">
+                    <div class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <span data-en="Loading latest version..." data-zh="正在加载最新版本...">正在加载最新版本...</span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -193,6 +213,38 @@
             let totalPages = 1;
             let allReleases = [];
             
+            // 收起/展开切换
+            document.getElementById('toggle-versions').addEventListener('click', function() {
+                const content = document.getElementById('versions-content');
+                const icon = this.querySelector('i');
+                
+                if (content.style.display === 'none') {
+                    content.style.display = 'block';
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                } else {
+                    content.style.display = 'none';
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                }
+            });
+
+            // 简单Markdown转HTML（保留换行和基本格式）
+            function markdownToHtml(text) {
+                if (!text) return '<p>No release notes provided</p>';
+                
+                // 保留换行
+                text = text.replace(/\n/g, '<br>');
+                // 简单链接检测
+                text = text.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank">$1</a>');
+                // 代码块
+                text = text.replace(/```([^`]+)```/g, '<pre><code>$1</code></pre>');
+                // 内联代码
+                text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
+                
+                return `<div class="markdown-content">${text}</div>`;
+            }
+            
             // 获取GitHub Releases
             async function fetchReleases() {
                 try {
@@ -204,11 +256,18 @@
                     
                     renderReleases();
                     updatePagination();
+                    renderLatestVersion();
                 } catch (error) {
                     document.getElementById('versions-container').innerHTML = `
                         <div class="error-message">
                             <i class="fas fa-exclamation-triangle"></i>
                             <span data-en="Failed to load versions" data-zh="加载版本失败">加载版本失败</span>
+                        </div>
+                    `;
+                    document.getElementById('latest-version-container').innerHTML = `
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span data-en="Failed to load latest version" data-zh="加载最新版本失败">加载最新版本失败</span>
                         </div>
                     `;
                     console.error('Error fetching releases:', error);
@@ -228,7 +287,7 @@
                             <span class="version-date">${new Date(release.published_at).toLocaleDateString()}</span>
                         </div>
                         <div class="version-body">
-                            <p>${release.body || 'No release notes provided'}</p>
+                            ${markdownToHtml(release.body)}
                             <div class="version-assets">
                                 ${release.assets.map(asset => `
                                     <a href="${asset.browser_download_url}" class="btn btn-secondary">
@@ -247,6 +306,31 @@
                 `;
                 
                 document.getElementById('versions-pagination').style.display = 'flex';
+            }
+            
+            // 渲染最新版本
+            function renderLatestVersion() {
+                if (allReleases.length === 0) return;
+                
+                const latestRelease = allReleases[0];
+                document.getElementById('latest-version-container').innerHTML = `
+                    <div class="latest-version-card">
+                        <div class="version-header">
+                            <h3>${latestRelease.tag_name}</h3>
+                            <span class="version-date">${new Date(latestRelease.published_at).toLocaleDateString()}</span>
+                        </div>
+                        <div class="version-body">
+                            ${markdownToHtml(latestRelease.body)}
+                            <div class="version-assets">
+                                ${latestRelease.assets.map(asset => `
+                                    <a href="${asset.browser_download_url}" class="btn btn-primary">
+                                        <i class="fas fa-download"></i> ${asset.name}
+                                    </a>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
             }
             
             // 更新分页控件
