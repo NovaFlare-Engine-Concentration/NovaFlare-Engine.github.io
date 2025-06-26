@@ -112,8 +112,8 @@
             </div>
         </section>
 
-        <!-- 文档区域 -->
-        <section class="docs section" id="docs">
+        <!-- 文档区域 - 统一背景样式 -->
+        <section class="docs section" id="docs" style="padding: 80px 0; background: rgba(var(--bg-secondary-rgb), 0.8); border-top: 1px solid var(--border-color);">
             <div class="container">
                 <h2 class="section-title" data-en="Documentation" data-zh="文档">文档</h2>
                 <div class="docs-content">
@@ -151,28 +151,132 @@
                         <p style="margin-bottom: 20px; color: var(--text-secondary);">为项目做贡献</p>
                         <a href="#" class="btn btn-secondary" style="display: inline-block;">查看</a>
                     </div>
+                    <div style="background: rgba(var(--bg-card-rgb), 0.9); padding: 30px; border-radius: 8px; text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 20px; color: var(--text-primary);">
+                            <i class="fab fa-youtube"></i>
+                        </div>
+                        <h3 style="font-size: 1.3rem; margin-bottom: 10px;">YouTube</h3>
+                        <p style="margin-bottom: 20px; color: var(--text-secondary);">观看教程和演示</p>
+                        <a href="https://youtube.com/beihu235" class="btn btn-primary" style="display: inline-block;">订阅</a>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- 历史版本区域 - 简化版 -->
+        <!-- 历史版本区域 - 重构为分页和自动获取 -->
         <section class="version-history section" style="padding: 80px 0; background: rgba(var(--bg-secondary-rgb), 0.8); border-top: 1px solid var(--border-color);">
             <div class="container">
                 <h2 class="section-title" data-en="Version History" data-zh="历史版本">历史版本</h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px;">
-                    <div style="background: rgba(var(--bg-card-rgb), 0.9); padding: 25px; border-radius: 8px;">
-                        <h3 style="font-size: 1.3rem; margin-bottom: 10px;">v1.0.0</h3>
-                        <p style="margin-bottom: 15px; color: var(--text-secondary);">初始版本</p>
-                        <a href="#" class="btn btn-secondary" style="display: inline-block;">下载</a>
+                <div id="versions-container">
+                    <!-- 版本列表将通过JavaScript动态加载 -->
+                    <div class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <span data-en="Loading versions..." data-zh="正在加载版本...">正在加载版本...</span>
                     </div>
-                    <div style="background: rgba(var(--bg-card-rgb), 0.9); padding: 25px; border-radius: 8px;">
-                        <h3 style="font-size: 1.3rem; margin-bottom: 10px;">v0.9.0</h3>
-                        <p style="margin-bottom: 15px; color: var(--text-secondary);">测试版本</p>
-                        <a href="#" class="btn btn-secondary" style="display: inline-block;">下载</a>
-                    </div>
+                </div>
+                <div class="pagination" id="versions-pagination" style="margin-top: 30px; display: none;">
+                    <button class="btn btn-secondary" id="prev-page" disabled><i class="fas fa-chevron-left"></i></button>
+                    <span id="page-info" style="margin: 0 15px;">1/1</span>
+                    <button class="btn btn-secondary" id="next-page" disabled><i class="fas fa-chevron-right"></i></button>
                 </div>
             </div>
         </section>
+
+        <script>
+        // 从GitHub获取版本数据
+        document.addEventListener('DOMContentLoaded', function() {
+            const repoOwner = 'NovaFlare-Engine-Concentration';
+            const repoName = 'FNF-NovaFlare-Engine';
+            const perPage = 5; // 每页显示5个版本
+            
+            let currentPage = 1;
+            let totalPages = 1;
+            let allReleases = [];
+            
+            // 获取GitHub Releases
+            async function fetchReleases() {
+                try {
+                    const response = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/releases`);
+                    if (!response.ok) throw new Error('Failed to fetch releases');
+                    
+                    allReleases = await response.json();
+                    totalPages = Math.ceil(allReleases.length / perPage);
+                    
+                    renderReleases();
+                    updatePagination();
+                } catch (error) {
+                    document.getElementById('versions-container').innerHTML = `
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span data-en="Failed to load versions" data-zh="加载版本失败">加载版本失败</span>
+                        </div>
+                    `;
+                    console.error('Error fetching releases:', error);
+                }
+            }
+            
+            // 渲染当前页的版本
+            function renderReleases() {
+                const startIdx = (currentPage - 1) * perPage;
+                const endIdx = startIdx + perPage;
+                const currentReleases = allReleases.slice(startIdx, endIdx);
+                
+                const versionsHTML = currentReleases.map(release => `
+                    <div class="version-card">
+                        <div class="version-header">
+                            <h3>${release.tag_name}</h3>
+                            <span class="version-date">${new Date(release.published_at).toLocaleDateString()}</span>
+                        </div>
+                        <div class="version-body">
+                            <p>${release.body || 'No release notes provided'}</p>
+                            <div class="version-assets">
+                                ${release.assets.map(asset => `
+                                    <a href="${asset.browser_download_url}" class="btn btn-secondary">
+                                        <i class="fas fa-download"></i> ${asset.name}
+                                    </a>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                
+                document.getElementById('versions-container').innerHTML = `
+                    <div class="versions-grid">
+                        ${versionsHTML}
+                    </div>
+                `;
+                
+                document.getElementById('versions-pagination').style.display = 'flex';
+            }
+            
+            // 更新分页控件
+            function updatePagination() {
+                document.getElementById('page-info').textContent = `${currentPage}/${totalPages}`;
+                document.getElementById('prev-page').disabled = currentPage <= 1;
+                document.getElementById('next-page').disabled = currentPage >= totalPages;
+            }
+            
+            // 分页按钮事件
+            document.getElementById('prev-page').addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderReleases();
+                    updatePagination();
+                }
+            });
+            
+            document.getElementById('next-page').addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderReleases();
+                    updatePagination();
+                }
+            });
+            
+            // 初始化
+            fetchReleases();
+        });
+        </script>
 
         <!-- 贡献者区域 - 简化版 -->
         <section class="contributors section" style="padding: 80px 0; background: rgba(var(--bg-secondary-rgb), 0.8); border-top: 1px solid var(--border-color);">

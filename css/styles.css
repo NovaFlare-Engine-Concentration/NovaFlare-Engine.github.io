@@ -1,6 +1,89 @@
 /* NovaFlare Engine - 主要样式表 */
 
 /* 基础样式 */
+
+/* 版本历史区域样式 */
+.versions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.version-card {
+    background: rgba(var(--bg-card-rgb), 0.9);
+    padding: 25px;
+    border-radius: 8px;
+    transition: transform 0.2s;
+}
+
+.version-card:hover {
+    transform: translateY(-5px);
+}
+
+.version-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.version-header h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    color: var(--text-primary);
+}
+
+.version-date {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.version-body p {
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+}
+
+.version-assets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+    color: var(--text-secondary);
+}
+
+.loading-spinner i {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.error-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+    color: var(--error-color);
+}
+
+.error-message i {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
 * {
   margin: 0;
   padding: 0;
