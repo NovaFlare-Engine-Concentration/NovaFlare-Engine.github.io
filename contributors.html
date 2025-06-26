@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目贡献者 | NovaFlare Engine</title>
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .contributors-container {
+            padding: 80px 0;
+            background: rgba(var(--bg-secondary-rgb), 0.8);
+        }
+        .contributors-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .contributors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .contributor-card {
+            background: rgba(var(--bg-card-rgb), 0.9);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--border-color);
+        }
+        .contributor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .contributor-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 15px;
+            border: 3px solid var(--accent-color);
+        }
+        .contributor-name {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+        }
+        .contributor-login {
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        .contributor-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+        .loading-spinner {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-size: 1rem;
+        }
+        .back-link i {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 星星背景 -->
+    <canvas id="starfield"></canvas>
+
+    <nav class="navbar" style="position: fixed; top: 0; width: 100%; z-index: 1000; backdrop-filter: blur(5px);" data-theme="auto">
+        <div class="container navbar-container" style="background: transparent !important;">
+            <div class="navbar-logo">
+                <img src="images/logo.png" alt="NovaFlare Engine Logo">
+                <h1 data-en="NovaFlare Engine" data-zh="新星闪耀引擎">新星闪耀引擎</h1>
+            </div>
+            <div class="navbar-menu">
+                <ul class="nav-links">
+                    <li><a href="index.html" data-en="Home" data-zh="首页">首页</a></li>
+                </ul>
+                <div class="navbar-actions">
+                    <button id="theme-toggle" aria-label="切换主题">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button id="lang-toggle" aria-label="切换语言">
+                        <span data-en="中" data-zh="EN">中</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 贡献者内容 -->
+    <section class="contributors-container">
+        <div class="contributors-header">
+            <h1 class="section-title" data-en="Project Contributors" data-zh="项目贡献者">项目贡献者</h1>
+            <p data-en="These amazing people helped build NovaFlare Engine" data-zh="这些优秀的贡献者帮助构建了新星闪耀引擎">
+                这些优秀的贡献者帮助构建了新星闪耀引擎
+            </p>
+        </div>
+
+        <div id="contributors-loading" class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <span data-en="Loading contributors..." data-zh="正在加载贡献者...">正在加载贡献者...</span>
+        </div>
+
+        <div id="contributors-grid" class="contributors-grid" style="display: none;"></div>
+
+        <div style="text-align: center;">
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                <span data-en="Back to Home" data-zh="返回首页">返回首页</span>
+            </a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>NovaFlare Engine</p>
+            </div>
+            <div class="footer-social">
+                <a href="https://discord.gg/novflare" target="_blank" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                <a href="https://github.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://youtube.com/beihu235" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            </div>
+            <!--
+            <div class="footer-copyright">
+                <p>&copy; 1145 NovaFlare Engine. <span data-en="All rights reserved." data-zh="保留所有权利。">保留所有权利。</span></p>
+            </div>
+            -->
+        </div>
+    </footer>
+
+    <!-- 脚本 -->
+    <script src="js/theme.js"></script>
+    <script src="js/language.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                // 从GitHub API获取贡献者数据
+                const response = await fetch('https://api.github.com/repos/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/contributors');
+                
+                if (!response.ok) {
+                    throw new Error(`GitHub API error: ${response.status}`);
+                }
+                
+                const contributors = await response.json();
+                const grid = document.getElementById('contributors-grid');
+                const loading = document.getElementById('contributors-loading');
+                
+                // 渲染贡献者卡片
+                contributors.forEach(contributor => {
+                    const card = document.createElement('div');
+                    card.className = 'contributor-card';
+                    card.innerHTML = `
+                        <img src="${contributor.avatar_url}" alt="${contributor.login}" class="contributor-avatar">
+                        <h3 class="contributor-name">${contributor.name || contributor.login}</h3>
+                        <p class="contributor-login">@${contributor.login}</p>
+                        <div class="contributor-stats">
+                            <div class="stat-item combined-stats">
+                                <div class="stat-value">${contributor.contributions}</div>
+                                <div class="stat-label" data-en="Commits" data-zh="提交数">提交数</div>
+                            </div>
+                        </div>
+                        <a href="${contributor.html_url}" target="_blank" class="btn btn-primary" style="margin-top: 15px;">
+                            <i class="fab fa-github"></i>
+                            <span data-en="GitHub Profile" data-zh="GitHub主页">GitHub主页</span>
+                        </a>
+                    `;
+                    grid.appendChild(card);
+                });
+                
+                // 显示网格并隐藏加载指示器
+                grid.style.display = 'grid';
+                loading.style.display = 'none';
+                
+            } catch (error) {
+                console.error('Error loading contributors:', error);
+                document.getElementById('contributors-loading').innerHTML = `
+                    <div class="error-message">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span data-en="Failed to load contributors" data-zh="加载贡献者失败">加载贡献者失败</span>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        });
+    </script>
+    <script src="js/starfield.js"></script>
+</body>
+</html>

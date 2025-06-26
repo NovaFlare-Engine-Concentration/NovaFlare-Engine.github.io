@@ -24,9 +24,6 @@
                 <h1 data-en="NovaFlare Engine" data-zh="新星闪耀引擎">新星闪耀引擎</h1>
             </div>
             <div class="navbar-menu">
-                <ul class="nav-links">
-                    <!-- 导航链接已移除 -->
-                </ul>
                 <div class="navbar-actions">
                     <button id="theme-toggle" aria-label="切换主题">
                         <i class="fas fa-moon"></i>
@@ -131,7 +128,7 @@
                         </div>
                         <h3 style="font-size: 1.3rem; margin-bottom: 10px;">GitHub</h3>
                         <p style="margin-bottom: 20px; color: var(--text-secondary);">为项目做贡献</p>
-                        <a href="#" class="btn btn-secondary" style="display: inline-block;">查看</a>
+                        <a href="https://github.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine" class="btn btn-secondary" style="display: inline-block;">查看</a>
                     </div>
                     <div style="background: rgba(var(--bg-card-rgb), 0.9); padding: 30px; border-radius: 8px; text-align: center;">
                         <div style="font-size: 2.5rem; margin-bottom: 20px; color: var(--text-primary);">
@@ -139,7 +136,7 @@
                         </div>
                         <h3 style="font-size: 1.3rem; margin-bottom: 10px;">YouTube</h3>
                         <p style="margin-bottom: 20px; color: var(--text-secondary);">观看教程和演示</p>
-                        <a href="https://youtube.com/beihu235" class="btn btn-primary" style="display: inline-block;">订阅</a>
+                        <a href="https://youtube.com/@beihu235" class="btn btn-primary" style="display: inline-block;">订阅</a>
                     </div>
                 </div>
             </div>
@@ -210,7 +207,20 @@
             let currentPage = 1;
             let totalPages = 1;
             let allReleases = [];
-            let isCollapsed = true; // 默认收起状态
+            let isCollapsed = false;
+            
+            // 初始化收起状态
+            function initCollapseState() {
+                const otherVersions = document.getElementById('other-versions');
+                const toggleBtn = document.getElementById('toggle-versions');
+                const icon = toggleBtn.querySelector('i');
+                
+                // 默认收起
+                otherVersions.style.display = 'none';
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+                updateToggleText();
+            }
             
             // 更新收起按钮文本（根据当前语言）
             function updateToggleText() {
@@ -259,14 +269,20 @@
                 updateToggleText();
             });
 
-            // 简单Markdown转HTML（保留换行和基本格式）
+            // 增强版Markdown转HTML（支持加粗和明文链接）
             function markdownToHtml(text) {
                 if (!text) return '<p>No release notes provided</p>';
                 
+                // 处理加粗语法
+                text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                           .replace(/\_\_(.*?)\_\_/g, '<strong>$1</strong>');
+                
                 // 保留换行
                 text = text.replace(/\n/g, '<br>');
-                // 简单链接检测
+                // 处理Markdown格式链接
                 text = text.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank">$1</a>');
+                // 处理明文链接（http/https/ftp）
+                text = text.replace(/(https?:\/\/|ftp:\/\/)([^\s<]+)/g, '<a href="$1$2" target="_blank">$1$2</a>');
                 // 代码块
                 text = text.replace(/```([^`]+)```/g, '<pre><code>$1</code></pre>');
                 // 内联代码
@@ -323,7 +339,7 @@
                 document.getElementById('download-buttons').innerHTML = buttonsHTML;
             }
             
-            // 渲染最新版本卡片
+            // 渲染最新版本卡片（默认收起）
             function renderLatestVersion() {
                 if (allReleases.length === 0) return;
                 
@@ -334,7 +350,7 @@
                         <span class="version-date">${new Date(latestRelease.published_at).toLocaleDateString()}</span>
                     </div>
                     <div class="version-body">
-                        ${markdownToHtml(latestRelease.body)}
+                        <div class="markdown-preview">${markdownToHtml(latestRelease.body)}</div>
                         <div class="version-assets">
                             ${latestRelease.assets.map(asset => `
                                 <a href="${asset.browser_download_url}" class="btn btn-primary">
@@ -344,6 +360,13 @@
                         </div>
                     </div>
                 `;
+                
+                // 默认收起卡片内容
+                const preview = document.querySelector('#latest-version-card .markdown-preview');
+                if (preview && preview.scrollHeight > 80) {
+                    preview.style.maxHeight = '80px';
+                    preview.style.overflow = 'hidden';
+                }
             }
             
             // 渲染其他版本
@@ -431,16 +454,12 @@
         <section class="contributors section" style="padding: 80px 0; background: rgba(var(--bg-secondary-rgb), 0.8); border-top: 1px solid var(--border-color);">
             <div class="container">
                 <h2 class="section-title" data-en="Contributors" data-zh="贡献者">贡献者</h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 20px;">
                     <div style="background: rgba(var(--bg-card-rgb), 0.9); padding: 20px; border-radius: 8px; text-align: center;">
-                        <img src="images/contributors/user1.png" alt="Contributor" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin: 0 auto 15px;">
-                        <h4 style="margin-bottom: 5px;">开发者1</h4>
+                        <img src="https://avatars.githubusercontent.com/u/105789304?v=4" alt="Contributor" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin: 0 auto 15px;">
+                        <h4 style="margin-bottom: 5px;">beihu235</h4>
                         <p style="color: var(--text-secondary);">核心开发者</p>
-                    </div>
-                    <div style="background: rgba(var(--bg-card-rgb), 0.9); padding: 20px; border-radius: 8px; text-align: center;">
-                        <img src="images/contributors/user2.png" alt="Contributor" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin: 0 auto 15px;">
-                        <h4 style="margin-bottom: 5px;">开发者2</h4>
-                        <p style="color: var(--text-secondary);">UI设计师</p>
+                        <a href="contributors.html" class="view-more" data-en="View All" data-zh="查看更多">查看更多</a>
                     </div>
                 </div>
             </div>
