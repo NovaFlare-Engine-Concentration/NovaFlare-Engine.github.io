@@ -18,29 +18,25 @@ document.addEventListener('DOMContentLoaded', function() {
             ];
 
             const allowedNoGithub = [
-                'Chiny', //https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/chiny.png https://space.bilibili.com/3493288327777064
-                'Careful_Scarf_487', //https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/Careful_Scarf_487.png https://b23.tv/DQ1a0jO
-                'MengQi', //https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/mengqi.png https://space.bilibili.com/2130239542
-                'AZjessica', //(https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/AZjessica.png https://youtube.com/@azjessica?si=aRKuPdMHR1LLBxH1
-                'Ben Eyre', //https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/beneyre.png https://x.com/hngstngxng83905?t=GDKWYMRZsCMUMXYs0cmYrw&s=09
-                'Als', //https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/als.png https://b23.tv/mNNX8R8
-                'blockDDDdark' //https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/ddd.png https://space.bilibili.com/401733211
+                { login: 'Chiny', url: 'https://space.bilibili.com/3493288327777064' },
+                { login: 'Careful_Scarf_487', url: 'https://b23.tv/DQ1a0jO' },
+                { login: 'MengQi', url: 'https://space.bilibili.com/2130239542' },
+                { login: 'AZjessica', url: 'https://youtube.com/@azjessica?si=aRKuPdMHR1LLBxH1' },
+                { login: 'Ben Eyre', url: 'https://x.com/hngstngxng83905?t=GDKWYMRZsCMUMXYs0cmYrw&s=09' },
+                { login: 'Als', url: 'https://b23.tv/mNNX8R8' },
+                { login: 'blockDDDdark', url: 'https://space.bilibili.com/401733211'}
             ];
             
             const otherContributors = contributors.filter(c => 
-                allowedContributors.some(allowed => c.login === allowed)
+                allowedContributors.includes(c.login)
             );
 
-            
-            // 按贡献数量排序
-            otherContributors.sort((a, b) => b.contributions - a.contributions);
-            
-            // 渲染贡献者头像
-            renderFadingContributors(otherContributors);
-            allowedNoGithub.forEach(member => {
-                renderFadingContributors(member,false);
-            });
-
+            const noGithubContributors = allowedNoGithub.map(member => ({
+                login: member.name,
+                contributions: 0, // 假设没有 GitHub 贡献的成员贡献值为 0
+                avatar_url: member.url
+            }));
+            otherContributors.push(...noGithubContributors);
         })
         .catch(error => {
             console.error('Error fetching contributors:', error);
@@ -73,7 +69,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // 将贡献者分成左右两组
         const leftGroup = [];
         const rightGroup = [];
-        container.innerHTML = '<p class="error-message">${rightGroup}</p>';
         
         contributors.forEach((contributor, index) => {
             if (index % 2 === 0) {
@@ -106,44 +101,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function createAvatar(contributor, index, side, spacing, depth, haveGithub) {
         const avatar = document.createElement('img');
-        if (haveGithub) {
-            avatar.src = contributor.avatar_url;
-            avatar.alt = contributor.login;
-            avatar.className = 'fading-contributor';
-            avatar.title = `${contributor.login} (${contributor.contributions} contributions)`;
-        } else {
-            if (contributor === 'Chiny') {
-                avatar.src = 'https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/chiny.png';
-            }
-
-            if (contributor === 'Careful_Scarf_487') {
-                avatar.src = 'https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/Careful_Scarf_487.png';
-            }
-
-            if (contributor === 'MengQi') {
-                avatar.src = 'https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/mengqi.png';
-            }
-
-            if (contributor === 'AZjessica') {
-                avatar.src = 'https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/AZjessica.png';
-            }
-
-            if (contributor === 'Ben Eyre') {
-                avatar.src = 'https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/beneyre.png';
-            }
-
-            if (contributor === 'Als') {
-                avatar.src = 'https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/als.png';
-            }
-
-            if (contributor === 'blockDDDdark') {
-                avatar.src = 'https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/ddd.png';
-            }
-
-            avatar.alt = contributor;
-            avatar.className = 'fading-contributor';
-            avatar.title = `${contributor}`;
-        }
+        avatar.src = contributor.avatar_url;
+        avatar.alt = contributor.login;
+        avatar.className = 'fading-contributor';
+        avatar.title = `${contributor.login} (${contributor.contributions} contributions)`;
+    
         // 计算位置
         const offsetX = (index + 1) * spacing;
         const offsetZ = (index + 1) * depth;
