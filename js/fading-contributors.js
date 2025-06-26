@@ -27,14 +27,14 @@ document.addEventListener('DOMContentLoaded', function() {
         baseSpacing: 50,     // 基础水平间距
         baseDepth: 40,       // 基础前后深度
         angle: 0,           // 旋转角度
-        spacingFactor: 0.8,  // 间距调整系数(0-1)
-        depthFactor: 0.7,    // 深度调整系数(0-1)
-        fadeFactor: 0.55,    // 透明度递减系数
-        rowGap: 50,          // 两排之间的基础间距
+        spacingFactor: 0.9,  // 间距调整系数(0-1)
+        depthFactor: 0.05,   // 深度调整系数(0-1)
+        fadeFactor: 0.08,    // 透明度递减系数
+        rowGap: 40,          // 两排之间的基础间距
         minVisible: 2,       // 最小可见人数
         maxVisible: 100,      // 最大可见人数
-        offsetX: 0,          // 整体X轴偏移
-        offsetY: 0,
+        offsetX: -40,          // 整体X轴偏移
+        offsetY: -360,
         offsetScale: 0.1
     };
 
