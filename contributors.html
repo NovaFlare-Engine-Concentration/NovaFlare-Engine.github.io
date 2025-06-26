@@ -205,12 +205,12 @@
 
                 const combinedContributors = contributors.concat(allowedNoGithub);
 
-                contributors = combinedContributors.filter(c => 
+                const fuck = combinedContributors.filter(c => 
                     allowedContributors.includes(c.login)
                 );
                 
                 // 渲染贡献者卡片
-                contributors.forEach(contributor => {
+                fuck.forEach(contributor => {
                     const card = document.createElement('div');
                     card.className = 'contributor-card';
                     card.innerHTML = `
