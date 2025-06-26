@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 'Als', //https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/als.png https://b23.tv/mNNX8R8
                 'blockDDDdark', //https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/ddd.png https://space.bilibili.com/401733211
                 'VapireMox',
-
                 'Stefan2008Git',
                 'moxie-coder',
                 'sirthegamercoder'
