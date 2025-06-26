@@ -11,7 +11,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 //'beihu235', // 主开发者(仍会特殊处理)
                 'MaoPou',    // 必须与GitHub用户名完全一致
                 'Tie-Guo',
+                'Chiny', //https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/chiny.png https://space.bilibili.com/3493288327777064
+                'Careful_Scarf_487', //https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/Careful_Scarf_487.png https://b23.tv/DQ1a0jO
+                'MengQi', //https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/mengqi.png https://space.bilibili.com/2130239542
+                'AZjessica', //(https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/AZjessica.png https://youtube.com/@azjessica?si=aRKuPdMHR1LLBxH1
+                'Ben Eyre', //https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/beneyre.png https://x.com/hngstngxng83905?t=GDKWYMRZsCMUMXYs0cmYrw&s=09
+                'Als', //https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/als.png https://b23.tv/mNNX8R8
+                'blockDDDdark', //https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/ddd.png https://space.bilibili.com/401733211
                 'VapireMox',
+
                 'Stefan2008Git',
                 'moxie-coder',
                 'sirthegamercoder',
@@ -27,13 +35,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 { login: 'blockDDDdark', contributions: 0, avatar_url: 'https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/ddd.png', url: 'https://space.bilibili.com/401733211' }
             ];
 
-            const otherContributors = contributors.filter(c => 
+            const combinedContributors = contributors.concat(allowedNoGithub);
+
+            const otherContributors = combinedContributors.filter(c => 
                 allowedContributors.includes(c.login)
             );
-            
-            allowedNoGithub.forEach(member => {
-                otherContributors.push(member);
-            }
             
             renderFadingContributors(otherContributors);
         })
