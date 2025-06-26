@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const otherContributors = contributors.filter(c => 
                 allowedContributors.includes(c.login)
             );
-            otherContributors.push(...noGithubContributors);
+            otherContributors.push(noGithubContributors);
             renderFadingContributors(otherContributors);
         })
         .catch(error => {
