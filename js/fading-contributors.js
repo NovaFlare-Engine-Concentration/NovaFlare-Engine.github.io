@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
             );
 
             const noGithubContributors = allowedNoGithub.map(member => ({
-                login: member.name,
+                login: member.login,
                 contributions: 0, // 假设没有 GitHub 贡献的成员贡献值为 0
                 avatar_url: member.avatarUrl
             }));
