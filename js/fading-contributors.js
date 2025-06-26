@@ -3,19 +3,44 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!container) return;
 
     // 从API获取贡献者数据
-    fetch('https://api.github.com/repos/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/contributors')
+    fetch('https://api.github.com/repos/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/contributors?pre_page=100')
         .then(response => response.json())
         .then(contributors => {
             // 过滤掉主开发者(beihu235)
+            const allowedContributors = [
+                //'beihu235', // 主开发者(仍会特殊处理)
+                'MaoPou',    // 必须与GitHub用户名完全一致
+                'Tie-Guo',
+                'VapireMox',
+                'Stefan2008Git',
+                'moxie-coder',
+                'sirthegamercoder',
+            ];
+
+            const allowedNoGithub = [
+                'Chiny', //https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/chiny.png https://space.bilibili.com/3493288327777064
+                'Careful_Scarf_487', //https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/Careful_Scarf_487.png https://b23.tv/DQ1a0jO
+                'MengQi', //https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/mengqi.png https://space.bilibili.com/2130239542
+                'AZjessica', //(https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/AZjessica.png https://youtube.com/@azjessica?si=aRKuPdMHR1LLBxH1
+                'Ben Eyre', //https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/beneyre.png https://x.com/hngstngxng83905?t=GDKWYMRZsCMUMXYs0cmYrw&s=09
+                'Als', //https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/als.png https://b23.tv/mNNX8R8
+                'blockDDDdark' //https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/ddd.png https://space.bilibili.com/401733211
+            ];
+            
             const otherContributors = contributors.filter(c => 
-                c.login.toLowerCase() !== 'beihu235'
+                allowedContributors.some(allowed => c.login === allowed)
             );
+
             
             // 按贡献数量排序
             otherContributors.sort((a, b) => b.contributions - a.contributions);
             
             // 渲染贡献者头像
             renderFadingContributors(otherContributors);
+            allowedNoGithub.forEach(member => {
+                renderFadingContributors(member,false);
+            });
+
         })
         .catch(error => {
             console.error('Error fetching contributors:', error);
@@ -38,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
         offsetScale: 0.1
     };
 
-    function renderFadingContributors(contributors) {
+    function renderFadingContributors(contributors, haveGithub = true) {
         // 根据窗口宽度计算实际参数
         const windowWidth = window.innerWidth;
         // 保持两排之间的水平间距固定
@@ -59,12 +84,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // 渲染左侧头像(向右后方排列)
         leftGroup.forEach((contributor, index) => {
-            createAvatar(contributor, index, 'left', spacing, depth);
+            createAvatar(contributor, index, 'left', spacing, depth, haveGithub);
         });
         
         // 渲染右侧头像(向左后方排列)
         rightGroup.forEach((contributor, index) => {
-            createAvatar(contributor, index, 'right', spacing, depth);
+            createAvatar(contributor, index, 'right', spacing, depth, haveGithub);
         });
 
         // 添加窗口大小变化监听（使用防抖优化性能）
@@ -73,18 +98,51 @@ document.addEventListener('DOMContentLoaded', function() {
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(() => {
                 container.innerHTML = '';
-                renderFadingContributors(contributors);
+                renderFadingContributors(contributors, haveGithub);
             }, 100); // 100毫秒延迟
         });
     }
     
-    function createAvatar(contributor, index, side, spacing, depth) {
+    function createAvatar(contributor, index, side, spacing, depth, haveGithub) {
         const avatar = document.createElement('img');
-        avatar.src = contributor.avatar_url;
-        avatar.alt = contributor.login;
-        avatar.className = 'fading-contributor';
-        avatar.title = `${contributor.login} (${contributor.contributions} contributions)`;
-        
+        if (haveGithub) {
+            avatar.src = contributor.avatar_url;
+            avatar.alt = contributor.login;
+            avatar.className = 'fading-contributor';
+            avatar.title = `${contributor.login} (${contributor.contributions} contributions)`;
+        } else {
+            if (contributor === 'Chiny') {
+                avatar.src = 'https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/chiny.png';
+            }
+
+            if (contributor === 'Careful_Scarf_487') {
+                avatar.src = 'https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/Careful_Scarf_487.png';
+            }
+
+            if (contributor === 'MengQi') {
+                avatar.src = 'https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/mengqi.png';
+            }
+
+            if (contributor === 'AZjessica') {
+                avatar.src = 'https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/AZjessica.png';
+            }
+
+            if (contributor === 'Ben Eyre') {
+                avatar.src = 'https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/beneyre.png';
+            }
+
+            if (contributor === 'Als') {
+                avatar.src = 'https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/als.png';
+            }
+
+            if (contributor === 'blockDDDdark') {
+                avatar.src = 'https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/ddd.png';
+            }
+
+            avatar.alt = contributor;
+            avatar.className = 'fading-contributor';
+            avatar.title = `${contributor}`;
+        }
         // 计算位置
         const offsetX = (index + 1) * spacing;
         const offsetZ = (index + 1) * depth;
