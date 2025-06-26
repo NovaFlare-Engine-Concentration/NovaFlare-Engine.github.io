@@ -205,7 +205,7 @@
 
                 const combinedContributors = contributors.concat(allowedNoGithub);
 
-                const contributors = combinedContributors.filter(c => 
+                contributors = combinedContributors.filter(c => 
                     allowedContributors.includes(c.login)
                 );
                 
