@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+    <!-- Particle Background -->
+    <div id="particles" class="particle-container"></div>
+    
     <!-- Scroll Progress Indicator -->
     <div class="scroll-progress"></div>
     <!-- Header -->
@@ -75,7 +78,7 @@
                 <div class="feature-card tech-border">
                     <i class="fas fa-mobile-alt feature-icon"></i>
                     <h3 class="feature-title">Multi-Platform</h3>
-                    <p class="feature-text">Play your mods on Windows, macOS, Linux, and mobile devices.</p>
+                    <p class="feature-text">Play your mods on Windows, macOS, and Android devices.</p>
                 </div>
                 <div class="feature-card tech-border">
                     <i class="fas fa-gamepad feature-icon"></i>
@@ -128,10 +131,10 @@
                     <a href="#" class="btn btn-outline download-btn" data-platform="macos" data-version="latest">Download for macOS</a>
                 </div>
                 <div class="download-option">
-                    <i class="fab fa-linux download-icon"></i>
-                    <h3 class="download-title">Linux</h3>
-                    <p class="download-text">For major Linux distributions</p>
-                    <a href="#" class="btn btn-outline download-btn" data-platform="linux" data-version="latest">Download for Linux</a>
+                    <i class="fab fa-android download-icon"></i>
+                    <h3 class="download-title">Android</h3>
+                    <p class="download-text">For Android 8.0 and later</p>
+                    <a href="#" class="btn btn-outline download-btn" data-platform="android" data-version="latest">Download for Android</a>
                 </div>
             </div>
         </div>
@@ -234,6 +237,7 @@
         </div>
     </footer>
 
+    <script src="js/particles.js"></script>
     <script src="js/main.js"></script>
     <script src="js/animations.js"></script>
 </body>

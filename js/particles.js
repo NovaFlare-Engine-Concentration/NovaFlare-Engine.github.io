@@ -1,204 +1,210 @@
 /**
  * NovaFlare Engine - Particle System
- * Creates an interactive particle background effect
+ * 
+ * 创建一个星空背景效果，包含闪烁的星星和可选的连线效果
  */
 
 class ParticleSystem {
-  constructor(options) {
-    this.options = {
-      selector: '#particles',
-      particleCount: 100,
-      connectDistance: 120,
-      moveSpeed: 0.5,
-      lineColor: 'rgba(52, 152, 219, 0.2)',
-      particleColor: 'rgba(255, 105, 180, 0.6)',
-      particleSize: 2,
-      responsive: true,
-      ...options
-    };
-    
-    this.particles = [];
-    this.canvas = null;
-    this.ctx = null;
-    this.width = 0;
-    this.height = 0;
-    this.dpr = window.devicePixelRatio || 1;
-    this.resizeTimeout = null;
-    
-    this.init();
-  }
-  
-  init() {
-    // Create canvas element
-    this.canvas = document.createElement('canvas');
-    this.ctx = this.canvas.getContext('2d');
-    
-    // Add canvas to DOM
-    const container = document.querySelector(this.options.selector);
-    if (!container) {
-      console.error(`Element with selector ${this.options.selector} not found`);
-      return;
-    }
-    
-    container.appendChild(this.canvas);
-    
-    // Set canvas styles
-    this.canvas.style.position = 'absolute';
-    this.canvas.style.top = '0';
-    this.canvas.style.left = '0';
-    this.canvas.style.width = '100%';
-    this.canvas.style.height = '100%';
-    this.canvas.style.pointerEvents = 'none';
-    this.canvas.style.zIndex = '0';
-    
-    // Set canvas size
-    this.resize();
-    
-    // Create particles
-    this.createParticles();
-    
-    // Start animation
-    this.animate();
-    
-    // Add event listeners
-    if (this.options.responsive) {
-      window.addEventListener('resize', () => {
-        clearTimeout(this.resizeTimeout);
-        this.resizeTimeout = setTimeout(() => this.resize(), 200);
-      });
-    }
-    
-    // Add mouse interaction
-    this.mouse = {
-      x: null,
-      y: null,
-      radius: 100
-    };
-    
-    window.addEventListener('mousemove', (e) => {
-      const rect = this.canvas.getBoundingClientRect();
-      this.mouse.x = e.clientX - rect.left;
-      this.mouse.y = e.clientY - rect.top;
-    });
-    
-    window.addEventListener('mouseout', () => {
-      this.mouse.x = null;
-      this.mouse.y = null;
-    });
-  }
-  
-  resize() {
-    const container = this.canvas.parentElement;
-    const rect = container.getBoundingClientRect();
-    this.width = rect.width;
-    this.height = rect.height;
-    
-    // Set canvas size with device pixel ratio for sharp rendering
-    this.canvas.width = this.width * this.dpr;
-    this.canvas.height = this.height * this.dpr;
-    this.ctx.scale(this.dpr, this.dpr);
-    
-    // Recreate particles when resizing
-    if (this.particles.length > 0) {
-      this.particles = [];
-      this.createParticles();
-    }
-  }
-  
-  createParticles() {
-    for (let i = 0; i < this.options.particleCount; i++) {
-      this.particles.push({
-        x: Math.random() * this.width,
-        y: Math.random() * this.height,
-        size: Math.random() * 1 + this.options.particleSize,
-        speedX: (Math.random() - 0.5) * this.options.moveSpeed,
-        speedY: (Math.random() - 0.5) * this.options.moveSpeed,
-        opacity: Math.random() * 0.5 + 0.5
-      });
-    }
-  }
-  
-  animate() {
-    this.ctx.clearRect(0, 0, this.width, this.height);
-    
-    // Update and draw particles
-    for (let i = 0; i < this.particles.length; i++) {
-      const p = this.particles[i];
-      
-      // Move particles
-      p.x += p.speedX;
-      p.y += p.speedY;
-      
-      // Bounce off edges
-      if (p.x < 0 || p.x > this.width) p.speedX *= -1;
-      if (p.y < 0 || p.y > this.height) p.speedY *= -1;
-      
-      // Mouse interaction
-      if (this.mouse.x && this.mouse.y) {
-        const dx = this.mouse.x - p.x;
-        const dy = this.mouse.y - p.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
+    constructor(container, options = {}) {
+        this.container = container;
+        this.canvas = document.createElement('canvas');
+        this.ctx = this.canvas.getContext('2d');
+        this.container.appendChild(this.canvas);
         
-        if (distance < this.mouse.radius) {
-          const angle = Math.atan2(dy, dx);
-          const force = (this.mouse.radius - distance) / this.mouse.radius;
-          p.x -= Math.cos(angle) * force * 2;
-          p.y -= Math.sin(angle) * force * 2;
-        }
-      }
-      
-      // Draw particle
-      this.ctx.beginPath();
-      this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      this.ctx.fillStyle = this.options.particleColor;
-      this.ctx.globalAlpha = p.opacity;
-      this.ctx.fill();
-      this.ctx.globalAlpha = 1;
-      
-      // Connect particles
-      for (let j = i + 1; j < this.particles.length; j++) {
-        const p2 = this.particles[j];
-        const dx = p.x - p2.x;
-        const dy = p.y - p2.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
+        // 默认配置
+        this.options = {
+            particleCount: 100,
+            particleColor: '#ffffff',
+            particleSize: 1.5,
+            moveSpeed: 0.2,
+            connectDistance: 100,
+            showConnections: false,
+            mouseInteraction: true,
+            mouseRadius: 100,
+            twinkleSpeed: 0.03,  // 闪烁速度
+            ...options
+        };
         
-        if (distance < this.options.connectDistance) {
-          this.ctx.beginPath();
-          this.ctx.moveTo(p.x, p.y);
-          this.ctx.lineTo(p2.x, p2.y);
-          this.ctx.strokeStyle = this.options.lineColor;
-          this.ctx.globalAlpha = (this.options.connectDistance - distance) / this.options.connectDistance * 0.8;
-          this.ctx.stroke();
-          this.ctx.globalAlpha = 1;
+        this.particles = [];
+        this.mousePosition = { x: null, y: null };
+        this.animationFrame = null;
+        
+        // 设置画布尺寸
+        this.resizeCanvas();
+        
+        // 事件监听
+        window.addEventListener('resize', () => this.resizeCanvas());
+        
+        if (this.options.mouseInteraction) {
+            this.container.addEventListener('mousemove', (e) => this.handleMouseMove(e));
+            this.container.addEventListener('mouseleave', () => {
+                this.mousePosition.x = null;
+                this.mousePosition.y = null;
+            });
         }
-      }
+        
+        // 自动初始化
+        this.init();
     }
     
-    requestAnimationFrame(() => this.animate());
-  }
+    init() {
+        // 清除现有粒子
+        this.particles = [];
+        
+        // 创建新粒子
+        this.createParticles();
+        
+        // 开始动画
+        this.animate();
+    }
+    
+    resizeCanvas() {
+        this.canvas.width = this.container.offsetWidth;
+        this.canvas.height = this.container.offsetHeight;
+    }
+    
+    createParticles() {
+        for (let i = 0; i < this.options.particleCount; i++) {
+            this.particles.push({
+                x: Math.random() * this.canvas.width,
+                y: Math.random() * this.canvas.height,
+                size: Math.random() * this.options.particleSize + 0.1,
+                speedX: (Math.random() - 0.5) * this.options.moveSpeed,
+                speedY: (Math.random() - 0.5) * this.options.moveSpeed,
+                opacity: Math.random(),
+                twinkleDirection: Math.random() > 0.5 ? 1 : -1  // 闪烁方向
+            });
+        }
+    }
+    
+    handleMouseMove(e) {
+        const rect = this.canvas.getBoundingClientRect();
+        this.mousePosition = {
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top
+        };
+    }
+    
+    drawParticles() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        for (let i = 0; i < this.particles.length; i++) {
+            const p = this.particles[i];
+            
+            // 计算与鼠标的距离
+            let mouseDistance = Infinity;
+            if (this.options.mouseInteraction && this.mousePosition.x !== null) {
+                const dx = p.x - this.mousePosition.x;
+                const dy = p.y - this.mousePosition.y;
+                mouseDistance = Math.sqrt(dx * dx + dy * dy);
+            }
+            
+            // 绘制粒子
+            this.ctx.beginPath();
+            this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            
+            // 根据鼠标距离调整不透明度
+            let opacity = p.opacity;
+            if (mouseDistance < this.options.mouseRadius) {
+                opacity = Math.min(1, p.opacity + (1 - mouseDistance / this.options.mouseRadius) * 0.5);
+            }
+            
+            this.ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+            this.ctx.fill();
+            
+            // 绘制连接线
+            if (this.options.showConnections) {
+                for (let j = i + 1; j < this.particles.length; j++) {
+                    const p2 = this.particles[j];
+                    const dx = p.x - p2.x;
+                    const dy = p.y - p2.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < this.options.connectDistance) {
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(p.x, p.y);
+                        this.ctx.lineTo(p2.x, p2.y);
+                        const lineOpacity = (1 - distance / this.options.connectDistance) * 0.2;
+                        this.ctx.strokeStyle = `rgba(255, 255, 255, ${lineOpacity})`;
+                        this.ctx.stroke();
+                    }
+                }
+            }
+        }
+    }
+    
+    updateParticles() {
+        for (let i = 0; i < this.particles.length; i++) {
+            const p = this.particles[i];
+            
+            // 更新位置
+            p.x += p.speedX;
+            p.y += p.speedY;
+            
+            // 边界检查
+            if (p.x < 0 || p.x > this.canvas.width) p.speedX *= -1;
+            if (p.y < 0 || p.y > this.canvas.height) p.speedY *= -1;
+            
+            // 更新闪烁效果
+            p.opacity += this.options.twinkleSpeed * p.twinkleDirection;
+            
+            // 反转闪烁方向
+            if (p.opacity >= 1 || p.opacity <= 0.1) {
+                p.twinkleDirection *= -1;
+            }
+            
+            // 确保不透明度在有效范围内
+            p.opacity = Math.max(0.1, Math.min(1, p.opacity));
+        }
+    }
+    
+    animate() {
+        this.updateParticles();
+        this.drawParticles();
+        this.animationFrame = requestAnimationFrame(() => this.animate());
+    }
+    
+    destroy() {
+        if (this.animationFrame) {
+            cancelAnimationFrame(this.animationFrame);
+        }
+        
+        window.removeEventListener('resize', this.resizeCanvas);
+        
+        if (this.options.mouseInteraction) {
+            this.container.removeEventListener('mousemove', this.handleMouseMove);
+            this.container.removeEventListener('mouseleave', () => {
+                this.mousePosition.x = null;
+                this.mousePosition.y = null;
+            });
+        }
+        
+        if (this.canvas && this.canvas.parentNode) {
+            this.canvas.parentNode.removeChild(this.canvas);
+        }
+    }
 }
 
-// Initialize particle system when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-  // Create particle container for hero section
-  const hero = document.querySelector('.hero');
-  const particleContainer = document.createElement('div');
-  particleContainer.id = 'particles';
-  particleContainer.style.position = 'absolute';
-  particleContainer.style.top = '0';
-  particleContainer.style.left = '0';
-  particleContainer.style.width = '100%';
-  particleContainer.style.height = '100%';
-  particleContainer.style.overflow = 'hidden';
-  hero.insertBefore(particleContainer, hero.firstChild);
-  
-  // Initialize particle system
-  new ParticleSystem({
-    selector: '#particles',
-    particleCount: window.innerWidth < 768 ? 50 : 100,
-    connectDistance: 150,
-    moveSpeed: 0.3,
-    lineColor: 'rgba(52, 152, 219, 0.15)',
-    particleColor: 'rgba(255, 105, 180, 0.5)'
-  });
+// 创建两个粒子系统 - 一个用于较大的星星，一个用于较小的星星
+document.addEventListener('DOMContentLoaded', function() {
+    const particlesContainer = document.getElementById('particles');
+    if (particlesContainer) {
+        // 大星星系统
+        new ParticleSystem(particlesContainer, {
+            particleCount: 50,
+            particleSize: 2,
+            moveSpeed: 0.1,
+            twinkleSpeed: 0.01,
+            showConnections: true,
+            connectDistance: 150
+        });
+        
+        // 小星星系统
+        new ParticleSystem(particlesContainer, {
+            particleCount: 100,
+            particleSize: 1,
+            moveSpeed: 0.05,
+            twinkleSpeed: 0.005
+        });
+    }
 });
