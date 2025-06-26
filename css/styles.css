@@ -154,18 +154,92 @@
     margin-bottom: 20px;
 }
 
+/* 下载栏版本信息 */
+.download-info {
+    background: rgba(var(--bg-card-rgb), 0.9);
+    padding: 30px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.version-info {
+    margin-bottom: 20px;
+}
+
+.version-label {
+    font-weight: bold;
+    color: var(--text-primary);
+}
+
+.version-value {
+    color: var(--accent-color);
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.version-date {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.download-btn {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+/* 收起按钮优化 */
+.toggle-btn {
+    display: flex;
+    align-items: center;
+    background: rgba(var(--bg-card-rgb), 0.9);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.toggle-btn:hover {
+    background: var(--accent-color);
+    color: white;
+}
+
+.toggle-btn i {
+    margin-right: 8px;
+    transition: transform 0.3s ease;
+}
+
+.toggle-text {
+    font-size: 0.9rem;
+}
+
+/* 最新版本卡片 */
+#latest-version-card {
+    margin-bottom: 30px;
+    border: 2px solid var(--accent-color);
+}
+
 /* 响应式调整 */
 @media (max-width: 768px) {
     .versions-grid {
         grid-template-columns: 1fr;
     }
     
-    .version-card, .latest-version-card {
+    .version-card, .download-info {
         padding: 20px;
     }
     
     .markdown-content {
         font-size: 0.95rem;
+    }
+    
+    .toggle-btn {
+        padding: 6px 12px;
+    }
+    
+    .download-btn {
+        width: 100%;
+        margin-right: 0;
     }
 }
 * {

@@ -163,40 +163,48 @@
             </div>
         </section>
 
-        <!-- 历史版本区域 - 带收起功能和Markdown支持 -->
-        <section class="version-history section" style="padding: 80px 0; background: rgba(var(--bg-secondary-rgb), 0.8); border-top: 1px solid var(--border-color);">
+        <!-- 下载栏 - 添加版本信息 -->
+        <section class="download section" style="padding: 80px 0;">
             <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title" data-en="Version History" data-zh="历史版本">历史版本</h2>
-                    <button id="toggle-versions" class="btn btn-icon">
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                </div>
-                <div id="versions-content" style="display: block;">
-                    <div id="versions-container">
-                        <!-- 版本列表将通过JavaScript动态加载 -->
-                        <div class="loading-spinner">
-                            <i class="fas fa-spinner fa-spin"></i>
-                            <span data-en="Loading versions..." data-zh="正在加载版本...">正在加载版本...</span>
-                        </div>
+                <h2 class="section-title" data-en="Download" data-zh="下载">下载</h2>
+                <div class="download-info">
+                    <div id="version-info">
+                        <span class="version-label" data-en="Latest Version" data-zh="最新版本">最新版本: </span>
+                        <span id="latest-version" class="version-value">-</span>
+                        <span id="release-date" class="version-date"></span>
                     </div>
-                    <div class="pagination" id="versions-pagination" style="margin-top: 30px; display: none;">
-                        <button class="btn btn-secondary" id="prev-page" disabled><i class="fas fa-chevron-left"></i></button>
-                        <span id="page-info" style="margin: 0 15px;">1/1</span>
-                        <button class="btn btn-secondary" id="next-page" disabled><i class="fas fa-chevron-right"></i></button>
+                    <div id="download-buttons" class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <span data-en="Loading download links..." data-zh="正在加载下载链接...">正在加载下载链接...</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 最新版本下载区域 -->
-        <section class="latest-version section" style="padding: 60px 0; background: var(--bg-primary);">
+        <!-- 历史版本区域 - 带收起功能和Markdown支持 -->
+        <section class="version-history section" style="padding: 80px 0; background: rgba(var(--bg-secondary-rgb), 0.8); border-top: 1px solid var(--border-color);">
             <div class="container">
-                <h2 class="section-title" data-en="Latest Version" data-zh="最新版本">最新版本</h2>
-                <div id="latest-version-container">
-                    <div class="loading-spinner">
-                        <i class="fas fa-spinner fa-spin"></i>
-                        <span data-en="Loading latest version..." data-zh="正在加载最新版本...">正在加载最新版本...</span>
+                <div class="section-header">
+                    <h2 class="section-title" data-en="Version History" data-zh="历史版本">历史版本</h2>
+                    <button id="toggle-versions" class="toggle-btn">
+                        <i class="fas fa-chevron-down"></i>
+                        <span class="toggle-text" data-en="Collapse" data-zh="收起">收起</span>
+                    </button>
+                </div>
+                <div id="versions-content">
+                    <div id="latest-version-card" class="version-card"></div>
+                    <div id="other-versions">
+                        <div id="versions-container">
+                            <div class="loading-spinner">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <span data-en="Loading versions..." data-zh="正在加载版本...">正在加载版本...</span>
+                            </div>
+                        </div>
+                        <div class="pagination" id="versions-pagination" style="margin-top: 30px; display: none;">
+                            <button class="btn btn-secondary" id="prev-page" disabled><i class="fas fa-chevron-left"></i></button>
+                            <span id="page-info" style="margin: 0 15px;">1/1</span>
+                            <button class="btn btn-secondary" id="next-page" disabled><i class="fas fa-chevron-right"></i></button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -212,20 +220,26 @@
             let currentPage = 1;
             let totalPages = 1;
             let allReleases = [];
+            let isCollapsed = false;
             
             // 收起/展开切换
             document.getElementById('toggle-versions').addEventListener('click', function() {
-                const content = document.getElementById('versions-content');
+                const otherVersions = document.getElementById('other-versions');
                 const icon = this.querySelector('i');
+                const text = this.querySelector('.toggle-text');
                 
-                if (content.style.display === 'none') {
-                    content.style.display = 'block';
-                    icon.classList.remove('fa-chevron-up');
-                    icon.classList.add('fa-chevron-down');
-                } else {
-                    content.style.display = 'none';
+                isCollapsed = !isCollapsed;
+                
+                if (isCollapsed) {
+                    otherVersions.style.display = 'none';
                     icon.classList.remove('fa-chevron-down');
                     icon.classList.add('fa-chevron-up');
+                    text.textContent = text.dataset.zh === '展开' ? '展开' : 'Expand';
+                } else {
+                    otherVersions.style.display = 'block';
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                    text.textContent = text.dataset.zh === '收起' ? '收起' : 'Collapse';
                 }
             });
 
@@ -252,11 +266,12 @@
                     if (!response.ok) throw new Error('Failed to fetch releases');
                     
                     allReleases = await response.json();
-                    totalPages = Math.ceil(allReleases.length / perPage);
+                    totalPages = Math.ceil((allReleases.length - 1) / perPage); // 减去最新版本
                     
+                    updateDownloadSection();
+                    renderLatestVersion();
                     renderReleases();
                     updatePagination();
-                    renderLatestVersion();
                 } catch (error) {
                     document.getElementById('versions-container').innerHTML = `
                         <div class="error-message">
@@ -264,20 +279,69 @@
                             <span data-en="Failed to load versions" data-zh="加载版本失败">加载版本失败</span>
                         </div>
                     `;
-                    document.getElementById('latest-version-container').innerHTML = `
+                    document.getElementById('download-buttons').innerHTML = `
                         <div class="error-message">
                             <i class="fas fa-exclamation-triangle"></i>
-                            <span data-en="Failed to load latest version" data-zh="加载最新版本失败">加载最新版本失败</span>
+                            <span data-en="Failed to load download links" data-zh="加载下载链接失败">加载下载链接失败</span>
                         </div>
                     `;
                     console.error('Error fetching releases:', error);
                 }
             }
             
-            // 渲染当前页的版本
+            // 更新下载栏版本信息
+            function updateDownloadSection() {
+                if (allReleases.length === 0) return;
+                
+                const latestRelease = allReleases[0];
+                document.getElementById('latest-version').textContent = latestRelease.tag_name;
+                document.getElementById('release-date').textContent = `(${new Date(latestRelease.published_at).toLocaleDateString()})`;
+                
+                // 更新下载按钮
+                const buttonsHTML = latestRelease.assets.map(asset => `
+                    <a href="${asset.browser_download_url}" class="btn btn-primary download-btn">
+                        <i class="fas fa-download"></i> ${asset.name}
+                    </a>
+                `).join('');
+                
+                document.getElementById('download-buttons').innerHTML = buttonsHTML;
+            }
+            
+            // 渲染最新版本卡片
+            function renderLatestVersion() {
+                if (allReleases.length === 0) return;
+                
+                const latestRelease = allReleases[0];
+                document.getElementById('latest-version-card').innerHTML = `
+                    <div class="version-header">
+                        <h3>${latestRelease.tag_name}</h3>
+                        <span class="version-date">${new Date(latestRelease.published_at).toLocaleDateString()}</span>
+                    </div>
+                    <div class="version-body">
+                        ${markdownToHtml(latestRelease.body)}
+                        <div class="version-assets">
+                            ${latestRelease.assets.map(asset => `
+                                <a href="${asset.browser_download_url}" class="btn btn-primary">
+                                    <i class="fas fa-download"></i> ${asset.name}
+                                </a>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // 渲染其他版本
             function renderReleases() {
-                const startIdx = (currentPage - 1) * perPage;
-                const endIdx = startIdx + perPage;
+                if (allReleases.length <= 1) {
+                    document.getElementById('versions-container').innerHTML = `
+                        <p class="no-versions" data-en="No other versions available" data-zh="没有其他版本">没有其他版本</p>
+                    `;
+                    return;
+                }
+                
+                // 跳过最新版本(索引0)
+                const startIdx = (currentPage - 1) * perPage + 1;
+                const endIdx = Math.min(startIdx + perPage, allReleases.length);
                 const currentReleases = allReleases.slice(startIdx, endIdx);
                 
                 const versionsHTML = currentReleases.map(release => `
@@ -305,32 +369,7 @@
                     </div>
                 `;
                 
-                document.getElementById('versions-pagination').style.display = 'flex';
-            }
-            
-            // 渲染最新版本
-            function renderLatestVersion() {
-                if (allReleases.length === 0) return;
-                
-                const latestRelease = allReleases[0];
-                document.getElementById('latest-version-container').innerHTML = `
-                    <div class="latest-version-card">
-                        <div class="version-header">
-                            <h3>${latestRelease.tag_name}</h3>
-                            <span class="version-date">${new Date(latestRelease.published_at).toLocaleDateString()}</span>
-                        </div>
-                        <div class="version-body">
-                            ${markdownToHtml(latestRelease.body)}
-                            <div class="version-assets">
-                                ${latestRelease.assets.map(asset => `
-                                    <a href="${asset.browser_download_url}" class="btn btn-primary">
-                                        <i class="fas fa-download"></i> ${asset.name}
-                                    </a>
-                                `).join('')}
-                            </div>
-                        </div>
-                    </div>
-                `;
+                document.getElementById('versions-pagination').style.display = totalPages > 1 ? 'flex' : 'none';
             }
             
             // 更新分页控件
