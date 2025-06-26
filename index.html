@@ -45,6 +45,7 @@
         <section class="hero section" id="hero">
             <div class="container">
                 <div class="hero-content">
+                    <h1 class="hero-brand" data-en="NovaFlare Engine" data-zh="NovaFlare Engine">NovaFlare Engine</h1>
                     <h1 class="hero-title" data-en="The Next Generation of FNF Engine" data-zh="下一代 FNF 引擎">下一代 FNF 引擎</h1>
                     <p class="hero-subtitle" data-en="Based on Psych Engine, optimized for performance and extensibility" 
                        data-zh="基于 Psych Engine，为性能和扩展性优化">
@@ -53,39 +54,6 @@
                     <div class="hero-buttons"></div>
                         <a href="#download" class="btn btn-primary" data-en="Get Started" data-zh="开始使用">开始使用</a>
                         <a href="#docs" class="btn btn-secondary" data-en="Learn More" data-zh="了解更多">了解更多</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 特性区域 - 统一背景样式 -->
-        <section class="features section" id="features" style="padding: 80px 0; background: rgba(var(--bg-secondary-rgb), 0.8); border-top: 1px solid var(--border-color);">
-            <div class="container">
-                <h2 class="section-title" data-en="Features" data-zh="特性">特性</h2>
-                <div class="features-grid">
-                    <div class="feature-card fade-in">
-                        <div class="feature-icon">
-                            <i class="fas fa-bolt"></i>
-                        </div>
-                        <h3 class="feature-title" data-en="High Performance" data-zh="高性能">高性能</h3>
-                        <p class="feature-description" data-en="Optimized rendering and memory management" 
-                           data-zh="优化的渲染和内存管理">优化的渲染和内存管理</p>
-                    </div>
-                    <div class="feature-card fade-in">
-                        <div class="feature-icon">
-                            <i class="fas fa-puzzle-piece"></i>
-                        </div>
-                        <h3 class="feature-title" data-en="Modular Design" data-zh="模块化设计">模块化设计</h3>
-                        <p class="feature-description" data-en="Easy to extend and customize" 
-                           data-zh="易于扩展和定制">易于扩展和定制</p>
-                    </div>
-                    <div class="feature-card fade-in">
-                        <div class="feature-icon">
-                            <i class="fas fa-code"></i>
-                        </div>
-                        <h3 class="feature-title" data-en="Developer Friendly" data-zh="开发者友好">开发者友好</h3>
-                        <p class="feature-description" data-en="Comprehensive API and documentation" 
-                           data-zh="完整的API和文档">完整的API和文档</p>
                     </div>
                 </div>
             </div>
@@ -106,6 +74,19 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- 项目概述 -->
+        <section class="project-overview section" style="padding: 80px 0;">
+            <div class="container">
+                <h2 class="section-title" data-en="Overview" data-zh="项目概述">项目概述</h2>
+                <h2 class="overview-content">
+                    <span data-en=
+                          "Engine originally used on VS Camellia fanmade.It was later moved to support modules"
+                          data-zh=
+                          "最初用于 VS Camellia 的自制项目。后来被移至支持模块">最初用于 VS Camellia 的自制项目。后来被移至支持模块</span>
+                </h2>
             </div>
         </section>
 
@@ -138,16 +119,6 @@
                         <p style="margin-bottom: 20px; color: var(--text-secondary);" data-en="Watch tutorials and demos" data-zh="观看教程和演示">观看教程和演示</p>
                         <a href="https://youtube.com/@beihu235" class="btn btn-primary" style="display: inline-block;" data-en="Subscribe" data-zh="订阅">订阅</a>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 项目概述 -->
-        <section class="project-overview section" style="padding: 80px 0;">
-            <div class="container">
-                <h2 class="section-title" data-en="Overview" data-zh="项目概述">项目概述</h2>
-                <div class="overview-content">
-                    <!-- 这里添加项目描述内容 -->
                 </div>
             </div>
         </section>
@@ -339,7 +310,7 @@
                 document.getElementById('download-buttons').innerHTML = buttonsHTML;
             }
             
-            // 渲染最新版本卡片（默认收起）
+            // 渲染最新版本卡片（默认展开）
             function renderLatestVersion() {
                 if (allReleases.length === 0) return;
                 
@@ -361,7 +332,7 @@
                     </div>
                 `;
                 
-                // 默认收起卡片内容
+                // 默认展开卡片内容
                 const preview = document.querySelector('#latest-version-card .markdown-preview');
                 if (preview && preview.scrollHeight > 80) {
                     preview.style.maxHeight = '80px';
@@ -455,21 +426,35 @@
             <div class="container">
                 <h2 class="section-title" data-en="Contributors" data-zh="贡献者">贡献者</h2>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 20px;">
-                    <div style="background: rgba(var(--bg-card-rgb), 0.9); padding: 20px; border-radius: 8px; text-align: center;">
-                        <a href="https://github.com/beihu235" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
-                            <img src="https://avatars.githubusercontent.com/u/105789304?v=4" alt="Contributor" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin: 0 auto 15px; cursor: pointer;">
-                            <h4 style="margin-bottom: 5px; cursor: pointer;">beihu235</h4>
+                    <div class="main-dev-card">
+                        <a href="https://github.com/beihu235" target="_blank" rel="noopener noreferrer" class="dev-link">
+                            <img src="https://avatars.githubusercontent.com/u/105789304?v=4" alt="Contributor" class="main-dev-avatar">
+                            <h4 class="dev-name">beihu235</h4>
                         </a>
-                        <p style="color: var(--text-secondary);" data-en="Main Programmer" data-zh="核心开发者">核心开发者</p>
-                        <a href="contributors.html" class="view-more" data-en="See more contributors" data-zh="查看更多贡献者">查看更多贡献者</a>
+                        <p class="dev-title" data-en="Main Programmer" data-zh="核心开发者">核心开发者</p>
                     </div>
+                    <div id="fading-contributors" class="fading-contributors-container"></div>
                 </div>
             </div>
         </section>
     </main>
 
+    <!-- 贡献者区域 -->
+    <section class="contributors-section">
+        <div class="container">
+            <h2 class="section-title" data-en="Core Team" data-zh="核心团队">核心团队</h2>
+            <div class="main-developer">
+                <img src="images/main-dev.png" alt="Main Developer" class="main-dev-avatar">
+                <h3 class="dev-name">Beihu235</h3>
+                <p class="dev-title" data-en="Lead Developer" data-zh="主开发者">主开发者</p>
+            </div>
+            <div id="contributors-container" class="contributors-flow"></div>
+        </div>
+    </section>
+
     <!-- 页脚 -->
     <footer class="footer">
+        <script src="js/contributors.js"></script>
         <div class="container">
             <div class="footer-content">
                 <p>NovaFlare Engine</p>
@@ -501,5 +486,6 @@
     <script src="js/theme.js"></script>
     <script src="js/language.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/fading-contributors.js"></script>
 </body>
 </html>
