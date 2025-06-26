@@ -6,12 +6,58 @@
     <title>FNF NovaFlare Engine - Friday Night Funkin' Engine</title>
     <meta name="description" content="FNF NovaFlare Engine is a powerful, modern engine designed for creating Friday Night Funkin' mods with advanced features and optimized performance.">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/particle-controls.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/tech-theme.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <!-- Particle Background -->
     <div id="particles" class="particle-container"></div>
+    
+    <!-- Particle Engine Controls -->
+    <div id="particle-controls" class="particle-controls">
+        <div class="control-header">
+            <h3>NovaFlare Controls</h3>
+            <button id="toggle-controls" class="toggle-btn"><i class="fas fa-cog"></i></button>
+        </div>
+        <div class="control-panel">
+            <div class="control-group">
+                <label for="particle-count">Particles: <span id="particle-count-value">180</span></label>
+                <input type="range" id="particle-count" min="50" max="300" value="180">
+            </div>
+            <div class="control-group">
+                <label for="particle-size">Size: <span id="particle-size-value">1.2</span></label>
+                <input type="range" id="particle-size" min="0.5" max="3" step="0.1" value="1.2">
+            </div>
+            <div class="control-group">
+                <label for="flow-intensity">Flow Intensity: <span id="flow-intensity-value">0.15</span></label>
+                <input type="range" id="flow-intensity" min="0" max="1" step="0.05" value="0.15">
+            </div>
+            <div class="control-group">
+                <label for="energy-strength">Energy Field: <span id="energy-strength-value">0.15</span></label>
+                <input type="range" id="energy-strength" min="0" max="1" step="0.05" value="0.15">
+            </div>
+            <div class="control-toggles">
+                <div class="toggle-switch">
+                    <input type="checkbox" id="show-connections" checked>
+                    <label for="show-connections">Connections</label>
+                </div>
+                <div class="toggle-switch">
+                    <input type="checkbox" id="show-energy-fields" checked>
+                    <label for="show-energy-fields">Energy Fields</label>
+                </div>
+                <div class="toggle-switch">
+                    <input type="checkbox" id="show-debug">
+                    <label for="show-debug">Debug Info</label>
+                </div>
+            </div>
+            <div class="control-actions">
+                <button id="pause-resume" class="control-btn">Pause</button>
+                <button id="reset-defaults" class="control-btn">Reset</button>
+            </div>
+        </div>
+    </div>
     
     <!-- Scroll Progress Indicator -->
     <div class="scroll-progress"></div>
