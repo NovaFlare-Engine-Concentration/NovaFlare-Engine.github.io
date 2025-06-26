@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 avatar_url: member.avatarUrl
             }));
             otherContributors.push(...noGithubContributors);
+            renderFadingContributors(otherContributors);
         })
         .catch(error => {
             console.error('Error fetching contributors:', error);
