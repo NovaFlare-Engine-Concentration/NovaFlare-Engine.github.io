@@ -227,14 +227,7 @@
 
 .toggle-btn:hover {
     background: var(--accent-color);
-}
-
-[data-theme="dark"] .toggle-btn:hover {
-    color: white;
-}
-
-[data-theme="light"] .toggle-btn:hover {
-    color: black;
+    /* 移除文字颜色变化 */
 }
 
 .toggle-btn i {
