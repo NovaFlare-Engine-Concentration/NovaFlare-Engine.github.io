@@ -50,9 +50,12 @@ document.addEventListener('DOMContentLoaded', function() {
         this.twinklePhase = 0;
       }
       
-      // 如果星星移出画布，重置它
-      if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
-        this.reset();
+      // 如果星星碰到边界，反弹
+      if (this.x < 0 || this.x > canvas.width) {
+        this.direction = Math.PI - this.direction;
+      }
+      if (this.y < 0 || this.y > canvas.height) {
+        this.direction = -this.direction;
       }
       
       // 随机改变方向
