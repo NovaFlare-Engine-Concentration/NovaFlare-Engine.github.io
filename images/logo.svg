@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="60" viewBox="0 0 200 60">
+  <style>
+    .logo-text { font-family: Arial, sans-serif; font-weight: bold; }
+    .nova { fill: #2c3e50; }
+    .flare { fill: #ff5722; }
+    .engine { fill: #2c3e50; font-size: 14px; }
+    .flame { fill: #ff5722; }
+  </style>
+  <g transform="translate(10, 35)">
+    <!-- Flame icon -->
+    <path class="flame" d="M0,0 C2,-10 5,-15 8,-20 C11,-15 14,-10 16,0 C18,5 15,10 8,10 C1,10 -2,5 0,0 Z" />
+    
+    <!-- Text -->
+    <text x="25" y="5" class="logo-text nova">Nova</text>
+    <text x="75" y="5" class="logo-text flare">Flare</text>
+    <text x="130" y="5" class="logo-text engine">ENGINE</text>
+  </g>
+</svg>
