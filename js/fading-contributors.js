@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => {
             console.error('Error fetching contributors:', error);
-            container.innerHTML = '<p class="error-message">无法加载贡献者数据 ${error}</p>';
+            container.innerHTML = `<p class="error-message">无法加载贡献者数据 ${error}</p>`;
         });
 
     // 可调整配置参数
