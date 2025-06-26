@@ -465,27 +465,16 @@ a:hover {
   }
   
   .navbar-links {
-    display: none;
-    position: absolute;
-    top: 70px;
-    left: 0;
-    width: 100%;
-    background-color: var(--bg-primary);
-    flex-direction: column;
-    padding: 20px;
-    border-bottom: 1px solid var(--border-color);
-  }
-  
-  .navbar-links.active {
-    display: flex;
+    position: static;
+    width: auto;
+    background-color: transparent;
+    flex-direction: row;
+    padding: 0;
+    border-bottom: none;
   }
   
   .navbar-links li {
-    margin: 12px 0;
-  }
-  
-  .mobile-menu-btn {
-    display: block;
+    margin: 0 0 0 24px;
   }
   
   .hero-title {
