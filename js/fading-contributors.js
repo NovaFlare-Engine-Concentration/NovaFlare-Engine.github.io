@@ -73,6 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // 将贡献者分成左右两组
         const leftGroup = [];
         const rightGroup = [];
+        container.innerHTML = '<p class="error-message">${rightGroup}</p>';
         
         contributors.forEach((contributor, index) => {
             if (index % 2 === 0) {
