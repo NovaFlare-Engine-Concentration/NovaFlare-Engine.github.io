@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 'blockDDDdark', //https://raw.githubusercontent.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/refs/heads/main/assets/shared/images/credits/bigIcon/ddd.png https://space.bilibili.com/401733211
                 'VapireMox',
                 'Stefan2008Git',
-                'moxie-coder',
                 'sirthegamercoder'
             ];
 
