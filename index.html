@@ -44,13 +44,18 @@
         <!-- 英雄区域 -->
         <section class="hero section" id="hero">
             <div class="container">
-                <div class="hero-content">
-                    <h1 class="hero-brand" data-en="NovaFlare Engine" data-zh="NovaFlare Engine">NovaFlare Engine</h1>
-                    <h1 class="hero-title" data-en="The Next Generation of FNF Engine" data-zh="下一代 FNF 引擎">下一代 FNF 引擎</h1>
-                    <p class="hero-subtitle" data-en="Based on Psych Engine, optimized for performance and extensibility" 
-                       data-zh="基于 Psych Engine，为性能和扩展性优化">
-                        基于 Psych Engine，为性能和扩展性优化
-                    </p>
+                <div class="hero-content" style="position: relative;">
+                    <div style="position: relative; z-index: 2;">
+                        <h1 class="hero-brand" data-en="NovaFlare Engine" data-zh="NovaFlare Engine">NovaFlare Engine</h1>
+                        <h1 class="hero-title" data-en="The Next Generation of FNF Engine" data-zh="下一代 FNF 引擎">下一代 FNF 引擎</h1>
+                        <p class="hero-subtitle" data-en="Based on Psych Engine, optimized for performance and extensibility" 
+                           data-zh="基于 Psych Engine，为性能和扩展性优化">
+                            基于 Psych Engine，为性能和扩展性优化
+                        </p>
+                    </div>
+                    <div style="position: absolute; top: 70%; right: -400px; transform: translateY(-90%); height: 400px; width: 600px; z-index: 1;">
+                        <img src="images/logo2.png" alt="Logo" style="height: 150%; width: 150%; object-fit: contain; opacity: 0.5; mask-image: linear-gradient(to right, rgba(0,0,0,1), transparent); -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1), transparent);">
+                    </div>
                     <div class="hero-buttons"></div>
                         <a href="#download" class="btn btn-primary" data-en="Get Started" data-zh="开始使用">开始使用</a>
                         <a href="#docs" class="btn btn-secondary" data-en="Learn More" data-zh="了解更多">了解更多</a>
@@ -360,7 +365,7 @@
                 const currentReleases = allReleases.slice(startIdx, endIdx);
                 
                 const versionsHTML = currentReleases.map(release => `
-                    <div class="version-card" onclick="document.querySelector('.version-history.section').scrollIntoView({behavior: 'smooth'})">
+                    <div class="version-card">
                         <div class="version-header">
                             <h3>${release.tag_name}</h3>
                             <span class="version-date">${new Date(release.published_at).toLocaleDateString()}</span>
