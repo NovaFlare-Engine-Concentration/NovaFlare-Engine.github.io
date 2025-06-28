@@ -53,7 +53,14 @@
                             基于 Psych Engine，为性能和扩展性优化
                         </p>
                     </div>
-                    <div style="position: absolute; top: 70%; right: -400px; transform: translateY(-90%); height: 400px; width: 600px; z-index: 1;">
+                    <style>
+                        @keyframes float {
+                            0% { transform: translateY(-90%); }
+                            50% { transform: translateY(-88%); }
+                            100% { transform: translateY(-90%); }
+                        }
+                    </style>
+                    <div style="position: absolute; top: 70%; right: -400px; height: 400px; width: 400px; z-index: 1; animation: float 5s ease-in-out infinite;">
                         <img src="images/logo2.png" alt="Logo" style="height: 150%; width: 150%; object-fit: contain; opacity: 0.5; mask-image: linear-gradient(to right, rgba(0,0,0,1), transparent); -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1), transparent);">
                     </div>
                     <div class="hero-buttons"></div>
