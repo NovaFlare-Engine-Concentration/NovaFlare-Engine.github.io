@@ -78,7 +78,7 @@
                 <h2 class="section-title" data-en="Documentation" data-zh="文档">文档</h2>
                 <div class="docs-content">
                     <div class="docs-text">
-                        <h3 class="feature-title" data-en="Comprehensive Documentation" data-zh="全面的文档">全面的文档</h3>
+                        <h3 class="feature-title" data-en="Comprehensive Documentation（No need to rush, it's still in development.）" data-zh="全面的文档（正在开发莫要着急）">全面的文档（正在开发莫要着急）</h3>
                         <p class="feature-description" data-en="Everything you need to get started with NovaFlare Engine" 
                            data-zh="开始使用 NovaFlare Engine 所需的一切">开始使用 NovaFlare Engine 所需的一切</p>
                         <div class="hero-buttons">
@@ -235,6 +235,10 @@
                     otherVersions.style.display = 'grid'; // 使用网格布局
                     icon.classList.remove('fa-chevron-up');
                     icon.classList.add('fa-chevron-down');
+                    // 展开时滚动到版本历史部分
+                    setTimeout(() => {
+                        document.querySelector('.version-history.section').scrollIntoView({behavior: 'smooth'});
+                    }, 100); // 添加小延迟确保展开动画完成
                 }
                 updateToggleText();
             });
@@ -354,17 +358,9 @@
                 const startIdx = (currentPage - 1) * perPage + 1;
                 const endIdx = Math.min(startIdx + perPage, allReleases.length);
                 const currentReleases = allReleases.slice(startIdx, endIdx);
-
-                // 使用setTimeout确保在DOM更新后恢复滚动位置
-                setTimeout(() => {
-                    window.scrollTo({
-                        top: scrollPosition,
-                        behavior: 'auto'
-                    });
-                }, 0);
                 
                 const versionsHTML = currentReleases.map(release => `
-                    <div class="version-card">
+                    <div class="version-card" onclick="document.querySelector('.version-history.section').scrollIntoView({behavior: 'smooth'})">
                         <div class="version-header">
                             <h3>${release.tag_name}</h3>
                             <span class="version-date">${new Date(release.published_at).toLocaleDateString()}</span>
@@ -404,6 +400,10 @@
                     currentPage--;
                     renderReleases();
                     updatePagination();
+                    // 滚动到版本历史部分
+                    setTimeout(() => {
+                        document.querySelector('.version-history.section').scrollIntoView({behavior: 'smooth'});
+                    }, 100); // 添加小延迟确保展开动画完成
                 }
             });
             
@@ -412,6 +412,8 @@
                     currentPage++;
                     renderReleases();
                     updatePagination();
+                    // 滚动到版本历史部分
+                    document.querySelector('.version-history.section').scrollIntoView({behavior: 'smooth'});
                 }
             });
             
