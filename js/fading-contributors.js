@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 'VapireMox',
                 'Stefan2008Git',
                 'sirthegamercoder',
-                'mcagabe19',
                 'pwp114514'
             ];
 
