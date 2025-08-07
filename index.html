@@ -195,7 +195,6 @@
             let currentPage = 1;
             let totalPages = 1;
             let allReleases = [];
-            let stableReleases = [];
             let isCollapsed = false;
             
             // 初始化收起状态
@@ -291,10 +290,8 @@
                     if (!response.ok) throw new Error('Failed to fetch releases');
                     
                     allReleases = await response.json();
-                    stableReleases = allReleases.filter(release => !release.prerelease);
-                    const preReleases = allReleases.filter(release => release.prerelease);
+                    totalPages = Math.ceil((allReleases.length - 1) / perPage); // 减去最新版本
                     
-                    allReleases = [...stableReleases, ...preReleases];
                     updateDownloadSection();
                     renderLatestVersion();
                     renderReleases();
@@ -318,19 +315,14 @@
             
             // 更新下载栏版本信息
             function updateDownloadSection() {
-                const displayRelease = stableReleases.length > 0 
-                    ? stableReleases[0] 
-                    : allReleases[0];
+                if (allReleases.length === 0) return;
                 
-                if (!displayRelease) return;
-
-                document.getElementById('latest-version').textContent = 
-                    displayRelease.tag_name + (displayRelease.prerelease ? " (预发布)" : "");
+                const latestRelease = allReleases[0];
+                document.getElementById('latest-version').textContent = latestRelease.tag_name;
+                document.getElementById('release-date').textContent = `(${new Date(latestRelease.published_at).toLocaleDateString()})`;
                 
-                document.getElementById('release-date').textContent = 
-                    `(${new Date(displayRelease.published_at).toLocaleDateString()})`;
-                
-                const buttonsHTML = displayRelease.assets.map(asset => `
+                // 更新下载按钮
+                const buttonsHTML = latestRelease.assets.map(asset => `
                     <a href="${asset.browser_download_url}" class="btn btn-primary download-btn">
                         <i class="fas fa-download"></i> ${asset.name}
                     </a>
@@ -346,7 +338,7 @@
                 const latestRelease = allReleases[0];
                 document.getElementById('latest-version-card').innerHTML = `
                     <div class="version-header">
-                        <h3>${latestRelease.tag_name}${latestRelease.prerelease ? `<span class="pre-release-tag" data-en=" (Pre-release)" data-zh=" (预发布)"> (预发布)</span>` : ""}</h3>
+                        <h3>${latestRelease.tag_name}</h3>
                         <span class="version-date">${new Date(latestRelease.published_at).toLocaleDateString()}</span>
                     </div>
                     <div class="version-body">
@@ -388,7 +380,7 @@
                 const versionsHTML = currentReleases.map(release => `
                     <div class="version-card">
                         <div class="version-header">
-                            <h3>${release.tag_name}${release.prerelease ? `<span class="pre-release-tag" data-en=" (Pre-release)" data-zh=" (预发布)"> (预发布)</span>` : ""}</h3>
+                            <h3>${release.tag_name}</h3>
                             <span class="version-date">${new Date(release.published_at).toLocaleDateString()}</span>
                         </div>
                         <div class="version-body">
@@ -447,7 +439,6 @@
             fetchReleases();
         });
         </script>
-
         <!-- 贡献者区域 - 简化版 -->
         <section class="contributors section" style="padding: 80px 0; background: rgba(var(--bg-secondary-rgb), 0.8); border-top: 1px solid var(--border-color);">
             <div class="container">
