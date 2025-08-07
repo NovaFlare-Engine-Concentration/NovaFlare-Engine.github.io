@@ -185,7 +185,7 @@
             </div>
         </section>
 
-        <script>
+                <script>
         // 从GitHub获取版本数据
         document.addEventListener('DOMContentLoaded', function() {
             const repoOwner = 'NovaFlare-Engine-Concentration';
@@ -290,7 +290,12 @@
                     if (!response.ok) throw new Error('Failed to fetch releases');
                     
                     allReleases = await response.json();
-                    totalPages = Math.ceil((allReleases.length - 1) / perPage); // 减去最新版本
+                    
+                    if (allReleases[0].prerelease){
+                        totalPages = Math.ceil(allReleases.length / perPage);
+                    }else{
+                        totalPages = Math.ceil((allReleases.length - 1) / perPage);
+                    }
                     
                     updateDownloadSection();
                     renderLatestVersion();
@@ -318,6 +323,11 @@
                 if (allReleases.length === 0) return;
                 
                 const latestRelease = allReleases[0];
+                
+                if(latestRelease.prerelease){
+                    latestRelease = allReleases[1];
+                }
+                
                 document.getElementById('latest-version').textContent = latestRelease.tag_name;
                 document.getElementById('release-date').textContent = `(${new Date(latestRelease.published_at).toLocaleDateString()})`;
                 
