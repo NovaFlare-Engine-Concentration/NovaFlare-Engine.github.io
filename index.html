@@ -107,7 +107,7 @@
             </div>
         </section>
 
-        <!-- 下载栏 - 添加版本信息， -->
+        <!-- 下载栏 - 添加版本信息 -->
         <section class="download section" id="download" style="padding: 80px 0;">
             <div class="container">
                 <h2 class="section-title" data-en="Download" data-zh="下载">下载</h2>
@@ -185,7 +185,7 @@
             </div>
         </section>
 
-                <script>
+        <script>
         // 从GitHub获取版本数据
         document.addEventListener('DOMContentLoaded', function() {
             const repoOwner = 'NovaFlare-Engine-Concentration';
@@ -290,12 +290,9 @@
                     if (!response.ok) throw new Error('Failed to fetch releases');
                     
                     allReleases = await response.json();
-                    
-                    if (allReleases[0].prerelease){
-                        totalPages = Math.ceil(allReleases.length / perPage);
-                    }else{
-                        totalPages = Math.ceil((allReleases.length - 1) / perPage);
-                    }
+                    let versionNum = 0;
+                    if (allReleases[0].prerelease) versionNum = 1;
+                    totalPages = Math.ceil((allReleases.length - 1) / perPage) + versionNum; // 减去最新版本
                     
                     updateDownloadSection();
                     renderLatestVersion();
@@ -322,11 +319,9 @@
             function updateDownloadSection() {
                 if (allReleases.length === 0) return;
                 
-                const latestRelease = allReleases[0];
-                
-                if(latestRelease.prerelease){
-                    latestRelease = allReleases[1];
-                }
+                let versionNum = 0;
+                if (allReleases[0].prerelease) versionNNum = 1;
+                const latestRelease = allReleases[versionNNum];
                 
                 document.getElementById('latest-version').textContent = latestRelease.tag_name;
                 document.getElementById('release-date').textContent = `(${new Date(latestRelease.published_at).toLocaleDateString()})`;
@@ -345,7 +340,12 @@
             function renderLatestVersion() {
                 if (allReleases.length === 0) return;
                 
-                const latestRelease = allReleases[0];
+                let versionNum = 0;
+                if(allReleases[0].prerelease) {
+                   versionNNum = 1;
+                }
+                const latestRelease = allReleases[versionNNum];
+                
                 document.getElementById('latest-version-card').innerHTML = `
                     <div class="version-header">
                         <h3>${latestRelease.tag_name}</h3>
@@ -381,9 +381,11 @@
                     `;
                     return;
                 }
+
+                let versionNum = 1;
+                if (allReleases[0].prerelease) versionNum = 0;
                 
-                // 跳过最新版本(索引0)
-                const startIdx = (currentPage - 1) * perPage + 1;
+                const startIdx = (currentPage - 1) * perPage + versionNum;
                 const endIdx = Math.min(startIdx + perPage, allReleases.length);
                 const currentReleases = allReleases.slice(startIdx, endIdx);
                 
@@ -449,6 +451,7 @@
             fetchReleases();
         });
         </script>
+
         <!-- 贡献者区域 - 简化版 -->
         <section class="contributors section" style="padding: 80px 0; background: rgba(var(--bg-secondary-rgb), 0.8); border-top: 1px solid var(--border-color);">
             <div class="container">
