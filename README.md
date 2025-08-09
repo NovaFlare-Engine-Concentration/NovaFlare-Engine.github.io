@@ -3,4 +3,4 @@
 
 Thank you very much for your domain name support from [Ajwyunsx](https://github.com/Ajwyunsx), the domain is valid from 2025.8.7 ~ 2026.8.7
 
-[www.novaflare.top](www.novaflare.top)
+[www.novaflare.top](http://www.novaflare.top)
