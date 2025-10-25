@@ -1,0 +1,122 @@
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaFlare Engine | 开发文档</title>
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        .docs-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .doc-card {
+            background: rgba(var(--bg-card-rgb), 0.9);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+        
+        .doc-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .doc-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="starfield"></canvas>
+
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <div class="navbar-logo">
+                <img src="images/logo.png" alt="NovaFlare Engine Logo">
+                <h1 data-en="NovaFlare Engine" data-zh="新星闪耀引擎">新星闪耀引擎</h1>
+            </div>
+            <div class="navbar-menu">
+                <div class="navbar-actions">
+                    <button id="theme-toggle" aria-label="切换主题">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button id="lang-toggle" aria-label="切换语言">
+                        <span data-en="中" data-zh="EN">中</span>
+                    </button>
+                </div>
+                <button class="mobile-menu-btn" id="menu-toggle" aria-label="菜单">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="docs-main">
+        <div class="container">
+            <section id="docs-selection">
+                <h2 class="section-title" data-en="Development Documentation" data-zh="开发文档">开发文档</h2>
+                <p class="section-subtitle" data-en="Choose the documentation type you need" data-zh="选择您需要的文档类型">选择您需要的文档类型</p>
+                
+                <div class="docs-selection">
+                    <div class="doc-card">
+                        <div class="doc-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3 data-en="Source Code Development" data-zh="源码开发">源码开发</h3>
+                        <p data-en="Complete guide for engine source code development and customization" data-zh="引擎源码开发与定制的完整指南">引擎源码开发与定制的完整指南</p>
+                        <a href="source_dev.html" class="btn btn-primary" data-en="View Documentation" data-zh="查看文档">查看文档</a>
+                    </div>
+                    
+                    <div class="doc-card">
+                        <div class="doc-icon">
+                            <i class="fas fa-scroll"></i>
+                        </div>
+                        <h3 data-en="Hscript Development" data-zh="Hscript脚本开发">Hscript脚本开发</h3>
+                        <p data-en="Guide for creating mods and content using Hscript" data-zh="使用Hscript创建Mod和内容的指南">使用Hscript创建Mod和内容的指南</p>
+                        <a href="hscript_dev.html" class="btn btn-primary" data-en="View Documentation" data-zh="查看文档">查看文档</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>NovaFlare Engine Development Documentation</p>
+            </div>
+            <ul class="footer-links">
+                <li><a href="../index.html" data-en="Home" data-zh="首页">首页</a></li>
+                <li><a href="#docs-selection" data-en="Documentation" data-zh="文档">文档</a></li>
+                <li><a href="../index.html#download" data-en="Download" data-zh="下载">下载</a></li>
+                <li><a href="../index.html#community" data-en="Community" data-zh="社区">社区</a></li>
+            </ul>
+            <div class="footer-social">
+                <a href="https://discord.gg/FkEwvRW2YZ" target="_blank" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                <a href="https://github.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://youtube.com/@beihu235" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            </div>
+            
+            <div class="footer-copyright">
+                <!--<p>&copy; 2025 NovaFlare Engine. <span data-en="All rights reserved." data-zh="保留所有权利。">保留所有权利。</span></p>-->
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/starfield.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/language.js"></script>
+</body>
+</html>
