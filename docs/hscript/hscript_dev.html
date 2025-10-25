@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NovaFlare Engine | HScript 开发文档</title>
-    <link rel="stylesheet" href="css/themes.css">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="../css/themes.css">
+    <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -165,7 +165,7 @@
     <nav class="navbar">
         <div class="container navbar-container">
             <div class="navbar-logo">
-                <img src="images/logo.png" alt="NovaFlare Engine Logo">
+                <img src="../images/logo.png" alt="NovaFlare Engine Logo">
                 <h1 data-en="NovaFlare Engine" data-zh="新星闪耀引擎">新星闪耀引擎</h1>
             </div>
             <div class="navbar-menu">
@@ -187,76 +187,32 @@
     <main class="docs-main">
         <div class="container">
             <div class="docs-container">
-                <!-- 侧边栏 - Haxe官网风格 -->
                 <aside class="sidebar">
                     <div class="sidebar-section active">
                         <div class="sidebar-header">
-                            <span><i class="fas fa-code me-2"></i> 基础语法</span>
+                            <span><i class="fas fa-code me-2"></i> 抽屉标题</span>
                             <i class="fas fa-chevron-right"></i>
                         </div>
                         <div class="sidebar-items">
-                            <a href="#variables" class="sidebar-item">变量与数据类型</a>
-                            <a href="#functions" class="sidebar-item">函数定义</a>
-                            <a href="#control-flow" class="sidebar-item">控制流程</a>
-                            <a href="#events" class="sidebar-item">事件处理</a>
-                        </div>
-                    </div>
-                    
-                    <div class="sidebar-section">
-                        <div class="sidebar-header">
-                            <span><i class="fas fa-cube me-2"></i> 核心API</span>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                        <div class="sidebar-items">
-                            <a href="#createSprite" class="sidebar-item">createSprite()</a>
-                            <a href="#playSound" class="sidebar-item">playSound()</a>
-                            <a href="#loadAsset" class="sidebar-item">loadAsset()</a>
-                            <a href="#addEventListener" class="sidebar-item">addEventListener()</a>
-                        </div>
-                    </div>
-                    
-                    <div class="sidebar-section">
-                        <div class="sidebar-header">
-                            <span><i class="fas fa-gamepad me-2"></i> 游戏功能</span>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                        <div class="sidebar-items">
-                            <a href="#animation" class="sidebar-item">动画系统</a>
-                            <a href="#physics" class="sidebar-item">物理引擎</a>
-                            <a href="#ui" class="sidebar-item">用户界面</a>
-                            <a href="#input" class="sidebar-item">输入处理</a>
+                            <a href="#variables" class="sidebar-item">抽屉物件名称</a>
                         </div>
                     </div>
                 </aside>
 
-                <!-- 主内容区域 -->
                 <div class="docs-content">
                     <div class="intro-section">
                         <h2 data-en="Introduction to HScript" data-zh="HScript 简介">HScript 简介</h2>
                         <div class="intro-content">
                             <div class="intro-text">
-                                <p data-en="HScript is a powerful scripting language designed specifically for NovaFlare Engine. It provides an easy-to-learn syntax while offering deep integration with the engine's core functionality."
-                                   data-zh="HScript是专为NovaFlare Engine设计的强大脚本语言。它提供了易于学习的语法，同时与引擎核心功能深度集成。">
-                                    HScript是专为NovaFlare Engine设计的强大脚本语言。它提供了易于学习的语法，同时与引擎核心功能深度集成。
-                                </p>
-                                <p data-en="With HScript, developers can quickly create game logic, UI interactions, character behaviors, and more without needing to modify the engine source code."
-                                   data-zh="使用HScript，开发者可以快速创建游戏逻辑、UI交互、角色行为等，而无需修改引擎源代码。">
-                                    使用HScript，开发者可以快速创建游戏逻辑、UI交互、角色行为等，而无需修改引擎源代码。
-                                </p>
-                                <p data-en="The language supports hot-reloading, allowing you to see changes in real-time without restarting the game or application."
-                                   data-zh="该语言支持热重载，允许您在不重启游戏或应用的情况下实时查看更改。">
-                                    该语言支持热重载，允许您在不重启游戏或应用的情况下实时查看更改。
+                                <p data-en="This is a fork of 'hscript-iris', similar to the fusion of 'hscript-improved' and 'hscript-iris' features (although without much reference), specifically designed for use by 'Novaflare-Engine'"
+                                   data-zh="这是“hscript-iris”的分支，类似于“hscript-imoved”和“hscript-iris”特性的融合(尽管没有太多参考)，是专门为“novaflare-engine”设计的">
+                                    这是“hscript-iris”的分支，类似于“hscript-imoved”和“hscript-iris”特性的融合(尽管没有太多参考)，是专门为“novaflare-engine”设计的
                                 </p>
                             </div>
                             <div class="intro-features">
                                 <h3 data-en="Key Features" data-zh="主要特性">主要特性</h3>
                                 <ul>
-                                    <li data-en="JavaScript-like syntax" data-zh="类似JavaScript的语法">类似JavaScript的语法</li>
-                                    <li data-en="Full access to engine API" data-zh="完全访问引擎API">完全访问引擎API</li>
-                                    <li data-en="Real-time hot reloading" data-zh="实时热重载">实时热重载</li>
-                                    <li data-en="Cross-platform compatibility" data-zh="跨平台兼容性">跨平台兼容性</li>
-                                    <li data-en="Modular script organization" data-zh="模块化脚本组织">模块化脚本组织</li>
-                                    <li data-en="Built-in debugging tools" data-zh="内置调试工具">内置调试工具</li>
+                                    <li data-en="Hello word" data-zh="你好世界">你好世界</li>
                                 </ul>
                             </div>
                         </div>
@@ -273,7 +229,7 @@
             </div>
             <ul class="footer-links">
                 <li><a href="../index.html" data-en="Home" data-zh="首页">首页</a></li>
-                <li><a href="#docs-selection" data-en="Documentation" data-zh="文档">文档</a></li>
+                <li><a href="../docs-choose.html" data-en="Documentation" data-zh="文档">文档</a></li>
                 <li><a href="../index.html#download" data-en="Download" data-zh="下载">下载</a></li>
                 <li><a href="../index.html#community" data-en="Community" data-zh="社区">社区</a></li>
             </ul>
@@ -289,16 +245,14 @@
         </div>
     </footer>
 
-    <script src="js/starfield.js"></script>
-    <script src="js/theme.js"></script>
-    <script src="js/language.js"></script>
+    <script src="../js/starfield.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/language.js"></script>
     <script>
-        // 侧边栏功能
         document.addEventListener('DOMContentLoaded', function() {
             const sidebarHeaders = document.querySelectorAll('.sidebar-header');
             const sidebarItems = document.querySelectorAll('.sidebar-item');
             
-            // 侧边栏部分展开/折叠
             sidebarHeaders.forEach(header => {
                 header.addEventListener('click', function() {
                     const section = this.parentElement;
@@ -308,7 +262,6 @@
                 });
             });
             
-            // 侧边栏项点击
             sidebarItems.forEach(item => {
                 item.addEventListener('click', function() {
                     sidebarItems.forEach(i => i.classList.remove('active'));
