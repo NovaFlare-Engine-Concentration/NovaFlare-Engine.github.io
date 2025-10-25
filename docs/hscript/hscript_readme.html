@@ -338,5 +338,31 @@ var sb:Array<YouObject>;
             });
         });
     </script>
+    
+    <script src="../../js/starfield.js"></script>
+    <script src="../../js/theme.js"></script>
+    <script src="../../js/language.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebarHeaders = document.querySelectorAll('.sidebar-header');
+            const sidebarItems = document.querySelectorAll('.sidebar-item');
+            
+            sidebarHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const section = this.parentElement;
+                    section.classList.toggle('active');
+                    this.querySelector('i:last-child').classList.toggle('fa-chevron-right');
+                    this.querySelector('i:last-child').classList.toggle('fa-chevron-down');
+                });
+            });
+            
+            sidebarItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    sidebarItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
 </body>
 </html>
