@@ -1,15 +1,15 @@
-<!DOCTYPE html>
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NovaFlare Engine | HScript 开发文档</title>
-    <link rel="stylesheet" href="../../css/themes.css">
-    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../../../css/themes.css">
+    <link rel="stylesheet" href="../../../../css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
     <style>
         .docs-container {
             display: flex;
@@ -17,7 +17,6 @@
             margin-top: 30px;
         }
         
-        /* 侧边栏样式 */
         .sidebar {
             width: 280px;
             background: rgba(var(--bg-card-rgb), 0.9);
@@ -80,7 +79,7 @@
             color: var(--accent-color);
         }
         
-        /* 主内容区域 */
+        /* 文档内容样式 */
         .docs-content {
             flex: 1;
             background: rgba(var(--bg-card-rgb), 0.9);
@@ -89,11 +88,11 @@
             border: 1px solid var(--border-color);
         }
         
-        .intro-section {
-            margin-bottom: 40px;
+        .doc-section {
+            margin-bottom: 50px;
         }
         
-        .intro-section h2 {
+        .doc-section h2 {
             color: var(--accent-color);
             margin-bottom: 20px;
             font-size: 1.8rem;
@@ -101,46 +100,66 @@
             padding-bottom: 10px;
         }
         
-        .intro-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
+        .doc-section h3 {
+            color: var(--text-primary);
+            margin: 25px 0 15px;
+            font-size: 1.4rem;
         }
         
-        .intro-text p {
+        .function-name {
+            background: var(--accent-color);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 1.1rem;
+            display: inline-block;
             margin-bottom: 15px;
+        }
+        
+        .function-explanation, .function-notes {
+            margin: 15px 0;
             line-height: 1.6;
         }
         
-        .intro-features {
-            background: rgba(255, 255, 255, 0.05);
+        .function-notes {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        
+        .code-block {
+            margin: 20px 0;
             border-radius: 8px;
-            padding: 20px;
+            overflow: hidden;
         }
         
-        .intro-features h3 {
-            margin-bottom: 15px;
-            color: var(--accent-color);
+        .code-header {
+            background: #2d2d2d;
+            color: #ccc;
+            padding: 10px 15px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
-        .intro-features ul {
-            list-style-type: none;
+        .code-copy {
+            background: none;
+            border: none;
+            color: #ccc;
+            cursor: pointer;
+            font-size: 0.8rem;
         }
         
-        .intro-features li {
-            margin-bottom: 10px;
-            padding-left: 25px;
-            position: relative;
+        pre[class*="language-"] {
+            margin: 0;
+            border-radius: 0;
         }
         
-        .intro-features li:before {
-            content: "✓";
-            color: var(--accent-color);
-            position: absolute;
-            left: 0;
-            font-weight: bold;
-        }
-
+        /* 响应式设计 */
         @media (max-width: 768px) {
             .docs-container {
                 flex-direction: column;
@@ -152,10 +171,6 @@
                 margin-bottom: 20px;
                 position: static;
             }
-            
-            .intro-content {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
 </head>
@@ -165,7 +180,7 @@
     <nav class="navbar">
         <div class="container navbar-container">
             <div class="navbar-logo">
-                <img src="../../images/logo.png" alt="NovaFlare Engine Logo">
+                
                 <h1 data-en="NovaFlare Engine" data-zh="新星闪耀引擎">新星闪耀引擎</h1>
             </div>
             <div class="navbar-menu">
@@ -205,27 +220,43 @@
                             <i class="fas fa-chevron-right"></i>
                         </div>
                         <div class="sidebar-items">
-                            <a href="hscript_readme.html" class="sidebar-item">看我看我</a>
+                            <a href="#" class="sidebar-item">看我看我</a>
                         </div>
                     </div>
                     
                 </aside>
 
+                <!-- 文档内容区域 -->
                 <div class="docs-content">
-                    <div class="intro-section">
-                        <h2 data-en="Introduction to HScript" data-zh="HScript 简介">HScript 简介</h2>
-                        <div class="intro-content">
-                            <div class="intro-text">
-                                <p data-en="This is a fork of 'hscript-iris', similar to the fusion of 'hscript-improved' and 'hscript-iris' features (although without much reference), specifically designed for use by 'Novaflare-Engine'"
-                                   data-zh="这是“hscript-iris”的分支，类似于“hscript-imoved”和“hscript-iris”特性的融合(尽管没有太多参考)，是专门为“novaflare-engine”设计的">
-                                    这是“hscript-iris”的分支，类似于“hscript-imoved”和“hscript-iris”特性的融合(尽管没有太多参考)，是专门为“novaflare-engine”设计的
-                                </p>
-                            </div>
-                            <div class="intro-features">
-                                <h3 data-en="Key Features" data-zh="主要特性">主要特性</h3>
-                                <ul>
-                                    <li data-en="Hello word" data-zh="你好世界">你好世界</li>
-                                </ul>
+                    <div class="doc-section" id="createSprite">
+                        <h2 data-en="Look me" data-zh="看我">看我</h2>
+
+                        <div class="function-notes">
+                            <h3 data-en="Notes" data-zh="注意事项">注意事项</h3>
+                            <ul>
+                                <li data-en="In this Hscript because something irresistible causes a problem, you put an object of a custom class in array, and that object inherits a class, then the object will be cast to the class you inherited (the parent class), so you can't use the custom functions and variables in the object."
+                                   data-zh="在这个Hscript中因为一些不可抗因素会导致一个问题，你往Array里存一个自定义类的对象，并且这个对象继承了某个类，那么这个对象会被强制转换成你所继承的类（父类），导致你不能使用这个对象里面的自定义函数和变量。">
+                                    在这个Hscript中因为一些不可抗因素会导致一个问题，你往Array里存一个自定义类的对象，并且这个对象继承了某个类，那么这个对象会被强制转换成你所继承的类（父类），导致你不能使用这个对象里面的自定义函数和变量。
+                                </li>
+                                
+                                <li data-en="If you don't want him to force a subclass to be a parent, add the following metadata to the location where you store the objects in array."
+                                   data-zh="如果你不想要让他强制把子类转成父类那么就把以下元数据添加到你往Array存对象的位置。">
+                                   如果你不想要让他强制把子类转成父类那么就把以下元数据添加到你往Array存对象的位置。
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- 函数实操代码 -->
+                        <div class="function-example">
+                            <h3 data-en="Example Usage" data-zh="使用示例">使用示例</h3>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>HScript</span>
+                                    <button class="code-copy" data-en="Copy" data-zh="复制">复制</button>
+                                </div>
+                                <pre><code class="language-javascript">
+var sb:Array<YouObject>;
+@:unpass_standard sb.push(new YouObject());</code></pre>
                             </div>
                         </div>
                     </div>
@@ -257,14 +288,17 @@
         </div>
     </footer>
 
-    <script src="../../js/starfield.js"></script>
-    <script src="../../js/theme.js"></script>
-    <script src="../../js/language.js"></script>
+    <!-- 代码高亮脚本 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    
     <script>
+        // 侧边栏展开/折叠功能
         document.addEventListener('DOMContentLoaded', function() {
             const sidebarHeaders = document.querySelectorAll('.sidebar-header');
             const sidebarItems = document.querySelectorAll('.sidebar-item');
             
+            // 侧边栏部分展开/折叠
             sidebarHeaders.forEach(header => {
                 header.addEventListener('click', function() {
                     const section = this.parentElement;
@@ -274,10 +308,32 @@
                 });
             });
             
+            // 侧边栏项点击
             sidebarItems.forEach(item => {
                 item.addEventListener('click', function() {
                     sidebarItems.forEach(i => i.classList.remove('active'));
                     this.classList.add('active');
+                });
+            });
+            
+            // 代码复制功能
+            const copyButtons = document.querySelectorAll('.code-copy');
+            copyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const codeBlock = this.closest('.code-block').querySelector('code');
+                    const textArea = document.createElement('textarea');
+                    textArea.value = codeBlock.textContent;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    
+                    // 显示复制成功提示
+                    const originalText = this.textContent;
+                    this.textContent = this.getAttribute('data-en') === 'Copy' ? 'Copied!' : '已复制!';
+                    setTimeout(() => {
+                        this.textContent = originalText;
+                    }, 2000);
                 });
             });
         });
