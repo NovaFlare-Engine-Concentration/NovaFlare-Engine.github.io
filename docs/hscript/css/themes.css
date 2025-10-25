@@ -1,0 +1,72 @@
+/* NovaFlare Engine - 主题样式 */
+
+/* 亮色主题 (默认) */
+:root {
+  --primary: #2563eb;
+  --text-primary: #1f2937;
+  --text-secondary: #4b5563;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9fafb;
+  --bg-card: #ffffff;
+  --border-color: #e5e7eb;
+  --shadow-color: rgba(0, 0, 0, 0.05);
+}
+
+/* 暗色主题 */
+[data-theme="dark"] {
+  --primary: #60a5fa;
+  --text-primary: #f3f4f6;
+  --text-secondary: #9ca3af;
+  --bg-primary: #111827;
+  --bg-secondary: #1f2937;
+  --bg-card: #1f2937;
+  --border-color: #374151;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* 主题切换图标 */
+.light-theme #theme-toggle i.fa-moon {
+  display: inline-block;
+}
+
+.light-theme #theme-toggle i.fa-sun {
+  display: none;
+}
+
+.dark-theme #theme-toggle i.fa-moon {
+  display: none;
+}
+
+.dark-theme #theme-toggle i.fa-sun {
+  display: inline-block;
+}
+
+/* 暗色主题特定样式 */
+.dark-theme header {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.dark-theme .feature-card,
+.dark-theme .download-card,
+.dark-theme .doc-card,
+.dark-theme .community-card {
+  border: 1px solid var(--border-color);
+}
+
+/* 主题过渡动画 */
+body,
+header,
+.feature-card,
+.download-card,
+.doc-card,
+.community-card,
+footer,
+.nav-links,
+.nav-controls button,
+a {
+  transition: 
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}

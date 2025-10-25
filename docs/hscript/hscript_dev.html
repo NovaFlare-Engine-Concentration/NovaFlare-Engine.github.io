@@ -10,15 +10,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
     <style>
-        /* 侧边栏样式 - Haxe官网风格 */
         .docs-container {
             display: flex;
             min-height: calc(100vh - 200px);
             margin-top: 30px;
         }
         
+        /* 侧边栏样式 */
         .sidebar {
             width: 280px;
             background: rgba(var(--bg-card-rgb), 0.9);
@@ -81,7 +80,7 @@
             color: var(--accent-color);
         }
         
-        /* 文档内容样式 */
+        /* 主内容区域 */
         .docs-content {
             flex: 1;
             background: rgba(var(--bg-card-rgb), 0.9);
@@ -90,11 +89,11 @@
             border: 1px solid var(--border-color);
         }
         
-        .doc-section {
-            margin-bottom: 50px;
+        .intro-section {
+            margin-bottom: 40px;
         }
         
-        .doc-section h2 {
+        .intro-section h2 {
             color: var(--accent-color);
             margin-bottom: 20px;
             font-size: 1.8rem;
@@ -102,66 +101,46 @@
             padding-bottom: 10px;
         }
         
-        .doc-section h3 {
-            color: var(--text-primary);
-            margin: 25px 0 15px;
-            font-size: 1.4rem;
+        .intro-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
         }
         
-        .function-name {
-            background: var(--accent-color);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-family: monospace;
-            font-size: 1.1rem;
-            display: inline-block;
+        .intro-text p {
             margin-bottom: 15px;
-        }
-        
-        .function-explanation, .function-notes {
-            margin: 15px 0;
             line-height: 1.6;
         }
         
-        .function-notes {
-            background: rgba(255, 193, 7, 0.1);
-            border-left: 4px solid #ffc107;
-            padding: 15px;
-            border-radius: 4px;
-        }
-        
-        .code-block {
-            margin: 20px 0;
+        .intro-features {
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 8px;
-            overflow: hidden;
+            padding: 20px;
         }
         
-        .code-header {
-            background: #2d2d2d;
-            color: #ccc;
-            padding: 10px 15px;
-            font-family: monospace;
-            font-size: 0.9rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .intro-features h3 {
+            margin-bottom: 15px;
+            color: var(--accent-color);
         }
         
-        .code-copy {
-            background: none;
-            border: none;
-            color: #ccc;
-            cursor: pointer;
-            font-size: 0.8rem;
+        .intro-features ul {
+            list-style-type: none;
         }
         
-        pre[class*="language-"] {
-            margin: 0;
-            border-radius: 0;
+        .intro-features li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
         }
         
-        /* 响应式设计 */
+        .intro-features li:before {
+            content: "✓";
+            color: var(--accent-color);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
         @media (max-width: 768px) {
             .docs-container {
                 flex-direction: column;
@@ -173,6 +152,10 @@
                 margin-bottom: 20px;
                 position: static;
             }
+            
+            .intro-content {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -182,7 +165,7 @@
     <nav class="navbar">
         <div class="container navbar-container">
             <div class="navbar-logo">
-                
+                <img src="images/logo.png" alt="NovaFlare Engine Logo">
                 <h1 data-en="NovaFlare Engine" data-zh="新星闪耀引擎">新星闪耀引擎</h1>
             </div>
             <div class="navbar-menu">
@@ -203,12 +186,6 @@
 
     <main class="docs-main">
         <div class="container">
-            <!-- 大标题 -->
-            <h1 class="section-title" data-en="HScript Development Documentation" data-zh="HScript 开发文档">HScript 开发文档</h1>
-            
-            <!-- 小标题 -->
-            <p class="section-subtitle" data-en="Complete guide for HScript scripting in NovaFlare Engine" data-zh="NovaFlare Engine 中 HScript 脚本的完整指南">NovaFlare Engine 中 HScript 脚本的完整指南</p>
-            
             <div class="docs-container">
                 <!-- 侧边栏 - Haxe官网风格 -->
                 <aside class="sidebar">
@@ -231,7 +208,7 @@
                             <i class="fas fa-chevron-right"></i>
                         </div>
                         <div class="sidebar-items">
-                            <a href="#createSprite" class="sidebar-item active">createSprite()</a>
+                            <a href="#createSprite" class="sidebar-item">createSprite()</a>
                             <a href="#playSound" class="sidebar-item">playSound()</a>
                             <a href="#loadAsset" class="sidebar-item">loadAsset()</a>
                             <a href="#addEventListener" class="sidebar-item">addEventListener()</a>
@@ -252,111 +229,35 @@
                     </div>
                 </aside>
 
-                <!-- 文档内容区域 -->
+                <!-- 主内容区域 -->
                 <div class="docs-content">
-                    <!-- 函数文档模板 -->
-                    <div class="doc-section" id="createSprite">
-                        <!-- 函数名称 -->
-                        <h2 data-en="Function: createSprite()" data-zh="函数: createSprite()">函数: createSprite()</h2>
-                        <div class="function-name">createSprite(x:Float, y:Float, ?graphic:GraphicAsset):Sprite</div>
-                        
-                        <!-- 函数解释 -->
-                        <div class="function-explanation">
-                            <p data-en="Creates a new sprite object at the specified position with an optional graphic asset." 
-                               data-zh="在指定位置创建一个新的精灵对象，可选择性地指定图形资源。">
-                                在指定位置创建一个新的精灵对象，可选择性地指定图形资源。
-                            </p>
-                            <p data-en="This function is the primary method for creating visual elements in NovaFlare Engine. It returns a Sprite object that can be added to the display list and manipulated through various properties and methods."
-                               data-zh="这是NovaFlare Engine中创建视觉元素的主要方法。它返回一个Sprite对象，可以添加到显示列表并通过各种属性和方法进行操作。">
-                                这是NovaFlare Engine中创建视觉元素的主要方法。它返回一个Sprite对象，可以添加到显示列表并通过各种属性和方法进行操作。
-                            </p>
-                        </div>
-                        
-                        <!-- 函数注意事项 -->
-                        <div class="function-notes">
-                            <h3 data-en="Notes" data-zh="注意事项">注意事项</h3>
-                            <ul>
-                                <li data-en="The sprite will not be visible until added to a display object container."
-                                   data-zh="精灵在添加到显示对象容器之前不会可见。">
-                                    精灵在添加到显示对象容器之前不会可见。
-                                </li>
-                                <li data-en="If no graphic is provided, the sprite will be created as an empty container."
-                                   data-zh="如果没有提供图形资源，精灵将创建为空容器。">
-                                    如果没有提供图形资源，精灵将创建为空容器。
-                                </li>
-                                <li data-en="Coordinates are relative to the parent container's coordinate system."
-                                   data-zh="坐标相对于父容器的坐标系。">
-                                    坐标相对于父容器的坐标系。
-                                </li>
-                            </ul>
-                        </div>
-                        
-                        <!-- 函数实操代码 -->
-                        <div class="function-example">
-                            <h3 data-en="Example Usage" data-zh="使用示例">使用示例</h3>
-                            <div class="code-block">
-                                <div class="code-header">
-                                    <span>HScript</span>
-                                    <button class="code-copy" data-en="Copy" data-zh="复制">复制</button>
-                                </div>
-                                <pre><code class="language-javascript">// 创建一个位于屏幕中央的精灵
-var playerSprite = createSprite(400, 300, "assets/images/player.png");
-
-// 设置精灵属性
-playerSprite.scaleX = playerSprite.scaleY = 0.5;
-playerSprite.alpha = 0.8;
-
-// 将精灵添加到舞台
-addChild(playerSprite);
-
-// 为精灵添加动画
-playerSprite.animation.add("walk", [0, 1, 2, 3], 10, true);
-playerSprite.animation.play("walk");</code></pre>
+                    <div class="intro-section">
+                        <h2 data-en="Introduction to HScript" data-zh="HScript 简介">HScript 简介</h2>
+                        <div class="intro-content">
+                            <div class="intro-text">
+                                <p data-en="HScript is a powerful scripting language designed specifically for NovaFlare Engine. It provides an easy-to-learn syntax while offering deep integration with the engine's core functionality."
+                                   data-zh="HScript是专为NovaFlare Engine设计的强大脚本语言。它提供了易于学习的语法，同时与引擎核心功能深度集成。">
+                                    HScript是专为NovaFlare Engine设计的强大脚本语言。它提供了易于学习的语法，同时与引擎核心功能深度集成。
+                                </p>
+                                <p data-en="With HScript, developers can quickly create game logic, UI interactions, character behaviors, and more without needing to modify the engine source code."
+                                   data-zh="使用HScript，开发者可以快速创建游戏逻辑、UI交互、角色行为等，而无需修改引擎源代码。">
+                                    使用HScript，开发者可以快速创建游戏逻辑、UI交互、角色行为等，而无需修改引擎源代码。
+                                </p>
+                                <p data-en="The language supports hot-reloading, allowing you to see changes in real-time without restarting the game or application."
+                                   data-zh="该语言支持热重载，允许您在不重启游戏或应用的情况下实时查看更改。">
+                                    该语言支持热重载，允许您在不重启游戏或应用的情况下实时查看更改。
+                                </p>
                             </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 第二个函数示例 -->
-                    <div class="doc-section" id="playSound">
-                        <h2 data-en="Function: playSound()" data-zh="函数: playSound()">函数: playSound()</h2>
-                        <div class="function-name">playSound(soundId:String, ?volume:Float = 1.0, ?looped:Bool = false):SoundChannel</div>
-                        
-                        <div class="function-explanation">
-                            <p data-en="Plays a sound effect or music track with specified parameters."
-                               data-zh="播放音效或音乐轨道，可指定参数。">
-                                播放音效或音乐轨道，可指定参数。
-                            </p>
-                        </div>
-                        
-                        <div class="function-notes">
-                            <h3 data-en="Notes" data-zh="注意事项">注意事项</h3>
-                            <ul>
-                                <li data-en="Sound must be preloaded using the asset loading system."
-                                   data-zh="声音必须使用资源加载系统预先加载。">
-                                    声音必须使用资源加载系统预先加载。
-                                </li>
-                                <li data-en="Volume range is 0.0 (silent) to 1.0 (full volume)."
-                                   data-zh="音量范围是0.0（静音）到1.0（最大音量）。">
-                                    音量范围是0.0（静音）到1.0（最大音量）。
-                                </li>
-                            </ul>
-                        </div>
-                        
-                        <div class="function-example">
-                            <h3 data-en="Example Usage" data-zh="使用示例">使用示例</h3>
-                            <div class="code-block">
-                                <div class="code-header">
-                                    <span>HScript</span>
-                                    <button class="code-copy" data-en="Copy" data-zh="复制">复制</button>
-                                </div>
-                                <pre><code class="language-javascript">// 播放跳跃音效
-var jumpSound = playSound("jump", 0.7);
-
-// 播放背景音乐（循环）
-var bgMusic = playSound("bgm_main", 0.5, true);
-
-// 停止背景音乐
-bgMusic.stop();</code></pre>
+                            <div class="intro-features">
+                                <h3 data-en="Key Features" data-zh="主要特性">主要特性</h3>
+                                <ul>
+                                    <li data-en="JavaScript-like syntax" data-zh="类似JavaScript的语法">类似JavaScript的语法</li>
+                                    <li data-en="Full access to engine API" data-zh="完全访问引擎API">完全访问引擎API</li>
+                                    <li data-en="Real-time hot reloading" data-zh="实时热重载">实时热重载</li>
+                                    <li data-en="Cross-platform compatibility" data-zh="跨平台兼容性">跨平台兼容性</li>
+                                    <li data-en="Modular script organization" data-zh="模块化脚本组织">模块化脚本组织</li>
+                                    <li data-en="Built-in debugging tools" data-zh="内置调试工具">内置调试工具</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -388,12 +289,11 @@ bgMusic.stop();</code></pre>
         </div>
     </footer>
 
-    <!-- 代码高亮脚本 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
-    
+    <script src="js/starfield.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/language.js"></script>
     <script>
-        // 侧边栏展开/折叠功能
+        // 侧边栏功能
         document.addEventListener('DOMContentLoaded', function() {
             const sidebarHeaders = document.querySelectorAll('.sidebar-header');
             const sidebarItems = document.querySelectorAll('.sidebar-item');
@@ -413,27 +313,6 @@ bgMusic.stop();</code></pre>
                 item.addEventListener('click', function() {
                     sidebarItems.forEach(i => i.classList.remove('active'));
                     this.classList.add('active');
-                });
-            });
-            
-            // 代码复制功能
-            const copyButtons = document.querySelectorAll('.code-copy');
-            copyButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const codeBlock = this.closest('.code-block').querySelector('code');
-                    const textArea = document.createElement('textarea');
-                    textArea.value = codeBlock.textContent;
-                    document.body.appendChild(textArea);
-                    textArea.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(textArea);
-                    
-                    // 显示复制成功提示
-                    const originalText = this.textContent;
-                    this.textContent = this.getAttribute('data-en') === 'Copy' ? 'Copied!' : '已复制!';
-                    setTimeout(() => {
-                        this.textContent = originalText;
-                    }, 2000);
                 });
             });
         });
