@@ -1,324 +1,426 @@
+<!DOCTYPE html>
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NovaFlare Engine | HScript 开发</title>
+    <title>NovaFlare Engine | HScript 开发文档</title>
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
     <style>
-        :root {
-            --bg-primary: #1a1a2e;
-            --bg-secondary: #16213e;
-            --bg-card: #0f3460;
-            --accent-color: #e94560;
-            --text-primary: #ffffff;
-            --text-secondary: #b8b8b8;
-            --border-color: #2a2a4a;
-            --font-main: 'Inter', 'Noto Sans SC', sans-serif;
+        /* 侧边栏样式 - Haxe官网风格 */
+        .docs-container {
+            display: flex;
+            min-height: calc(100vh - 200px);
+            margin-top: 30px;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: var(--font-main);
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .header {
-            text-align: center;
-            padding: 40px 0;
-            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+        
+        .sidebar {
+            width: 280px;
+            background: rgba(var(--bg-card-rgb), 0.9);
             border-radius: 12px;
-            margin-bottom: 40px;
+            padding: 20px;
+            margin-right: 30px;
             border: 1px solid var(--border-color);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
         }
-
-        .page-title {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
+        
+        .sidebar-section {
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--accent-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .sidebar-header i {
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar-header.active i {
+            transform: rotate(90deg);
+        }
+        
+        .sidebar-items {
+            padding-left: 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .sidebar-section.active .sidebar-items {
+            max-height: 500px;
+        }
+        
+        .sidebar-item {
+            display: block;
+            padding: 8px 10px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 6px;
+            margin: 5px 0;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+        
+        .sidebar-item:hover, .sidebar-item.active {
+            background: rgba(var(--accent-rgb), 0.1);
             color: var(--accent-color);
         }
-
-        .page-subtitle {
-            color: var(--text-secondary);
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .intro-section {
-            background: var(--bg-card);
+        
+        /* 文档内容样式 */
+        .docs-content {
+            flex: 1;
+            background: rgba(var(--bg-card-rgb), 0.9);
             border-radius: 12px;
             padding: 30px;
-            margin-bottom: 40px;
             border: 1px solid var(--border-color);
         }
-
-        .intro-section h2 {
+        
+        .doc-section {
+            margin-bottom: 50px;
+        }
+        
+        .doc-section h2 {
             color: var(--accent-color);
             margin-bottom: 20px;
             font-size: 1.8rem;
             border-bottom: 2px solid var(--accent-color);
             padding-bottom: 10px;
         }
-
-        .intro-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            align-items: center;
+        
+        .doc-section h3 {
+            color: var(--text-primary);
+            margin: 25px 0 15px;
+            font-size: 1.4rem;
         }
-
-        .intro-text p {
-            margin-bottom: 15px;
-            font-size: 1.05rem;
-        }
-
-        .intro-features {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            padding: 20px;
-        }
-
-        .intro-features h3 {
-            margin-bottom: 15px;
-            color: var(--accent-color);
-        }
-
-        .intro-features ul {
-            list-style-type: none;
-        }
-
-        .intro-features li {
-            margin-bottom: 10px;
-            padding-left: 25px;
-            position: relative;
-        }
-
-        .intro-features li:before {
-            content: "✓";
-            color: var(--accent-color);
-            position: absolute;
-            left: 0;
-            font-weight: bold;
-        }
-
-        .quick-links {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 40px;
-        }
-
-        .link-card {
-            background: var(--bg-card);
-            border-radius: 8px;
-            padding: 25px;
-            text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: 1px solid var(--border-color);
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .link-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .link-icon {
-            font-size: 2.5rem;
-            color: var(--accent-color);
+        
+        .function-name {
+            background: var(--accent-color);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 1.1rem;
+            display: inline-block;
             margin-bottom: 15px;
         }
-
-        .link-card h3 {
-            margin-bottom: 10px;
-            font-size: 1.3rem;
+        
+        .function-explanation, .function-notes {
+            margin: 15px 0;
+            line-height: 1.6;
         }
-
-        .link-card p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
+        
+        .function-notes {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 4px;
         }
-
-        .code-preview {
-            background: #1e1e1e;
+        
+        .code-block {
+            margin: 20px 0;
             border-radius: 8px;
             overflow: hidden;
-            margin-top: 30px;
         }
-
+        
         .code-header {
             background: #2d2d2d;
             color: #ccc;
             padding: 10px 15px;
             font-family: monospace;
+            font-size: 0.9rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
+        
         .code-copy {
             background: none;
             border: none;
             color: #ccc;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
-
+        
         pre[class*="language-"] {
             margin: 0;
             border-radius: 0;
-            font-size: 0.9rem;
         }
-
+        
+        /* 响应式设计 */
         @media (max-width: 768px) {
-            .intro-content {
-                grid-template-columns: 1fr;
+            .docs-container {
+                flex-direction: column;
             }
             
-            .quick-links {
-                grid-template-columns: 1fr;
-            }
-            
-            .page-title {
-                font-size: 2rem;
+            .sidebar {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 20px;
+                position: static;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1 class="page-title">NovaFlare Engine HScript 开发</h1>
-            <p class="page-subtitle">使用 HScript 脚本语言快速创建游戏内容和模组</p>
-        </div>
-        
-        <div class="intro-section">
-            <h2>HScript 简介</h2>
-            <div class="intro-content">
-                <div class="intro-text">
-                    <p>HScript 是 NovaFlare Engine 内置的脚本语言，专为游戏内容创建和模组开发而设计。它提供了简单易用的语法和强大的功能，让开发者能够快速实现游戏逻辑、角色行为、UI交互等。</p>
-                    <p>无论您是初学者还是经验丰富的开发者，HScript 都能帮助您快速上手并创建出令人印象深刻的游戏内容。</p>
-                    <p>HScript 语法类似于 JavaScript，但针对游戏开发进行了优化，包含了许多游戏开发专用的函数和特性。</p>
-                </div>
-                <div class="intro-features">
-                    <h3>主要特性</h3>
-                    <ul>
-                        <li>简单易学的语法</li>
-                        <li>强大的游戏API集成</li>
-                        <li>实时热重载功能</li>
-                        <li>跨平台兼容性</li>
-                        <li>丰富的社区资源</li>
-                        <li>与引擎深度集成</li>
-                    </ul>
-                </div>
+    <canvas id="starfield"></canvas>
+
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <div class="navbar-logo">
+                
+                <h1 data-en="NovaFlare Engine" data-zh="新星闪耀引擎">新星闪耀引擎</h1>
             </div>
-            
-            <div class="code-preview">
-                <div class="code-header">
-                    <span>HScript 示例</span>
-                    <button class="code-copy">
-                        <i class="fas fa-copy me-1"></i> 复制
+            <div class="navbar-menu">
+                <div class="navbar-actions">
+                    <button id="theme-toggle" aria-label="切换主题">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button id="lang-toggle" aria-label="切换语言">
+                        <span data-en="中" data-zh="EN">中</span>
                     </button>
                 </div>
-                <pre><code class="language-javascript">// 创建一个简单的角色控制器
-function createPlayer(x, y) {
-    var player = {
-        x: x,
-        y: y,
-        speed: 5,
-        sprite: null
-    };
-    
-    // 初始化精灵
-    player.sprite = createSprite(x, y, "assets/player.png");
-    
-    // 更新函数
-    player.update = function() {
-        // 处理输入
-        if (isKeyDown("LEFT")) player.x -= player.speed;
-        if (isKeyDown("RIGHT")) player.x += player.speed;
-        if (isKeyDown("UP")) player.y -= player.speed;
-        if (isKeyDown("DOWN")) player.y += player.speed;
-        
-        // 更新精灵位置
-        player.sprite.x = player.x;
-        player.sprite.y = player.y;
-    };
-    
-    return player;
-}
-
-// 创建玩家实例
-var myPlayer = createPlayer(100, 100);</code></pre>
+                <button class="mobile-menu-btn" id="menu-toggle" aria-label="菜单">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
         </div>
-        
-        <div class="quick-links">
-            <a href="hscript_basics.html" class="link-card">
-                <div class="link-icon">
-                    <i class="fas fa-book-open"></i>
-                </div>
-                <h3>基础语法</h3>
-                <p>学习 HScript 的基本语法和结构</p>
-            </a>
+    </nav>
+
+    <main class="docs-main">
+        <div class="container">
+            <!-- 大标题 -->
+            <h1 class="section-title" data-en="HScript Development Documentation" data-zh="HScript 开发文档">HScript 开发文档</h1>
             
-            <a href="hscript_api.html" class="link-card">
-                <div class="link-icon">
-                    <i class="fas fa-code"></i>
-                </div>
-                <h3>API 参考</h3>
-                <p>查看完整的 HScript API 文档</p>
-            </a>
+            <!-- 小标题 -->
+            <p class="section-subtitle" data-en="Complete guide for HScript scripting in NovaFlare Engine" data-zh="NovaFlare Engine 中 HScript 脚本的完整指南">NovaFlare Engine 中 HScript 脚本的完整指南</p>
             
-            <a href="hscript_examples.html" class="link-card">
-                <div class="link-icon">
-                    <i class="fas fa-laptop-code"></i>
+            <div class="docs-container">
+                <!-- 侧边栏 - Haxe官网风格 -->
+                <aside class="sidebar">
+                    <div class="sidebar-section active">
+                        <div class="sidebar-header">
+                            <span><i class="fas fa-code me-2"></i> 基础语法</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                        <div class="sidebar-items">
+                            <a href="#variables" class="sidebar-item">变量与数据类型</a>
+                            <a href="#functions" class="sidebar-item">函数定义</a>
+                            <a href="#control-flow" class="sidebar-item">控制流程</a>
+                            <a href="#events" class="sidebar-item">事件处理</a>
+                        </div>
+                    </div>
+                    
+                    <div class="sidebar-section">
+                        <div class="sidebar-header">
+                            <span><i class="fas fa-cube me-2"></i> 核心API</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                        <div class="sidebar-items">
+                            <a href="#createSprite" class="sidebar-item active">createSprite()</a>
+                            <a href="#playSound" class="sidebar-item">playSound()</a>
+                            <a href="#loadAsset" class="sidebar-item">loadAsset()</a>
+                            <a href="#addEventListener" class="sidebar-item">addEventListener()</a>
+                        </div>
+                    </div>
+                    
+                    <div class="sidebar-section">
+                        <div class="sidebar-header">
+                            <span><i class="fas fa-gamepad me-2"></i> 游戏功能</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                        <div class="sidebar-items">
+                            <a href="#animation" class="sidebar-item">动画系统</a>
+                            <a href="#physics" class="sidebar-item">物理引擎</a>
+                            <a href="#ui" class="sidebar-item">用户界面</a>
+                            <a href="#input" class="sidebar-item">输入处理</a>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- 文档内容区域 -->
+                <div class="docs-content">
+                    <!-- 函数文档模板 -->
+                    <div class="doc-section" id="createSprite">
+                        <!-- 函数名称 -->
+                        <h2 data-en="Function: createSprite()" data-zh="函数: createSprite()">函数: createSprite()</h2>
+                        <div class="function-name">createSprite(x:Float, y:Float, ?graphic:GraphicAsset):Sprite</div>
+                        
+                        <!-- 函数解释 -->
+                        <div class="function-explanation">
+                            <p data-en="Creates a new sprite object at the specified position with an optional graphic asset." 
+                               data-zh="在指定位置创建一个新的精灵对象，可选择性地指定图形资源。">
+                                在指定位置创建一个新的精灵对象，可选择性地指定图形资源。
+                            </p>
+                            <p data-en="This function is the primary method for creating visual elements in NovaFlare Engine. It returns a Sprite object that can be added to the display list and manipulated through various properties and methods."
+                               data-zh="这是NovaFlare Engine中创建视觉元素的主要方法。它返回一个Sprite对象，可以添加到显示列表并通过各种属性和方法进行操作。">
+                                这是NovaFlare Engine中创建视觉元素的主要方法。它返回一个Sprite对象，可以添加到显示列表并通过各种属性和方法进行操作。
+                            </p>
+                        </div>
+                        
+                        <!-- 函数注意事项 -->
+                        <div class="function-notes">
+                            <h3 data-en="Notes" data-zh="注意事项">注意事项</h3>
+                            <ul>
+                                <li data-en="The sprite will not be visible until added to a display object container."
+                                   data-zh="精灵在添加到显示对象容器之前不会可见。">
+                                    精灵在添加到显示对象容器之前不会可见。
+                                </li>
+                                <li data-en="If no graphic is provided, the sprite will be created as an empty container."
+                                   data-zh="如果没有提供图形资源，精灵将创建为空容器。">
+                                    如果没有提供图形资源，精灵将创建为空容器。
+                                </li>
+                                <li data-en="Coordinates are relative to the parent container's coordinate system."
+                                   data-zh="坐标相对于父容器的坐标系。">
+                                    坐标相对于父容器的坐标系。
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- 函数实操代码 -->
+                        <div class="function-example">
+                            <h3 data-en="Example Usage" data-zh="使用示例">使用示例</h3>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>HScript</span>
+                                    <button class="code-copy" data-en="Copy" data-zh="复制">复制</button>
+                                </div>
+                                <pre><code class="language-javascript">// 创建一个位于屏幕中央的精灵
+var playerSprite = createSprite(400, 300, "assets/images/player.png");
+
+// 设置精灵属性
+playerSprite.scaleX = playerSprite.scaleY = 0.5;
+playerSprite.alpha = 0.8;
+
+// 将精灵添加到舞台
+addChild(playerSprite);
+
+// 为精灵添加动画
+playerSprite.animation.add("walk", [0, 1, 2, 3], 10, true);
+playerSprite.animation.play("walk");</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 第二个函数示例 -->
+                    <div class="doc-section" id="playSound">
+                        <h2 data-en="Function: playSound()" data-zh="函数: playSound()">函数: playSound()</h2>
+                        <div class="function-name">playSound(soundId:String, ?volume:Float = 1.0, ?looped:Bool = false):SoundChannel</div>
+                        
+                        <div class="function-explanation">
+                            <p data-en="Plays a sound effect or music track with specified parameters."
+                               data-zh="播放音效或音乐轨道，可指定参数。">
+                                播放音效或音乐轨道，可指定参数。
+                            </p>
+                        </div>
+                        
+                        <div class="function-notes">
+                            <h3 data-en="Notes" data-zh="注意事项">注意事项</h3>
+                            <ul>
+                                <li data-en="Sound must be preloaded using the asset loading system."
+                                   data-zh="声音必须使用资源加载系统预先加载。">
+                                    声音必须使用资源加载系统预先加载。
+                                </li>
+                                <li data-en="Volume range is 0.0 (silent) to 1.0 (full volume)."
+                                   data-zh="音量范围是0.0（静音）到1.0（最大音量）。">
+                                    音量范围是0.0（静音）到1.0（最大音量）。
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="function-example">
+                            <h3 data-en="Example Usage" data-zh="使用示例">使用示例</h3>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>HScript</span>
+                                    <button class="code-copy" data-en="Copy" data-zh="复制">复制</button>
+                                </div>
+                                <pre><code class="language-javascript">// 播放跳跃音效
+var jumpSound = playSound("jump", 0.7);
+
+// 播放背景音乐（循环）
+var bgMusic = playSound("bgm_main", 0.5, true);
+
+// 停止背景音乐
+bgMusic.stop();</code></pre>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <h3>示例项目</h3>
-                <p>通过实际示例学习 HScript 应用</p>
-            </a>
-            
-            <a href="hscript_tutorials.html" class="link-card">
-                <div class="link-icon">
-                    <i class="fas fa-graduation-cap"></i>
-                </div>
-                <h3>教程指南</h3>
-                <p>跟随教程逐步掌握 HScript 开发</p>
-            </a>
+            </div>
         </div>
-    </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>NovaFlare Engine Development Documentation</p>
+            </div>
+            <ul class="footer-links">
+                <li><a href="../index.html" data-en="Home" data-zh="首页">首页</a></li>
+                <li><a href="#docs-selection" data-en="Documentation" data-zh="文档">文档</a></li>
+                <li><a href="../index.html#download" data-en="Download" data-zh="下载">下载</a></li>
+                <li><a href="../index.html#community" data-en="Community" data-zh="社区">社区</a></li>
+            </ul>
+            <div class="footer-social">
+                <a href="https://discord.gg/FkEwvRW2YZ" target="_blank" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                <a href="https://github.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://youtube.com/@beihu235" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            </div>
+            
+            <div class="footer-copyright">
+                <!--<p>&copy; 2025 NovaFlare Engine. <span data-en="All rights reserved." data-zh="保留所有权利。">保留所有权利。</span></p>-->
+            </div>
+        </div>
+    </footer>
 
     <!-- 代码高亮脚本 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
     
     <script>
-        // 代码复制功能
+        // 侧边栏展开/折叠功能
         document.addEventListener('DOMContentLoaded', function() {
+            const sidebarHeaders = document.querySelectorAll('.sidebar-header');
+            const sidebarItems = document.querySelectorAll('.sidebar-item');
+            
+            // 侧边栏部分展开/折叠
+            sidebarHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const section = this.parentElement;
+                    section.classList.toggle('active');
+                    this.querySelector('i:last-child').classList.toggle('fa-chevron-right');
+                    this.querySelector('i:last-child').classList.toggle('fa-chevron-down');
+                });
+            });
+            
+            // 侧边栏项点击
+            sidebarItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    sidebarItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // 代码复制功能
             const copyButtons = document.querySelectorAll('.code-copy');
             copyButtons.forEach(button => {
                 button.addEventListener('click', function() {
-                    const codeBlock = this.closest('.code-preview').querySelector('code');
+                    const codeBlock = this.closest('.code-block').querySelector('code');
                     const textArea = document.createElement('textarea');
                     textArea.value = codeBlock.textContent;
                     document.body.appendChild(textArea);
@@ -327,10 +429,10 @@ var myPlayer = createPlayer(100, 100);</code></pre>
                     document.body.removeChild(textArea);
                     
                     // 显示复制成功提示
-                    const originalHTML = this.innerHTML;
-                    this.innerHTML = '<i class="fas fa-check me-1"></i> 已复制';
+                    const originalText = this.textContent;
+                    this.textContent = this.getAttribute('data-en') === 'Copy' ? 'Copied!' : '已复制!';
                     setTimeout(() => {
-                        this.innerHTML = originalHTML;
+                        this.textContent = originalText;
                     }, 2000);
                 });
             });
