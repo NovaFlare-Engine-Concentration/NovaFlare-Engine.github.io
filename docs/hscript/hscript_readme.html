@@ -254,7 +254,65 @@
                                    data-zh="在这个Hscript中因为一些不可抗因素会导致一个问题，你往Array里存一个自定义类的对象，并且这个对象继承了某个类，那么这个对象会被强制转换成你所继承的类（父类），导致你不能使用这个对象里面的自定义函数和变量。">
                                     在这个Hscript中因为一些不可抗因素会导致一个问题，你往Array里存一个自定义类的对象，并且这个对象继承了某个类，那么这个对象会被强制转换成你所继承的类（父类），导致你不能使用这个对象里面的自定义函数和变量。
                                 </li>
-                                
+                           </ul>
+                        </div>
+                        
+                        <div class="function-example">
+                            <h3 data-en="If you have a custom like this class" data-zh="如果你有一个这样的自定义类">如果你有一个这样的自定义类</h3>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>HScript</span>
+                                    <button class="code-copy" data-en="Copy" data-zh="复制">复制</button>
+                                </div>
+                                <pre><code class="language-javascript">
+package some;
+
+class YouObject extends FlxSprite
+{
+    public function new()
+    {
+        super();
+    }
+    public function knock()
+    {
+        trace("who's that knocking ?");
+    }
+}
+</code></pre>
+                            </div>
+                            
+                            <h3 data-en="Error Example" data-zh="错误示例">错误示例</h3>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>HScript</span>
+                                    <button class="code-copy" data-en="Copy" data-zh="复制">复制</button>
+                                </div>
+                                <pre><code class="language-javascript">
+package,blabla
+
+import some.YouObject;
+
+class YouNextClass
+{
+    var oneArray:Array<YouObject> = [];
+    public function new()
+    {
+        var Obj = new YouObject();
+        Obj.knock();  // who's that knocking ?
+        
+        oneArray.push(Obj);
+        oneArray.[0].knock();   // Error: Function not found 'knock'
+        //Because when you use the index of array directly as an object and call the function of this object directly, this YouObject was converted to his parent class for some reason FlxSprite, because there is no such thing in the parent class function knock() So he reported it wrong
+        //因为在你直接使用Array的索引作为对象并直接调用这个对象的函数时，这个YouObject因为某些原因被转换成了他的父类FlxSprite，因为父类里本来就没有这个function knock()所以他就报错了
+    }
+}
+</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="function-notes">
+                            <h3 data-en="Notes" data-zh="注意事项">注意事项</h3>
+                            <ul>
                                 <li data-en="If you don't want him to force a subclass to be a parent, add the following metadata to the location where you store the objects in array."
                                    data-zh="如果你不想要让他强制把子类转成父类那么就把以下元数据添加到你往Array存对象的位置。">
                                    如果你不想要让他强制把子类转成父类那么就把以下元数据添加到你往Array存对象的位置。
@@ -264,16 +322,32 @@
                         
                         <!-- 函数实操代码 -->
                     <div class="function-example">
-                        <h3 data-en="Example Usage" data-zh="使用示例">使用示例</h3>
+                        <h3 data-en="Correct example" data-zh="正确示例">正确示例</h3>
                         <div class="code-block">
                             <div class="code-header">
                                 <span>HScript</span>
                                 <button class="code-copy" data-en="Copy" data-zh="复制">复制</button>
                             </div>
                             <pre><code class="language-javascript">
-var sb:Array&lt;YouObject&gt; = [];
-@:unpass_standard
-sb.push(new YouObject());</code></pre>
+package,blabla
+
+import some.YouObject;
+
+@:unpass_standard  //Put it where you need it. 放到你需要的地方。
+
+class YouNextClass
+{
+    var oneArray:Array<YouObject> = [];
+    public function new()
+    {
+        var Obj = new YouObject();
+        Obj.knock();  // who's that knocking ?
+        
+        oneArray.push(Obj);
+        oneArray.[0].knock();   // who's that knocking ?
+    }
+}
+</code></pre>
                         </div>
                     </div>
                 </div>
