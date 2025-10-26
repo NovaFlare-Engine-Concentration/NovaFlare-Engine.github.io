@@ -283,11 +283,12 @@ class YouNextClass
     var oneArray:Array<YouObject> = [];
     public function new()
     {
-        var Obj = new YouObject();
-        Obj.knock();  // who's that knocking ?
+        var youObj = new YouObject();
+        add(youObj);
+        youObj.knock();  // who's that knocking ?
         
-        oneArray.push(Obj);
-        oneArray.[0].knock();   // Error: Function not found 'knock'
+        oneArray.push(youObj);
+        oneArray[0].knock();   // Error: Function not found 'knock'
 
         /*
         因为在你直接使用Array的索引作为对象并直接调用这个对象的函数时，
@@ -323,18 +324,19 @@ package blabla;
 
 import some.YouObject;
 
-@:unpass_standard  //放到你需要的地方。
-
 class YouNextClass
 {
     var oneArray:Array<YouObject> = [];
     public function new()
     {
-        var Obj = new YouObject();
-        Obj.knock();  // who's that knocking ?
+        var youObj = new YouObject();
+        add(youObj);
+        youObj.knock();  // who's that knocking ?
         
-        oneArray.push(Obj);
-        oneArray.[0].knock();   // who's that knocking ?
+        oneArray.push(youObj);
+        
+        @:unpass_standard  //放到你需要的地方。
+        oneArray[0].knock();   // who's that knocking ?
     }
 }
 </code></pre>

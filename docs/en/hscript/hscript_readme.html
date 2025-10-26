@@ -283,11 +283,12 @@ class YouNextClass
     var oneArray:Array<YouObject> = [];
     public function new()
     {
-        var Obj = new YouObject();
-        Obj.knock();  // who's that knocking ?
+        var youObj = new YouObject();
+        add(youObj);
+        youObj.knock();  // who's that knocking ?
         
-        oneArray.push(Obj);
-        oneArray.[0].knock();   // Error: Function not found 'knock'
+        oneArray.push(youObj);
+        oneArray[0].knock();   // Error: Function not found 'knock'
         /*
         Because when you use the index of array directly as an object and call the function of this object directly, 
         this YouObject was converted to his parent class for some reason FlxSprite, 
@@ -322,18 +323,18 @@ package blabla;
 
 import some.YouObject;
 
-@:unpass_standard  //Put it where you need it.
-
 class YouNextClass
 {
     var oneArray:Array<YouObject> = [];
     public function new()
     {
-        var Obj = new YouObject();
-        Obj.knock();  // who's that knocking ?
+        var youObj = new YouObject();
+        youObj.knock();  // who's that knocking ?
         
-        oneArray.push(Obj);
-        oneArray.[0].knock();   // who's that knocking ?
+        oneArray.push(youObj);
+        
+        @:unpass_standard  //Put it where you need it.
+        oneArray[0].knock();   // who's that knocking ?
     }
 }
 </code></pre>
