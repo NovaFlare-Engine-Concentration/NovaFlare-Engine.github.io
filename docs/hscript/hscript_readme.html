@@ -302,8 +302,19 @@ class YouNextClass
         
         oneArray.push(Obj);
         oneArray.[0].knock();   // Error: Function not found 'knock'
-        //Because when you use the index of array directly as an object and call the function of this object directly, this YouObject was converted to his parent class for some reason FlxSprite, because there is no such thing in the parent class function knock() So he reported it wrong
-        //因为在你直接使用Array的索引作为对象并直接调用这个对象的函数时，这个YouObject因为某些原因被转换成了他的父类FlxSprite，因为父类里本来就没有这个function knock()所以他就报错了
+        /*
+        Because when you use the index of array directly as an object and call the function of this object directly, 
+        this YouObject was converted to his parent class for some reason FlxSprite, 
+        because there is no such thing in the parent class function knock()
+        So he reported it wrong
+        */
+        
+        /*
+        因为在你直接使用Array的索引作为对象并直接调用这个对象的函数时，
+        这个YouObject因为某些原因被转换成了他的父类FlxSprite，
+        因为父类里本来就没有这个function knock()
+        所以他就报错了
+        */
     }
 }
 </code></pre>
