@@ -238,7 +238,7 @@
                             <h3>注意事项</h3>
                             <ul>
                                 <li>
-                                    在这个Hscript中因为一些不可抗因素会导致一个问题，你往Array里存一个自定义类的对象，并且这个对象继承了某个类，那么这个对象会被强制转换成你所继承的类（父类），导致你不能使用这个对象里面的自定义函数和变量。
+                                    在本引擎的hscript中，为了保持与源码直接进行交互，让源码访问有继承的自定义类时，通常会指向它的父类，这或许可以保证hscript与源码的畅通性，但这也有着明显的短板：由源码的某一个类所储存的已继承自定义类再由脚本调用会直接变成他的父类，最好的例子便是Array
                                 </li>
                            </ul>
                         </div>
@@ -253,7 +253,7 @@
                                 <pre><code class="language-javascript">
 package some;
 
-class YouObject extends FlxSprite
+class YouObject extends ScriptedSprite
 {
     public function new()
     {
@@ -288,14 +288,7 @@ class YouNextClass
         youObj.knock();  // who's that knocking ?
         
         oneArray.push(youObj);
-        oneArray[0].knock();   // Error: Function not found 'knock'
-
-        /*
-        因为在你直接使用Array的索引作为对象并直接调用这个对象的函数时，
-        这个YouObject因为某些原因被转换成了他的父类FlxSprite，
-        因为父类里本来就没有这个function knock()
-        所以他就报错了
-        */
+        oneArray[0].knock();   // Error: Invalid Function -> 'knock'
     }
 }
 </code></pre>
@@ -306,7 +299,7 @@ class YouNextClass
                             <h3>注意事项</h3>
                             <ul>
                                 <li>
-                                   如果你不想要让他强制把子类转成父类那么就把以下元数据添加到你往Array存对象的位置。
+                                   如果你想要所创建的Array数组专精于储存你的自定义类提供给脚本使用，你可以在其对应储存函数（"push"）添加元数据"@:unpass_standard"（@:unpass_standard：所指定的表达式将会停止对其中自定义类的父类转换）
                                 </li>
                             </ul>
                         </div>
@@ -333,9 +326,9 @@ class YouNextClass
         add(youObj);
         youObj.knock();  // who's that knocking ?
         
+        @:unpass_standard  //放到你需要的地方。
         oneArray.push(youObj);
         
-        @:unpass_standard  //放到你需要的地方。
         oneArray[0].knock();   // who's that knocking ?
     }
 }
