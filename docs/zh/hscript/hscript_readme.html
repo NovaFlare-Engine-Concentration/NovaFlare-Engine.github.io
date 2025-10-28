@@ -230,7 +230,7 @@
             font-size: 1.4rem;
         }
         
-        .function-name {
+                .function-name {
             background: var(--accent-color);
             color: white;
             padding: 6px 12px;
@@ -247,11 +247,35 @@
         }
         
         .function-notes {
-            background: var(--warning);
-            border-left: 4px solid var(--note-color);
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
             padding: 15px;
             border-radius: 4px;
-            animation: fadeIn 0.5s ease;
+        }
+        
+        .code-block {
+            margin: 20px 0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .code-header {
+            background: #2d2d2d;
+            color: #ccc;
+            padding: 10px 15px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .code-copy {
+            background: none;
+            border: none;
+            color: #ccc;
+            cursor: pointer;
+            font-size: 0.8rem;
         }
         
         .function-warning {
@@ -268,42 +292,6 @@
             padding: 15px;
             border-radius: 4px;
             animation: fadeIn 0.5s ease;
-        }
-        
-        .code-block {
-            margin: 20px 0;
-            border-radius: 8px;
-            overflow: hidden;
-            animation: slideUp 0.5s ease;
-            box-shadow: 0 4px 12px var(--shadow-color);
-        }
-        
-        .code-header {
-            background: var(--code-header-bg);
-            color: var(--code-header-text);
-            padding: 10px 15px;
-            font-family: monospace;
-            font-size: 0.9rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .code-copy {
-            background: none;
-            border: none;
-            color: var(--code-header-text);
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: all 0.3s ease;
-            padding: 5px 10px;
-            border-radius: 4px;
-        }
-        
-        .code-copy:hover {
-            background: var(--bg-button-hover);
-            color: var(--text-primary);
         }
         
         pre[class*="language-"] {
