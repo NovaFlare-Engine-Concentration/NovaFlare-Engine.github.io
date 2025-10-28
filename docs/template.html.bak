@@ -92,10 +92,13 @@
         .doc-section {
             margin-bottom: 50px;
             display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
         
         .doc-section.active {
             display: block;
+            opacity: 1;
         }
         
         .doc-section h2 {
@@ -311,29 +314,25 @@
         // 侧边栏数据
         const sidebarData = [
             {
-                title: "用前须知",
+                title: "基础概念",
                 icon: "fa-code",
                 items: [
-                    { name: "温馨提示", id: "tips" },
-                    { name: "注意事项", id: "notes" }
+                    { name: "用前须知", id: "intro" },
+                    { name: "问题与解决方案", id: "problem-solution" }
                 ]
             },
             {
                 title: "代码示例",
                 icon: "fa-cogs",
                 items: [
-                    { name: "自定义类示例", id: "custom-class" },
-                    { name: "错误示例", id: "wrong-example" },
-                    { name: "正确示例", id: "correct-example" }
+                    { name: "Array使用示例", id: "array-example" },
+                    { name: "Map使用示例", id: "map-example" }
                 ]
             },
             {
-                title: "高级用法",
+                title: "其他",
                 icon: "fa-rocket",
                 items: [
-                    { name: "重要提示", id: "important-notes" },
-                    { name: "Array示例", id: "array-example" },
-                    { name: "Map示例", id: "map-example" },
                     { name: "未完待续", id: "tbc" }
                 ]
             }
@@ -341,39 +340,20 @@
 
         // 文档内容数据
         const contentData = {
-            "tips": {
-                title: "温馨提示",
+            "intro": {
+                title: "用前须知",
                 content: `
-                    <div class="doc-section" id="tips">
-                        <h2>温馨提示</h2>
+                    <div class="doc-section" id="intro">
+                        <h2>用前须知</h2>
+                        
                         <div class="function-notes">
                             <h3>温馨提示</h3>
                             <ul>
-                                <li>
-                                    本开发文档是面向对hscript或haxe有基础的开发者
-                                </li>
-                                
-                                <li>
-                                   如果您还不会其中的任何一项请去学习，本文档会用到许多基础用法并且不会做过多解释
-                                </li>
+                                <li>本开发文档是面向对hscript或haxe有基础的开发者</li>
+                                <li>如果您还不会其中的任何一项请去学习，本文档会用到许多基础用法并且不会做过多解释</li>
                             </ul>
                         </div>
                         
-                        <div class="doc-navigation">
-                            <div></div>
-                            <button class="nav-btn next" data-next="notes">
-                                下一页 <i class="fas fa-arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
-                `
-            },
-            "notes": {
-                title: "注意事项",
-                content: `
-                    <div class="doc-section" id="notes">
-                        <h2>看我</h2>
-
                         <div class="function-notes">
                             <h3>注意事项</h3>
                             <ul>
@@ -384,22 +364,22 @@
                         </div>
                         
                         <div class="doc-navigation">
-                            <button class="nav-btn prev" data-prev="tips">
-                                <i class="fas fa-arrow-left"></i> 上一页
-                            </button>
-                            <button class="nav-btn next" data-next="custom-class">
+                            <div></div>
+                            <button class="nav-btn next" data-next="problem-solution">
                                 下一页 <i class="fas fa-arrow-right"></i>
                             </button>
                         </div>
                     </div>
                 `
             },
-            "custom-class": {
-                title: "自定义类示例",
+            "problem-solution": {
+                title: "问题与解决方案",
                 content: `
-                    <div class="doc-section" id="custom-class">
+                    <div class="doc-section" id="problem-solution">
+                        <h2>问题与解决方案</h2>
+                        
                         <div class="function-example">
-                            <h3>如果你有一个这样的自定义类</h3>
+                            <h3>自定义类示例</h3>
                             <div class="code-block">
                                 <div class="code-header">
                                     <span>HScript</span>
@@ -423,28 +403,14 @@ class YouObject extends ScriptedSprite
                             </div>
                         </div>
                         
-                        <div class="doc-navigation">
-                            <button class="nav-btn prev" data-prev="notes">
-                                <i class="fas fa-arrow-left"></i> 上一页
-                            </button>
-                            <button class="nav-btn next" data-next="wrong-example">
-                                下一页 <i class="fas fa-arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
-                `
-            },
-            "wrong-example": {
-                title: "错误示例",
-                content: `
-                    <div class="doc-section" id="wrong-example">
-                        <h3>错误示例</h3>
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>HScript</span>
-                                <button class="code-copy">复制</button>
-                            </div>
-                            <pre><code class="language-javascript">
+                        <div class="function-example">
+                            <h3>错误示例</h3>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>HScript</span>
+                                    <button class="code-copy">复制</button>
+                                </div>
+                                <pre><code class="language-javascript">
 package blabla;
 
 import some.YouObject;
@@ -464,25 +430,11 @@ class YouNextClass
     }
 }
 </code></pre>
+                            </div>
                         </div>
                         
-                        <div class="doc-navigation">
-                            <button class="nav-btn prev" data-prev="custom-class">
-                                <i class="fas fa-arrow-left"></i> 上一页
-                            </button>
-                            <button class="nav-btn next" data-next="correct-example">
-                                下一页 <i class="fas fa-arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
-                `
-            },
-            "correct-example": {
-                title: "正确示例",
-                content: `
-                    <div class="doc-section" id="correct-example">
                         <div class="function-notes">
-                            <h3>注意事项</h3>
+                            <h3>解决方案</h3>
                             <ul>
                                 <li>
                                    如果你想要所创建的Array数组专精于储存你的自定义类提供给脚本使用，你可以在其对应储存函数（"push"）添加元数据"@:unpass_standard"（@:unpass_standard：所指定的表达式将会停止对其中自定义类的父类转换）
@@ -522,31 +474,7 @@ class YouNextClass
                         </div>
                         
                         <div class="doc-navigation">
-                            <button class="nav-btn prev" data-prev="wrong-example">
-                                <i class="fas fa-arrow-left"></i> 上一页
-                            </button>
-                            <button class="nav-btn next" data-next="important-notes">
-                                下一页 <i class="fas fa-arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
-                `
-            },
-            "important-notes": {
-                title: "重要提示",
-                content: `
-                    <div class="doc-section" id="important-notes">
-                        <div class="function-notes">
-                            <h3>重要提示</h3>
-                            <ul>
-                                <li>
-                                    以下例子会出现转换成父类的问题
-                                </li>
-                           </ul>
-                        </div>
-                        
-                        <div class="doc-navigation">
-                            <button class="nav-btn prev" data-prev="correct-example">
+                            <button class="nav-btn prev" data-prev="intro">
                                 <i class="fas fa-arrow-left"></i> 上一页
                             </button>
                             <button class="nav-btn next" data-next="array-example">
@@ -557,9 +485,20 @@ class YouNextClass
                 `
             },
             "array-example": {
-                title: "Array示例",
+                title: "Array使用示例",
                 content: `
                     <div class="doc-section" id="array-example">
+                        <h2>Array使用示例</h2>
+                        
+                        <div class="function-notes">
+                            <h3>重要提示</h3>
+                            <ul>
+                                <li>
+                                    以下例子会出现转换成父类的问题
+                                </li>
+                           </ul>
+                        </div>
+                        
                         <div class="function-example">
                             <h3>例子1: Array</h3>
                             <div class="code-block">
@@ -601,7 +540,7 @@ oneArray[0].knock();   // who's that knocking ?
                         </div>
                         
                         <div class="doc-navigation">
-                            <button class="nav-btn prev" data-prev="important-notes">
+                            <button class="nav-btn prev" data-prev="problem-solution">
                                 <i class="fas fa-arrow-left"></i> 上一页
                             </button>
                             <button class="nav-btn next" data-next="map-example">
@@ -612,9 +551,11 @@ oneArray[0].knock();   // who's that knocking ?
                 `
             },
             "map-example": {
-                title: "Map示例",
+                title: "Map使用示例",
                 content: `
                     <div class="doc-section" id="map-example">
+                        <h2>Map使用示例</h2>
+                        
                         <div class="function-example">
                             <h3>例子2: Map</h3>
                             <div class="code-block">
@@ -675,6 +616,8 @@ helpMap.get(1145).knock();  // who's that knocking ?
                 title: "未完待续",
                 content: `
                     <div class="doc-section" id="tbc">
+                        <h2>未完待续</h2>
+                        
                         <div class="function-example">
                             <h3>未完待续</h3>
                             <div class="code-block">
@@ -708,7 +651,7 @@ helpMap.get(1145).knock();  // who's that knocking ?
             generateContent();
             
             // 显示默认内容
-            showContent('tips');
+            showContent('intro');
             
             // 初始化交互功能
             initInteractions();
@@ -771,8 +714,11 @@ helpMap.get(1145).knock();  // who's that knocking ?
                     }
                 });
                 
-                // 滚动到顶部
-                window.scrollTo(0, 0);
+                // 平滑滚动到顶部
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
             }
         }
 

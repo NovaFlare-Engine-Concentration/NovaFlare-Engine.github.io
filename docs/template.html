@@ -12,22 +12,109 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
     <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', 'Noto Sans SC', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+        
+        #starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .navbar {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .navbar-logo h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+        
+        .navbar-menu {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        #theme-toggle, .lang-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #e2e8f0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        #theme-toggle:hover, .lang-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .lang-toggle {
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .docs-main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        
         .docs-container {
             display: flex;
             min-height: calc(100vh - 200px);
             margin-top: 30px;
+            gap: 30px;
         }
         
         .sidebar {
             width: 280px;
-            background: rgba(var(--bg-card-rgb), 0.9);
+            background: rgba(30, 41, 59, 0.8);
             border-radius: 12px;
             padding: 20px;
-            margin-right: 30px;
-            border: 1px solid var(--border-color);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             height: fit-content;
             position: sticky;
             top: 100px;
+            backdrop-filter: blur(10px);
         }
         
         .sidebar-section {
@@ -41,8 +128,13 @@
             padding: 10px 0;
             cursor: pointer;
             font-weight: 600;
-            color: var(--accent-color);
-            border-bottom: 1px solid var(--border-color);
+            color: #3b82f6;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-header:hover {
+            color: #60a5fa;
         }
         
         .sidebar-header i {
@@ -57,7 +149,7 @@
             padding-left: 15px;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease;
+            transition: max-height 0.5s ease;
         }
         
         .sidebar-section.active .sidebar-items {
@@ -67,56 +159,89 @@
         .sidebar-item {
             display: block;
             padding: 8px 10px;
-            color: var(--text-secondary);
+            color: #94a3b8;
             text-decoration: none;
             border-radius: 6px;
             margin: 5px 0;
             transition: all 0.2s ease;
             font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sidebar-item:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .sidebar-item:hover:before, .sidebar-item.active:before {
+            left: 100%;
         }
         
         .sidebar-item:hover, .sidebar-item.active {
-            background: rgba(var(--accent-rgb), 0.1);
-            color: var(--accent-color);
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
         }
         
         /* 文档内容样式 */
         .docs-content {
             flex: 1;
-            background: rgba(var(--bg-card-rgb), 0.9);
+            background: rgba(30, 41, 59, 0.8);
             border-radius: 12px;
             padding: 30px;
-            border: 1px solid var(--border-color);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
         }
         
         .doc-section {
-            margin-bottom: 50px;
-            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 30px;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transform: translateX(50px);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            pointer-events: none;
+            overflow-y: auto;
         }
         
         .doc-section.active {
-            display: block;
             opacity: 1;
+            transform: translateX(0);
+            pointer-events: all;
+        }
+        
+        .doc-section.exit {
+            opacity: 0;
+            transform: translateX(-50px);
         }
         
         .doc-section h2 {
-            color: var(--accent-color);
+            color: #3b82f6;
             margin-bottom: 20px;
             font-size: 1.8rem;
-            border-bottom: 2px solid var(--accent-color);
+            border-bottom: 2px solid #3b82f6;
             padding-bottom: 10px;
         }
         
         .doc-section h3 {
-            color: var(--text-primary);
+            color: #e2e8f0;
             margin: 25px 0 15px;
             font-size: 1.4rem;
         }
         
         .function-name {
-            background: var(--accent-color);
+            background: #3b82f6;
             color: white;
             padding: 6px 12px;
             border-radius: 4px;
@@ -136,6 +261,7 @@
             border-left: 4px solid #ffc107;
             padding: 15px;
             border-radius: 4px;
+            animation: fadeIn 0.5s ease;
         }
         
         .function-warning {
@@ -143,6 +269,7 @@
             border-left: 4px solid #dc3545;
             padding: 15px;
             border-radius: 4px;
+            animation: fadeIn 0.5s ease;
         }
         
         .function-tip {
@@ -150,36 +277,49 @@
             border-left: 4px solid #0d6efd;
             padding: 15px;
             border-radius: 4px;
+            animation: fadeIn 0.5s ease;
         }
         
         .code-block {
             margin: 20px 0;
             border-radius: 8px;
             overflow: hidden;
+            animation: slideUp 0.5s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
         
         .code-header {
-            background: #2d2d2d;
-            color: #ccc;
+            background: #1e293b;
+            color: #94a3b8;
             padding: 10px 15px;
             font-family: monospace;
             font-size: 0.9rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .code-copy {
             background: none;
             border: none;
-            color: #ccc;
+            color: #94a3b8;
             cursor: pointer;
             font-size: 0.8rem;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        
+        .code-copy:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #e2e8f0;
         }
         
         pre[class*="language-"] {
             margin: 0;
             border-radius: 0;
+            background: #0f172a !important;
         }
         
         /* 导航按钮 */
@@ -188,64 +328,144 @@
             justify-content: space-between;
             margin-top: 40px;
             padding-top: 20px;
-            border-top: 1px solid var(--border-color);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .nav-btn {
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 10px 20px;
-            background: var(--accent-color);
+            padding: 12px 24px;
+            background: #3b82f6;
             color: white;
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             text-decoration: none;
             font-weight: 500;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         
         .nav-btn:hover {
-            background: var(--accent-hover);
+            background: #2563eb;
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
         
         .nav-btn.prev {
-            background: var(--text-secondary);
+            background: #475569;
         }
         
         .nav-btn.prev:hover {
-            background: var(--text-primary);
+            background: #334155;
         }
         
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            .docs-container {
-                flex-direction: column;
+        .footer {
+            background: rgba(15, 23, 42, 0.8);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px 0 20px;
+            margin-top: 50px;
+        }
+        
+        .footer .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .footer-content p {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: #3b82f6;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .footer-social a {
+            color: #94a3b8;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-social a:hover {
+            color: #3b82f6;
+            transform: translateY(-3px);
+        }
+        
+        /* 动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
             }
-            
-            .sidebar {
-                width: 100%;
-                margin-right: 0;
-                margin-bottom: 20px;
-                position: static;
+            to { 
+                opacity: 1;
+                transform: translateY(0);
             }
-            
-            .doc-navigation {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .nav-btn {
-                justify-content: center;
-            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .slide-up {
+            animation: slideUp 0.5s ease;
+        }
+        
+        /* 粒子背景样式 */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(59, 130, 246, 0.5);
+            border-radius: 50%;
         }
     </style>
 </head>
 <body>
     <canvas id="starfield"></canvas>
+    <div class="particles" id="particles"></div>
 
     <nav class="navbar">
         <div class="container navbar-container">
@@ -261,9 +481,6 @@
                         <span>EN</span>
                     </a>
                 </div>
-                <button class="mobile-menu-btn" id="menu-toggle" aria-label="菜单">
-                    <i class="fas fa-bars"></i>
-                </button>
             </div>
         </div>
     </nav>
@@ -346,7 +563,7 @@
                     <div class="doc-section" id="intro">
                         <h2>用前须知</h2>
                         
-                        <div class="function-notes">
+                        <div class="function-notes slide-up">
                             <h3>温馨提示</h3>
                             <ul>
                                 <li>本开发文档是面向对hscript或haxe有基础的开发者</li>
@@ -354,7 +571,7 @@
                             </ul>
                         </div>
                         
-                        <div class="function-notes">
+                        <div class="function-notes slide-up">
                             <h3>注意事项</h3>
                             <ul>
                                 <li>
@@ -378,7 +595,7 @@
                     <div class="doc-section" id="problem-solution">
                         <h2>问题与解决方案</h2>
                         
-                        <div class="function-example">
+                        <div class="function-example slide-up">
                             <h3>自定义类示例</h3>
                             <div class="code-block">
                                 <div class="code-header">
@@ -403,7 +620,7 @@ class YouObject extends ScriptedSprite
                             </div>
                         </div>
                         
-                        <div class="function-example">
+                        <div class="function-example slide-up">
                             <h3>错误示例</h3>
                             <div class="code-block">
                                 <div class="code-header">
@@ -433,7 +650,7 @@ class YouNextClass
                             </div>
                         </div>
                         
-                        <div class="function-notes">
+                        <div class="function-notes slide-up">
                             <h3>解决方案</h3>
                             <ul>
                                 <li>
@@ -442,7 +659,7 @@ class YouNextClass
                             </ul>
                         </div>
                         
-                        <div class="function-example">
+                        <div class="function-example slide-up">
                             <h3>正确示例</h3>
                             <div class="code-block">
                                 <div class="code-header">
@@ -490,7 +707,7 @@ class YouNextClass
                     <div class="doc-section" id="array-example">
                         <h2>Array使用示例</h2>
                         
-                        <div class="function-notes">
+                        <div class="function-notes slide-up">
                             <h3>重要提示</h3>
                             <ul>
                                 <li>
@@ -499,7 +716,7 @@ class YouNextClass
                            </ul>
                         </div>
                         
-                        <div class="function-example">
+                        <div class="function-example slide-up">
                             <h3>例子1: Array</h3>
                             <div class="code-block">
                                 <div class="code-header">
@@ -556,7 +773,7 @@ oneArray[0].knock();   // who's that knocking ?
                     <div class="doc-section" id="map-example">
                         <h2>Map使用示例</h2>
                         
-                        <div class="function-example">
+                        <div class="function-example slide-up">
                             <h3>例子2: Map</h3>
                             <div class="code-block">
                                 <div class="code-header">
@@ -618,7 +835,7 @@ helpMap.get(1145).knock();  // who's that knocking ?
                     <div class="doc-section" id="tbc">
                         <h2>未完待续</h2>
                         
-                        <div class="function-example">
+                        <div class="function-example slide-up">
                             <h3>未完待续</h3>
                             <div class="code-block">
                                 <div class="code-header">
@@ -693,32 +910,51 @@ helpMap.get(1145).knock();  // who's that knocking ?
 
         // 显示内容
         function showContent(contentId) {
-            // 隐藏所有内容
-            document.querySelectorAll('.doc-section').forEach(section => {
-                section.classList.remove('active');
-            });
+            // 获取当前活动的内容
+            const currentActive = document.querySelector('.doc-section.active');
             
-            // 显示指定内容
-            const targetSection = document.getElementById(contentId);
-            if (targetSection) {
-                targetSection.classList.add('active');
+            if (currentActive && currentActive.id !== contentId) {
+                // 添加退出动画类
+                currentActive.classList.add('exit');
                 
-                // 更新页面标题
-                document.title = `NovaFlare Engine | ${contentData[contentId].title}`;
-                
-                // 高亮当前菜单项
-                document.querySelectorAll('.sidebar-item').forEach(item => {
-                    item.classList.remove('active');
-                    if (item.getAttribute('data-id') === contentId) {
-                        item.classList.add('active');
+                // 等待退出动画完成
+                setTimeout(() => {
+                    currentActive.classList.remove('active', 'exit');
+                    
+                    // 显示新内容
+                    const targetSection = document.getElementById(contentId);
+                    if (targetSection) {
+                        targetSection.classList.add('active');
+                        
+                        // 更新页面标题
+                        document.title = `NovaFlare Engine | ${contentData[contentId].title}`;
+                        
+                        // 高亮当前菜单项
+                        document.querySelectorAll('.sidebar-item').forEach(item => {
+                            item.classList.remove('active');
+                            if (item.getAttribute('data-id') === contentId) {
+                                item.classList.add('active');
+                            }
+                        });
                     }
-                });
-                
-                // 平滑滚动到顶部
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
+                }, 300); // 与CSS过渡时间匹配
+            } else if (!currentActive) {
+                // 首次加载
+                const targetSection = document.getElementById(contentId);
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                    
+                    // 更新页面标题
+                    document.title = `NovaFlare Engine | ${contentData[contentId].title}`;
+                    
+                    // 高亮当前菜单项
+                    document.querySelectorAll('.sidebar-item').forEach(item => {
+                        item.classList.remove('active');
+                        if (item.getAttribute('data-id') === contentId) {
+                            item.classList.add('active');
+                        }
+                    });
+                }
             }
         }
 
@@ -760,6 +996,13 @@ helpMap.get(1145).knock();  // who's that knocking ?
             
             // 代码复制功能
             initCodeCopy();
+            
+            // 主题切换
+            document.getElementById('theme-toggle').addEventListener('click', function() {
+                document.body.classList.toggle('light-theme');
+                this.querySelector('i').classList.toggle('fa-moon');
+                this.querySelector('i').classList.toggle('fa-sun');
+            });
         }
 
         // 初始化代码复制功能
