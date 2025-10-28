@@ -91,6 +91,11 @@
         
         .doc-section {
             margin-bottom: 50px;
+            display: none;
+        }
+        
+        .doc-section.active {
+            display: block;
         }
         
         .doc-section h2 {
@@ -174,6 +179,44 @@
             border-radius: 0;
         }
         
+        /* 导航按钮 */
+        .doc-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .nav-btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .nav-btn.prev {
+            background: var(--text-secondary);
+        }
+        
+        .nav-btn.prev:hover {
+            background: var(--text-primary);
+        }
+        
         /* 响应式设计 */
         @media (max-width: 768px) {
             .docs-container {
@@ -185,6 +228,15 @@
                 margin-right: 0;
                 margin-bottom: 20px;
                 position: static;
+            }
+            
+            .doc-navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-btn {
+                justify-content: center;
             }
         }
     </style>
@@ -217,12 +269,12 @@
         <div class="container">
             <div class="docs-container">
                 <aside class="sidebar">
-                    <!-- 侧边栏内容将由JavaScript生成 -->
+                    <!-- 侧边栏将由JavaScript生成 -->
                 </aside>
 
                 <!-- 文档内容区域 -->
                 <div class="docs-content">
-                    <!-- 原始文档内容将在这里插入 -->
+                    <!-- 文档抽屉块将在这里动态生成 -->
                 </div>
             </div>
         </div>
@@ -262,17 +314,37 @@
                 title: "用前须知",
                 icon: "fa-code",
                 items: [
-                    { name: "看我看我", id: "readme" }
+                    { name: "温馨提示", id: "tips" },
+                    { name: "注意事项", id: "notes" }
+                ]
+            },
+            {
+                title: "代码示例",
+                icon: "fa-cogs",
+                items: [
+                    { name: "自定义类示例", id: "custom-class" },
+                    { name: "错误示例", id: "wrong-example" },
+                    { name: "正确示例", id: "correct-example" }
+                ]
+            },
+            {
+                title: "高级用法",
+                icon: "fa-rocket",
+                items: [
+                    { name: "重要提示", id: "important-notes" },
+                    { name: "Array示例", id: "array-example" },
+                    { name: "Map示例", id: "map-example" },
+                    { name: "未完待续", id: "tbc" }
                 ]
             }
         ];
 
         // 文档内容数据
         const contentData = {
-            readme: {
-                title: "HScript 开发文档",
+            "tips": {
+                title: "温馨提示",
                 content: `
-                    <div class="doc-section" id="createSprite">
+                    <div class="doc-section" id="tips">
                         <h2>温馨提示</h2>
                         <div class="function-notes">
                             <h3>温馨提示</h3>
@@ -287,6 +359,19 @@
                             </ul>
                         </div>
                         
+                        <div class="doc-navigation">
+                            <div></div>
+                            <button class="nav-btn next" data-next="notes">
+                                下一页 <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                `
+            },
+            "notes": {
+                title: "注意事项",
+                content: `
+                    <div class="doc-section" id="notes">
                         <h2>看我</h2>
 
                         <div class="function-notes">
@@ -298,6 +383,21 @@
                            </ul>
                         </div>
                         
+                        <div class="doc-navigation">
+                            <button class="nav-btn prev" data-prev="tips">
+                                <i class="fas fa-arrow-left"></i> 上一页
+                            </button>
+                            <button class="nav-btn next" data-next="custom-class">
+                                下一页 <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                `
+            },
+            "custom-class": {
+                title: "自定义类示例",
+                content: `
+                    <div class="doc-section" id="custom-class">
                         <div class="function-example">
                             <h3>如果你有一个这样的自定义类</h3>
                             <div class="code-block">
@@ -321,14 +421,30 @@ class YouObject extends ScriptedSprite
 }
 </code></pre>
                             </div>
-                            
-                            <h3>错误示例</h3>
-                            <div class="code-block">
-                                <div class="code-header">
-                                    <span>HScript</span>
-                                    <button class="code-copy">复制</button>
-                                </div>
-                                <pre><code class="language-javascript">
+                        </div>
+                        
+                        <div class="doc-navigation">
+                            <button class="nav-btn prev" data-prev="notes">
+                                <i class="fas fa-arrow-left"></i> 上一页
+                            </button>
+                            <button class="nav-btn next" data-next="wrong-example">
+                                下一页 <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                `
+            },
+            "wrong-example": {
+                title: "错误示例",
+                content: `
+                    <div class="doc-section" id="wrong-example">
+                        <h3>错误示例</h3>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>HScript</span>
+                                <button class="code-copy">复制</button>
+                            </div>
+                            <pre><code class="language-javascript">
 package blabla;
 
 import some.YouObject;
@@ -348,9 +464,23 @@ class YouNextClass
     }
 }
 </code></pre>
-                            </div>
                         </div>
                         
+                        <div class="doc-navigation">
+                            <button class="nav-btn prev" data-prev="custom-class">
+                                <i class="fas fa-arrow-left"></i> 上一页
+                            </button>
+                            <button class="nav-btn next" data-next="correct-example">
+                                下一页 <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                `
+            },
+            "correct-example": {
+                title: "正确示例",
+                content: `
+                    <div class="doc-section" id="correct-example">
                         <div class="function-notes">
                             <h3>注意事项</h3>
                             <ul>
@@ -360,15 +490,14 @@ class YouNextClass
                             </ul>
                         </div>
                         
-                        <!-- 函数实操代码 -->
-                    <div class="function-example">
-                        <h3>正确示例</h3>
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>HScript</span>
-                                <button class="code-copy">复制</button>
-                            </div>
-                            <pre><code class="language-javascript">
+                        <div class="function-example">
+                            <h3>正确示例</h3>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>HScript</span>
+                                    <button class="code-copy">复制</button>
+                                </div>
+                                <pre><code class="language-javascript">
 package blabla;
 
 import some.YouObject;
@@ -389,25 +518,56 @@ class YouNextClass
     }
 }
 </code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="doc-navigation">
+                            <button class="nav-btn prev" data-prev="wrong-example">
+                                <i class="fas fa-arrow-left"></i> 上一页
+                            </button>
+                            <button class="nav-btn next" data-next="important-notes">
+                                下一页 <i class="fas fa-arrow-right"></i>
+                            </button>
                         </div>
                     </div>
-                    <div class="function-notes">
-                        <h3>重要提示</h3>
-                        <ul>
-                            <li>
-                                以下例子会出现转换成父类的问题
-                            </li>
-                       </ul>
+                `
+            },
+            "important-notes": {
+                title: "重要提示",
+                content: `
+                    <div class="doc-section" id="important-notes">
+                        <div class="function-notes">
+                            <h3>重要提示</h3>
+                            <ul>
+                                <li>
+                                    以下例子会出现转换成父类的问题
+                                </li>
+                           </ul>
+                        </div>
+                        
+                        <div class="doc-navigation">
+                            <button class="nav-btn prev" data-prev="correct-example">
+                                <i class="fas fa-arrow-left"></i> 上一页
+                            </button>
+                            <button class="nav-btn next" data-next="array-example">
+                                下一页 <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
                     </div>
-                    
-                    <div class="function-example">
-                        <h3>例子1: Array</h3>
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>HScript</span>
-                                <button class="code-copy">复制</button>
-                            </div>
-                            <pre><code class="language-javascript">
+                `
+            },
+            "array-example": {
+                title: "Array示例",
+                content: `
+                    <div class="doc-section" id="array-example">
+                        <div class="function-example">
+                            <h3>例子1: Array</h3>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>HScript</span>
+                                    <button class="code-copy">复制</button>
+                                </div>
+                                <pre><code class="language-javascript">
 //错误写法
 var obj:MyClass = new MyClass(); // MyClass extends ScriptedSprite
 add(obj);
@@ -415,14 +575,14 @@ oneArray.push(obj); //存进数组的实际上是ScriptedSprite实例，他已�
 
 oneArray[0].knock();   // Error: Invalid Function -> 'knock'
 </code></pre>
-                        </div>
-                        
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>HScript</span>
-                                <button class="code-copy">复制</button>
                             </div>
-                            <pre><code class="language-javascript">
+                            
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>HScript</span>
+                                    <button class="code-copy">复制</button>
+                                </div>
+                                <pre><code class="language-javascript">
 //正确写法
 var obj:MyClass = new MyClass(); // MyClass extends ScriptedSprite
 add(obj);
@@ -437,17 +597,32 @@ oneArray.push(@:unpass_standard obj);
 */
 oneArray[0].knock();   // who's that knocking ?
 </code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="doc-navigation">
+                            <button class="nav-btn prev" data-prev="important-notes">
+                                <i class="fas fa-arrow-left"></i> 上一页
+                            </button>
+                            <button class="nav-btn next" data-next="map-example">
+                                下一页 <i class="fas fa-arrow-right"></i>
+                            </button>
                         </div>
                     </div>
-                    
-                    <div class="function-example">
-                        <h3>例子2: Map</h3>
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>HScript</span>
-                                <button class="code-copy">复制</button>
-                            </div>
-                            <pre><code class="language-javascript">
+                `
+            },
+            "map-example": {
+                title: "Map示例",
+                content: `
+                    <div class="doc-section" id="map-example">
+                        <div class="function-example">
+                            <h3>例子2: Map</h3>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>HScript</span>
+                                    <button class="code-copy">复制</button>
+                                </div>
+                                <pre><code class="language-javascript">
 //错误写法
 var obj:MyClass = new MyClass(); // MyClass extends ScriptedSprite
 
@@ -457,14 +632,14 @@ helpMap.set(1145, obj); //存进Map的实际上是ScriptedSprite实例，他已�
 
 helpMap.get(1145).knock(); // Error: Invalid Function -> 'knock'
 </code></pre>
-                        </div>
-                        
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>HScript</span>
-                                <button class="code-copy">复制</button>
                             </div>
-                            <pre><code class="language-javascript">
+                            
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>HScript</span>
+                                    <button class="code-copy">复制</button>
+                                </div>
+                                <pre><code class="language-javascript">
 //正确写法
 var obj:MyClass = new MyClass(); // MyClass extends ScriptedSprite
 
@@ -482,19 +657,42 @@ helpMap.set(1145, @:unpass_standard obj);
 
 helpMap.get(1145).knock();  // who's that knocking ?
 </code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="doc-navigation">
+                            <button class="nav-btn prev" data-prev="array-example">
+                                <i class="fas fa-arrow-left"></i> 上一页
+                            </button>
+                            <button class="nav-btn next" data-next="tbc">
+                                下一页 <i class="fas fa-arrow-right"></i>
+                            </button>
                         </div>
                     </div>
-                    
-                    <div class="function-example">
-                        <h3>未完待续</h3>
-                        <div class="code-block">
-                            <div class="code-header">
-                                <span>HScript</span>
-                                <button class="code-copy">复制</button>
-                            </div>
-                            <pre><code class="language-javascript">
+                `
+            },
+            "tbc": {
+                title: "未完待续",
+                content: `
+                    <div class="doc-section" id="tbc">
+                        <div class="function-example">
+                            <h3>未完待续</h3>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>HScript</span>
+                                    <button class="code-copy">复制</button>
+                                </div>
+                                <pre><code class="language-javascript">
 目前还没发现别的什么问题
 </code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="doc-navigation">
+                            <button class="nav-btn prev" data-prev="map-example">
+                                <i class="fas fa-arrow-left"></i> 上一页
+                            </button>
+                            <div></div>
                         </div>
                     </div>
                 `
@@ -506,8 +704,11 @@ helpMap.get(1145).knock();  // who's that knocking ?
             // 生成侧边栏
             generateSidebar();
             
-            // 生成默认内容
-            showContent('readme');
+            // 生成文档内容
+            generateContent();
+            
+            // 显示默认内容
+            showContent('tips');
             
             // 初始化交互功能
             initInteractions();
@@ -537,12 +738,27 @@ helpMap.get(1145).knock();  // who's that knocking ?
             });
         }
 
-        // 显示内容
-        function showContent(contentId) {
+        // 生成文档内容
+        function generateContent() {
             const contentElement = document.querySelector('.docs-content');
             
-            if (contentData[contentId]) {
-                contentElement.innerHTML = contentData[contentId].content;
+            // 将所有内容添加到文档中
+            Object.keys(contentData).forEach(key => {
+                contentElement.innerHTML += contentData[key].content;
+            });
+        }
+
+        // 显示内容
+        function showContent(contentId) {
+            // 隐藏所有内容
+            document.querySelectorAll('.doc-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // 显示指定内容
+            const targetSection = document.getElementById(contentId);
+            if (targetSection) {
+                targetSection.classList.add('active');
                 
                 // 更新页面标题
                 document.title = `NovaFlare Engine | ${contentData[contentId].title}`;
@@ -554,21 +770,9 @@ helpMap.get(1145).knock();  // who's that knocking ?
                         item.classList.add('active');
                     }
                 });
-            } else {
-                contentElement.innerHTML = `
-                    <div class="doc-section">
-                        <h2>内容未找到</h2>
-                        <p>请求的内容 "${contentId}" 不存在。</p>
-                    </div>
-                `;
-            }
-            
-            // 重新初始化代码复制功能
-            initCodeCopy();
-            
-            // 重新高亮代码
-            if (window.Prism) {
-                Prism.highlightAllUnder(contentElement);
+                
+                // 滚动到顶部
+                window.scrollTo(0, 0);
             }
         }
 
@@ -595,6 +799,17 @@ helpMap.get(1145).knock();  // who's that knocking ?
                     const contentId = this.getAttribute('data-id');
                     showContent(contentId);
                 });
+            });
+            
+            // 导航按钮点击
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.nav-btn.next')) {
+                    const nextId = e.target.closest('.nav-btn.next').getAttribute('data-next');
+                    showContent(nextId);
+                } else if (e.target.closest('.nav-btn.prev')) {
+                    const prevId = e.target.closest('.nav-btn.prev').getAttribute('data-prev');
+                    showContent(prevId);
+                }
             });
             
             // 代码复制功能
