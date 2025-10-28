@@ -1,0 +1,530 @@
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaFlare Engine | HScript 开发文档</title>
+    <link rel="stylesheet" href="../../../css/themes.css">
+    <link rel="stylesheet" href="../../../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <style>
+        .docs-container {
+            display: flex;
+            min-height: calc(100vh - 200px);
+            margin-top: 30px;
+        }
+        
+        .sidebar {
+            width: 280px;
+            background: rgba(var(--bg-card-rgb), 0.9);
+            border-radius: 12px;
+            padding: 20px;
+            margin-right: 30px;
+            border: 1px solid var(--border-color);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--accent-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .sidebar-header i {
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar-header.active i {
+            transform: rotate(90deg);
+        }
+        
+        .sidebar-items {
+            padding-left: 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .sidebar-section.active .sidebar-items {
+            max-height: 500px;
+        }
+        
+        .sidebar-item {
+            display: block;
+            padding: 8px 10px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 6px;
+            margin: 5px 0;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+        
+        .sidebar-item:hover, .sidebar-item.active {
+            background: rgba(var(--accent-rgb), 0.1);
+            color: var(--accent-color);
+        }
+        
+        /* 文档内容样式 */
+        .docs-content {
+            flex: 1;
+            background: rgba(var(--bg-card-rgb), 0.9);
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .doc-section {
+            margin-bottom: 50px;
+        }
+        
+        .doc-section h2 {
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+        }
+        
+        .doc-section h3 {
+            color: var(--text-primary);
+            margin: 25px 0 15px;
+            font-size: 1.4rem;
+        }
+        
+        .function-name {
+            background: var(--accent-color);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 1.1rem;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        
+        .function-explanation, .function-notes {
+            margin: 15px 0;
+            line-height: 1.6;
+        }
+        
+        .function-notes {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        
+        .function-warning {
+            background: rgba(220, 53, 69, 0.1);
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        
+        .function-tip {
+            background: rgba(13, 110, 253, 0.1);
+            border-left: 4px solid #0d6efd;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        
+        .code-block {
+            margin: 20px 0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .code-header {
+            background: #2d2d2d;
+            color: #ccc;
+            padding: 10px 15px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .code-copy {
+            background: none;
+            border: none;
+            color: #ccc;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        pre[class*="language-"] {
+            margin: 0;
+            border-radius: 0;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .docs-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 20px;
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="starfield"></canvas>
+
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <div class="navbar-logo">
+                <h1>新星闪耀引擎</h1>
+            </div>
+            <div class="navbar-menu">
+                <div class="navbar-actions">
+                    <button id="theme-toggle" aria-label="切换主题">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <a href="../../en/hscript/hscript_readme.html" class="lang-toggle" aria-label="切换到英文">
+                        <span>EN</span>
+                    </a>
+                </div>
+                <button class="mobile-menu-btn" id="menu-toggle" aria-label="菜单">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="docs-main">
+        <div class="container">
+            <div class="docs-container">
+                <aside class="sidebar">
+                    <!-- 侧边栏内容将在这里动态生成 -->
+                </aside>
+
+                <!-- 文档内容区域 -->
+                <div class="docs-content">
+                    <!-- 文档内容将在这里动态生成 -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>NovaFlare Engine 开发文档</p>
+            </div>
+            <ul class="footer-links">
+                <li><a href="../../../index.html">首页</a></li>
+                <li><a href="../../../docs-choose.html">文档</a></li>
+                <li><a href="../../../index.html#download">下载</a></li>
+                <li><a href="../../../index.html#community">社区</a></li>
+            </ul>
+            <div class="footer-social">
+                <a href="https://discord.gg/FkEwvRW2YZ" target="_blank" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                <a href="https://github.com/NovaFlare-Engine-Concentration/FNF-NovaFlare-Engine/" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://youtube.com/@beihu235" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            </div>
+            
+            <div class="footer-copyright">
+                <!--<p>&copy; 2025 NovaFlare Engine. <span>保留所有权利。</span></p>-->
+            </div>
+        </div>
+    </footer>
+
+    <!-- 代码高亮脚本 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    
+    <script>
+        // 侧边栏数据结构
+        const sidebarData = [
+            {
+                title: "基础概念",
+                icon: "fa-code",
+                items: [
+                    { name: "HScript 简介", id: "intro" },
+                    { name: "环境配置", id: "setup" },
+                    { name: "基础语法", id: "syntax" }
+                ]
+            },
+            {
+                title: "核心功能",
+                icon: "fa-cogs",
+                items: [
+                    { name: "Sprite 系统", id: "sprites" },
+                    { name: "动画系统", id: "animations" },
+                    { name: "事件系统", id: "events" }
+                ]
+            },
+            {
+                title: "高级特性",
+                icon: "fa-rocket",
+                items: [
+                    { name: "自定义类", id: "customClasses" },
+                    { name: "元数据使用", id: "metadata" },
+                    { name: "性能优化", id: "optimization" }
+                ]
+            }
+        ];
+
+        // 文档内容数据
+        const contentData = {
+            intro: {
+                title: "HScript 简介",
+                content: `
+                    <div class="doc-section" id="intro">
+                        <h2>HScript 简介</h2>
+                        <p>HScript 是 NovaFlare 引擎的脚本系统，基于 Haxe 语言开发，允许开发者在不修改引擎源码的情况下扩展游戏功能。</p>
+                        
+                        <div class="function-tip">
+                            <h3>核心特性</h3>
+                            <ul>
+                                <li>与引擎源码无缝集成</li>
+                                <li>支持自定义类和函数</li>
+                                <li>运行时动态加载</li>
+                                <li>强大的类型系统</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            setup: {
+                title: "环境配置",
+                content: `
+                    <div class="doc-section" id="setup">
+                        <h2>环境配置</h2>
+                        <p>在开始使用 HScript 之前，您需要配置开发环境。</p>
+                        
+                        <div class="function-notes">
+                            <h3>前置要求</h3>
+                            <ul>
+                                <li>安装 Haxe 4.2.0 或更高版本</li>
+                                <li>配置 Haxe 标准库</li>
+                                <li>安装 NovaFlare 引擎</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="function-example">
+                            <h3>环境检查</h3>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>终端</span>
+                                    <button class="code-copy">复制</button>
+                                </div>
+                                <pre><code class="language-bash">
+haxe --version
+haxelib list
+                                </code></pre>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            customClasses: {
+                title: "自定义类",
+                content: `
+                    <div class="doc-section" id="customClasses">
+                        <h2>自定义类</h2>
+                        <p>在 HScript 中创建和使用自定义类。</p>
+                        
+                        <div class="function-warning">
+                            <h3>重要提示</h3>
+                            <p>自定义类继承引擎类时，需要注意父类转换问题。使用 <code>@:unpass_standard</code> 元数据可以避免此问题。</p>
+                        </div>
+                        
+                        <div class="function-example">
+                            <h3>创建自定义类</h3>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>HScript</span>
+                                    <button class="code-copy">复制</button>
+                                </div>
+                                <pre><code class="language-javascript">
+package objects;
+
+class CustomSprite extends ScriptedSprite
+{
+    public var customProperty:String = "Hello";
+    
+    public function new()
+    {
+        super();
+    }
+    
+    public function customMethod():Void
+    {
+        trace("Custom method called: " + customProperty);
+    }
+}
+                                </code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="function-example">
+                            <h3>使用自定义类</h3>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>HScript</span>
+                                    <button class="code-copy">复制</button>
+                                </div>
+                                <pre><code class="language-javascript">
+var sprite = new CustomSprite();
+add(sprite);
+sprite.customMethod(); // 输出: Custom method called: Hello
+                                </code></pre>
+                            </div>
+                        </div>
+                    </div>
+                `
+            }
+            // 其他内容部分可以继续添加...
+        };
+
+        // 初始化文档
+        document.addEventListener('DOMContentLoaded', function() {
+            // 生成侧边栏
+            generateSidebar();
+            
+            // 生成默认内容
+            showContent('intro');
+            
+            // 初始化交互功能
+            initInteractions();
+        });
+
+        // 生成侧边栏
+        function generateSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            
+            sidebarData.forEach(section => {
+                const sectionElement = document.createElement('div');
+                sectionElement.className = 'sidebar-section active';
+                
+                sectionElement.innerHTML = `
+                    <div class="sidebar-header">
+                        <span><i class="fas ${section.icon} me-2"></i> ${section.title}</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="sidebar-items">
+                        ${section.items.map(item => 
+                            `<a href="#" class="sidebar-item" data-id="${item.id}">${item.name}</a>`
+                        ).join('')}
+                    </div>
+                `;
+                
+                sidebar.appendChild(sectionElement);
+            });
+        }
+
+        // 显示内容
+        function showContent(contentId) {
+            const contentElement = document.querySelector('.docs-content');
+            
+            if (contentData[contentId]) {
+                contentElement.innerHTML = contentData[contentId].content;
+                
+                // 更新页面标题
+                document.title = `NovaFlare Engine | ${contentData[contentId].title}`;
+                
+                // 高亮当前菜单项
+                document.querySelectorAll('.sidebar-item').forEach(item => {
+                    item.classList.remove('active');
+                    if (item.getAttribute('data-id') === contentId) {
+                        item.classList.add('active');
+                    }
+                });
+            } else {
+                contentElement.innerHTML = `
+                    <div class="doc-section">
+                        <h2>内容未找到</h2>
+                        <p>请求的内容 "${contentId}" 不存在。</p>
+                    </div>
+                `;
+            }
+            
+            // 重新初始化代码复制功能
+            initCodeCopy();
+            
+            // 重新高亮代码
+            if (window.Prism) {
+                Prism.highlightAllUnder(contentElement);
+            }
+        }
+
+        // 初始化交互功能
+        function initInteractions() {
+            // 侧边栏展开/折叠
+            const sidebarHeaders = document.querySelectorAll('.sidebar-header');
+            
+            sidebarHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const section = this.parentElement;
+                    section.classList.toggle('active');
+                    this.querySelector('i:last-child').classList.toggle('fa-chevron-down');
+                    this.querySelector('i:last-child').classList.toggle('fa-chevron-right');
+                });
+            });
+            
+            // 侧边栏项点击
+            const sidebarItems = document.querySelectorAll('.sidebar-item');
+            
+            sidebarItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const contentId = this.getAttribute('data-id');
+                    showContent(contentId);
+                });
+            });
+            
+            // 代码复制功能
+            initCodeCopy();
+        }
+
+        // 初始化代码复制功能
+        function initCodeCopy() {
+            const copyButtons = document.querySelectorAll('.code-copy');
+            
+            copyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const codeBlock = this.closest('.code-block').querySelector('code');
+                    const textArea = document.createElement('textarea');
+                    textArea.value = codeBlock.textContent;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    
+                    // 显示复制成功提示
+                    const originalText = this.textContent;
+                    this.textContent = '已复制!';
+                    setTimeout(() => {
+                        this.textContent = originalText;
+                    }, 2000);
+                });
+            });
+        }
+    </script>
+    
+    <script src="../../../js/starfield.js"></script>
+    <script src="../../../js/theme.js"></script>
+</body>
+</html>

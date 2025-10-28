@@ -357,6 +357,8 @@ class YouNextClass
 var obj:MyClass = new MyClass(); // MyClass extends ScriptedSprite
 add(obj);
 oneArray.push(obj); //存进数组的实际上是ScriptedSprite实例，他已经丢失了数据
+
+oneArray[0].knock();   // Error: Invalid Function -> 'knock'
 </code></pre>
                         </div>
                         
@@ -378,7 +380,7 @@ oneArray.push(obj);
 
 oneArray.push(@:unpass_standard obj);
 */
-
+oneArray[0].knock();   // who's that knocking ?
 </code></pre>
                         </div>
                     </div>
