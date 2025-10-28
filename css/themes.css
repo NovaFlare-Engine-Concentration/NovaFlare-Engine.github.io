@@ -34,9 +34,9 @@
   --info: #3b82f6;
   
   /* 代码块 */
-  --code-bg: #f8fafc;
-  --code-border: #e2e8f0;
-  --code-text: #1e293b;
+  --code-bg: #0f172a;
+  --code-border: #1e293b;
+  --code-text: #e2e8f0;
   
   /* 导航和页脚 */
   --nav-bg: rgba(255, 255, 255, 0.95);
