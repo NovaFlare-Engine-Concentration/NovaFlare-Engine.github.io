@@ -20,10 +20,11 @@
             font-family: 'Inter', 'Noto Sans SC', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: #e2e8f0;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             overflow-x: auto;
             min-width: 1200px;
+            transition: all 0.3s ease;
         }
         
         #starfield {
@@ -36,9 +37,9 @@
         }
         
         .navbar {
-            background: rgba(15, 23, 42, 0.8);
+            background: var(--bg-navbar);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid var(--border-color);
             padding: 15px 0;
             position: sticky;
             top: 0;
@@ -58,7 +59,7 @@
         .navbar-logo h1 {
             margin: 0;
             font-size: 1.8rem;
-            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            background: linear-gradient(90deg, var(--accent-color), var(--accent-secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 700;
@@ -71,9 +72,9 @@
         }
         
         #theme-toggle, .lang-toggle {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--bg-button);
             border: none;
-            color: #e2e8f0;
+            color: var(--text-primary);
             width: 40px;
             height: 40px;
             border-radius: 50%;
@@ -85,7 +86,7 @@
         }
         
         #theme-toggle:hover, .lang-toggle:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: var(--bg-button-hover);
             transform: translateY(-2px);
         }
         
@@ -110,10 +111,10 @@
         
         .sidebar {
             width: 280px;
-            background: rgba(30, 41, 59, 0.8);
+            background: var(--bg-card);
             border-radius: 12px;
             padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
             height: fit-content;
             position: sticky;
             top: 100px;
@@ -131,13 +132,13 @@
             padding: 10px 0;
             cursor: pointer;
             font-weight: 600;
-            color: #3b82f6;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--accent-color);
+            border-bottom: 1px solid var(--border-color);
             transition: all 0.3s ease;
         }
         
         .sidebar-header:hover {
-            color: #60a5fa;
+            color: var(--accent-hover);
         }
         
         .sidebar-header i {
@@ -162,7 +163,7 @@
         .sidebar-item {
             display: block;
             padding: 8px 10px;
-            color: #94a3b8;
+            color: var(--text-secondary);
             text-decoration: none;
             border-radius: 6px;
             margin: 5px 0;
@@ -179,7 +180,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+            background: linear-gradient(90deg, transparent, var(--accent-transparent), transparent);
             transition: left 0.5s ease;
         }
         
@@ -188,17 +189,17 @@
         }
         
         .sidebar-item:hover, .sidebar-item.active {
-            background: rgba(59, 130, 246, 0.1);
-            color: #3b82f6;
+            background: var(--accent-transparent);
+            color: var(--accent-color);
         }
         
         /* 文档内容样式 */
         .docs-content {
             flex: 1;
-            background: rgba(30, 41, 59, 0.8);
+            background: var(--bg-card);
             border-radius: 12px;
             padding: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
             backdrop-filter: blur(10px);
             position: relative;
             overflow: hidden;
@@ -251,21 +252,21 @@
         }
         
         .doc-section h2 {
-            color: #3b82f6;
+            color: var(--accent-color);
             margin-bottom: 20px;
             font-size: 1.8rem;
-            border-bottom: 2px solid #3b82f6;
+            border-bottom: 2px solid var(--accent-color);
             padding-bottom: 10px;
         }
         
         .doc-section h3 {
-            color: #e2e8f0;
+            color: var(--text-primary);
             margin: 25px 0 15px;
             font-size: 1.4rem;
         }
         
         .function-name {
-            background: #3b82f6;
+            background: var(--accent-color);
             color: white;
             padding: 6px 12px;
             border-radius: 4px;
@@ -281,24 +282,24 @@
         }
         
         .function-notes {
-            background: rgba(255, 193, 7, 0.1);
-            border-left: 4px solid #ffc107;
+            background: var(--note-bg);
+            border-left: 4px solid var(--note-color);
             padding: 15px;
             border-radius: 4px;
             animation: fadeIn 0.5s ease;
         }
         
         .function-warning {
-            background: rgba(220, 53, 69, 0.1);
-            border-left: 4px solid #dc3545;
+            background: var(--warning-bg);
+            border-left: 4px solid var(--warning-color);
             padding: 15px;
             border-radius: 4px;
             animation: fadeIn 0.5s ease;
         }
         
         .function-tip {
-            background: rgba(13, 110, 253, 0.1);
-            border-left: 4px solid #0d6efd;
+            background: var(--tip-bg);
+            border-left: 4px solid var(--tip-color);
             padding: 15px;
             border-radius: 4px;
             animation: fadeIn 0.5s ease;
@@ -309,25 +310,25 @@
             border-radius: 8px;
             overflow: hidden;
             animation: slideUp 0.5s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 12px var(--shadow-color);
         }
         
         .code-header {
-            background: #1e293b;
-            color: #94a3b8;
+            background: var(--code-header-bg);
+            color: var(--code-header-text);
             padding: 10px 15px;
             font-family: monospace;
             font-size: 0.9rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid var(--border-color);
         }
         
         .code-copy {
             background: none;
             border: none;
-            color: #94a3b8;
+            color: var(--code-header-text);
             cursor: pointer;
             font-size: 0.8rem;
             transition: all 0.3s ease;
@@ -336,14 +337,14 @@
         }
         
         .code-copy:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: #e2e8f0;
+            background: var(--bg-button-hover);
+            color: var(--text-primary);
         }
         
         pre[class*="language-"] {
             margin: 0;
             border-radius: 0;
-            background: #0f172a !important;
+            background: var(--code-bg) !important;
         }
         
         /* 导航按钮 */
@@ -352,7 +353,7 @@
             justify-content: space-between;
             margin-top: 40px;
             padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid var(--border-color);
         }
         
         .nav-btn {
@@ -360,7 +361,7 @@
             align-items: center;
             gap: 8px;
             padding: 12px 24px;
-            background: #3b82f6;
+            background: var(--accent-color);
             color: white;
             border: none;
             border-radius: 6px;
@@ -368,26 +369,27 @@
             transition: all 0.3s ease;
             text-decoration: none;
             font-weight: 500;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px var(--shadow-color);
         }
         
         .nav-btn:hover {
-            background: #2563eb;
+            background: var(--accent-hover);
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 6px 12px var(--shadow-hover);
         }
         
         .nav-btn.prev {
-            background: #475569;
+            background: var(--bg-button);
+            color: var(--text-primary);
         }
         
         .nav-btn.prev:hover {
-            background: #334155;
+            background: var(--bg-button-hover);
         }
         
         .footer {
-            background: rgba(15, 23, 42, 0.8);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--bg-footer);
+            border-top: 1px solid var(--border-color);
             padding: 40px 0 20px;
             margin-top: 50px;
             min-width: 1200px;
@@ -418,13 +420,13 @@
         }
         
         .footer-links a {
-            color: #94a3b8;
+            color: var(--text-secondary);
             text-decoration: none;
             transition: color 0.3s ease;
         }
         
         .footer-links a:hover {
-            color: #3b82f6;
+            color: var(--accent-color);
         }
         
         .footer-social {
@@ -433,13 +435,13 @@
         }
         
         .footer-social a {
-            color: #94a3b8;
+            color: var(--text-secondary);
             font-size: 1.2rem;
             transition: all 0.3s ease;
         }
         
         .footer-social a:hover {
-            color: #3b82f6;
+            color: var(--accent-color);
             transform: translateY(-3px);
         }
         
@@ -466,25 +468,6 @@
         
         .slide-up {
             animation: slideUp 0.5s ease;
-        }
-        
-        /* 粒子背景样式 */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-        
-        .particle {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: rgba(59, 130, 246, 0.5);
-            border-radius: 50%;
         }
     </style>
 </head>
