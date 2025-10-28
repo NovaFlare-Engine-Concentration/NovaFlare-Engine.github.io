@@ -2,26 +2,124 @@
 
 /* 亮色主题 (默认) */
 :root {
+  /* 主色调 */
   --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-light: #dbeafe;
+  
+  /* 文本颜色 */
   --text-primary: #1f2937;
   --text-secondary: #4b5563;
+  --text-tertiary: #6b7280;
+  --text-inverse: #ffffff;
+  
+  /* 背景颜色 */
   --bg-primary: #ffffff;
   --bg-secondary: #f9fafb;
+  --bg-tertiary: #f3f4f6;
   --bg-card: #ffffff;
+  
+  /* 边框和阴影 */
   --border-color: #e5e7eb;
+  --border-light: #f3f4f6;
+  --border-dark: #d1d5db;
   --shadow-color: rgba(0, 0, 0, 0.05);
+  --shadow-medium: rgba(0, 0, 0, 0.1);
+  --shadow-large: rgba(0, 0, 0, 0.15);
+  
+  /* 功能颜色 */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --info: #3b82f6;
+  
+  /* 代码块 */
+  --code-bg: #f8fafc;
+  --code-border: #e2e8f0;
+  --code-text: #1e293b;
+  
+  /* 导航和页脚 */
+  --nav-bg: rgba(255, 255, 255, 0.95);
+  --footer-bg: #f8fafc;
+  
+  /* 状态颜色 */
+  --hover-bg: #f3f4f6;
+  --active-bg: #e5e7eb;
+  
+  /* 圆角 */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  
+  /* 间距 */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  
+  /* 字体大小 */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  
+  /* 字体粗细 */
+  --font-light: 300;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  
+  /* 过渡动画 */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
 }
 
 /* 暗色主题 */
 [data-theme="dark"] {
   --primary: #60a5fa;
+  --primary-hover: #3b82f6;
+  --primary-light: #1e3a8a;
+  
   --text-primary: #f3f4f6;
   --text-secondary: #9ca3af;
+  --text-tertiary: #6b7280;
+  --text-inverse: #1f2937;
+  
   --bg-primary: #111827;
   --bg-secondary: #1f2937;
+  --bg-tertiary: #374151;
   --bg-card: #1f2937;
+  
   --border-color: #374151;
+  --border-light: #4b5563;
+  --border-dark: #6b7280;
   --shadow-color: rgba(0, 0, 0, 0.1);
+  --shadow-medium: rgba(0, 0, 0, 0.2);
+  --shadow-large: rgba(0, 0, 0, 0.3);
+  
+  --success: #34d399;
+  --warning: #fbbf24;
+  --error: #f87171;
+  --info: #60a5fa;
+  
+  --code-bg: #0f172a;
+  --code-border: #1e293b;
+  --code-text: #e2e8f0;
+  
+  --nav-bg: rgba(17, 24, 39, 0.95);
+  --footer-bg: #0f172a;
+  
+  --hover-bg: #374151;
+  --active-bg: #4b5563;
 }
 
 /* 主题切换图标 */
