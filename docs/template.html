@@ -2,10 +2,8 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=1200, initial-scale=1.0">
     <title>NovaFlare Engine | HScript 开发文档</title>
-    <link rel="stylesheet" href="../../../css/themes.css">
-    <link rel="stylesheet" href="../../../css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,7 +20,8 @@
             padding: 0;
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             color: #e2e8f0;
-            overflow-x: hidden;
+            overflow-x: auto;
+            min-width: 1200px;
         }
         
         #starfield {
@@ -42,6 +41,7 @@
             position: sticky;
             top: 0;
             z-index: 1000;
+            min-width: 1200px;
         }
         
         .navbar-container {
@@ -96,6 +96,7 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 30px 20px;
+            min-width: 1200px;
         }
         
         .docs-container {
@@ -199,6 +200,7 @@
             backdrop-filter: blur(10px);
             position: relative;
             overflow: hidden;
+            min-height: 600px;
         }
         
         .doc-section {
@@ -366,6 +368,7 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding: 40px 0 20px;
             margin-top: 50px;
+            min-width: 1200px;
         }
         
         .footer .container {
@@ -872,7 +875,19 @@ helpMap.get(1145).knock();  // who's that knocking ?
             
             // 初始化交互功能
             initInteractions();
+            
+            // 强制电脑模式
+            forceDesktopMode();
         });
+
+        // 强制电脑模式
+        function forceDesktopMode() {
+            // 设置视口为固定宽度
+            const viewport = document.querySelector('meta[name="viewport"]');
+            if (viewport) {
+                viewport.setAttribute('content', 'width=1200, initial-scale=1.0');
+            }
+        }
 
         // 生成侧边栏
         function generateSidebar() {
@@ -936,6 +951,13 @@ helpMap.get(1145).knock();  // who's that knocking ?
                                 item.classList.add('active');
                             }
                         });
+                        
+                        // 重新高亮代码
+                        setTimeout(() => {
+                            if (window.Prism) {
+                                Prism.highlightAllUnder(targetSection);
+                            }
+                        }, 100);
                     }
                 }, 300); // 与CSS过渡时间匹配
             } else if (!currentActive) {
@@ -954,6 +976,13 @@ helpMap.get(1145).knock();  // who's that knocking ?
                             item.classList.add('active');
                         }
                     });
+                    
+                    // 重新高亮代码
+                    setTimeout(() => {
+                        if (window.Prism) {
+                            Prism.highlightAllUnder(targetSection);
+                        }
+                    }, 100);
                 }
             }
         }
@@ -1029,7 +1058,6 @@ helpMap.get(1145).knock();  // who's that knocking ?
             });
         }
     </script>
-    
     <script src="../../../js/starfield.js"></script>
     <script src="../../../js/theme.js"></script>
 </body>
