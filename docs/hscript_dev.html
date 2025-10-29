@@ -280,7 +280,17 @@
                     this.classList.add('active');
                 });
             });
+            
+            forceDesktopMode();
         });
+        
+        function forceDesktopMode() {
+            // 设置视口为固定宽度
+            const viewport = document.querySelector('meta[name="viewport"]');
+            if (viewport) {
+                viewport.setAttribute('content', 'width=1200, initial-scale=1.0');
+            }
+        }
     </script>
 </body>
 </html>
