@@ -205,15 +205,7 @@
                             <i class="fas fa-chevron-right"></i>
                         </div>
                         <div class="sidebar-items">
-                            <a href="zh/hscript/hscript_readme.html" class="sidebar-item">看我看我</a>
-                        </div>
-                        
-                        <div class="sidebar-header">
-                            <span><i class="fas fa-code me-2"></i> 基础</span>
-                            <i class="fas fa-chevron-right"></i>
-                        </div>
-                        <div class="sidebar-items">
-                            <a href="zh/hscript/hscript_base.html" class="sidebar-item">基础</a>
+                            <a href="en/hscript/hscript_readme.html" class="sidebar-item">看我看我</a>
                         </div>
                     </div>
                     
