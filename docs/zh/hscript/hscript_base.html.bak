@@ -230,7 +230,7 @@
             font-size: 1.4rem;
         }
         
-                .function-name {
+        .function-name {
             background: var(--accent-color);
             color: white;
             padding: 6px 12px;
@@ -492,44 +492,175 @@
         // 侧边栏数据
         const sidebarData = [
             {
-                title: "基础概念",
+                title: "基础",
                 icon: "fa-code",
                 items: [
-                    { name: "用前须知", id: "intro" },
-                    { name: "问题与解决方案", id: "problem-solution" }
+                    { name: "基础", id: "intro" },
+                    { name: "全局函数", id: "global-functions" }
                 ]
             }
         ];
-
-        // 文档内容数据
         const contentData = {
             "intro": {
-                title: "用前须知",
+                title: "基础",
                 content: `
                     <div class="doc-section" id="intro">
-                        <h2>用前须知</h2>
+                        <h2>基础</h2>
                         
                         <div class="function-notes slide-up">
-                            <h3>温馨提示</h3>
+                            <h3>文件夹结构</h3>
                             <ul>
-                                <li>本开发文档是面向对hscript或haxe有基础的开发者</li>
-                                <li>如果您还不会其中的任何一项请去学习，本文档会用到许多基础用法并且不会做过多解释</li>
+                                <li>我们的文件夹结构于CodeName Engine的有所区别不要混淆了。</li>
                             </ul>
                         </div>
                         
-                        <div class="function-notes slide-up">
-                            <h3>注意事项</h3>
-                            <ul>
-                                <li>
-                                    在本引擎的hscript中，为了保持与源码直接进行交互，让源码访问有继承的自定义类时，通常会指向它的父类，这或许可以保证hscript与源码的畅通性，但这也有着明显的短板：由源码的某一个类所储存的已继承自定义类再由脚本调用会直接变成他的父类，最好的例子便是Array
-                                </li>
-                           </ul>
+                        <div class="function-example slide-up">
+                            <h3>文件夹结构</h3>
+                            <div class="code-block">
+                                <pre><code class="text">
+📂 NovaFlare Engine
+└─ 📂 mods
+     └─ 📂 YourMod
+          └─ 📂 stageScripts
+               ├─ 📂 globals
+               ├─ 📂 modules
+               ├─ 📂 options
+               ├─ 📂 states
+               └─ 📂 substates
+</code></pre>
+                            </div>
                         </div>
                         
                         <div class="doc-navigation">
                             <div></div>
-                            <button class="nav-btn next" data-next="problem-solution">
+                            <button class="nav-btn next" data-next="global-functions">
                                 下一页 <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                `
+            },
+            "global-functions": {
+                title: "全局函数",
+                content: `
+                    <div class="doc-section" id="global-functions">
+                        <h2>全局函数参考</h2>
+                        
+                        <div class="function-notes slide-up">
+                            <h3>提示</h3>
+                            <ul>
+                                <li>这些函数在全局脚本中可用</li>
+                                <li>所有函数都有特定的调用时机</li>
+                            </ul>
+                        </div>
+        
+                        <!-- onCreate -->
+                        <div class="function-name">onCreate()</div>
+                        <div class="function-explanation">
+                            <p>当脚本被启用的时候</p>
+                        </div>
+        
+                        <!-- onStateSwitch -->
+                        <div class="function-name">onStateSwitch()</div>
+                        <div class="function-explanation">
+                            <p>当前state转到另一个state前的一瞬间</p>
+                        </div>
+                        <div class="function-notes">
+                            <p>借用<code>FlxG.game._nextState</code>来对指定的界面进行替换成自己的自定义界面</p>
+                        </div>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Hscript示例</span>
+                                <button class="code-copy">复制</button>
+                            </div>
+                            <pre><code class="language-javascript">
+if(FlxG.game._nextState is FreePlayStates) {
+    FlxG.game._nextState = new MyState(); //当准备转到FreePlay界面的时候将FreePlay界面替换成MyState界面
+}
+</code></pre>
+                        </div>
+        
+                        <!-- onStateSwitchPost -->
+                        <div class="function-name">onStateSwitchPost()</div>
+                        <div class="function-explanation">
+                            <p>前一刻state转到现在state的一瞬间</p>
+                        </div>
+        
+                        <!-- onStateCreate -->
+                        <div class="function-name">onStateCreate(state:FlxState)</div>
+                        <div class="function-explanation">
+                            <p>在当前state调用create函数前的一瞬间</p>
+                        </div>
+        
+                        <!-- onGameResized -->
+                        <div class="function-name">onGameResized(width:Int, height:Int)</div>
+                        <div class="function-explanation">
+                            <p>当前游戏窗口被调整时的一瞬间</p>
+                        </div>
+        
+                        <!-- onGameReset -->
+                        <div class="function-name">onGameReset()</div>
+                        <div class="function-explanation">
+                            <p>在游戏被重置（重启）前的一瞬间</p>
+                        </div>
+        
+                        <!-- onGameResetPost -->
+                        <div class="function-name">onGameResetPost()</div>
+                        <div class="function-explanation">
+                            <p>在游戏被重置（重启）后的一瞬间</p>
+                        </div>
+        
+                        <!-- onGameStart -->
+                        <div class="function-name">onGameStart()</div>
+                        <div class="function-explanation">
+                            <p>在游戏被启动前的一瞬间（无效）</p>
+                        </div>
+        
+                        <!-- onGameStartPost -->
+                        <div class="function-name">onGameStartPost()</div>
+                        <div class="function-explanation">
+                            <p>在游戏被启动后的一瞬间</p>
+                        </div>
+        
+                        <!-- onUpdate -->
+                        <div class="function-name">onUpdate(elapsed:Float)</div>
+                        <div class="function-explanation">
+                            <p>在游戏<code>（FlxG.game）</code>进行更新屏幕前的一瞬间</p>
+                        </div>
+        
+                        <!-- onUpdatePost -->
+                        <div class="function-name">onUpdatePost(elapsed:Float)</div>
+                        <div class="function-explanation">
+                            <p>在游戏<code>（FlxG.game）</code>更新屏幕后的一瞬间</p>
+                        </div>
+        
+                        <!-- onDraw -->
+                        <div class="function-name">onDraw()</div>
+                        <div class="function-explanation">
+                            <p>在游戏绘制画面前的一瞬间</p>
+                        </div>
+        
+                        <!-- onDrawPost -->
+                        <div class="function-name">onDrawPost()</div>
+                        <div class="function-explanation">
+                            <p>在游戏绘制画面后的一瞬间</p>
+                        </div>
+        
+                        <!-- onFocusLost -->
+                        <div class="function-name">onFocusLost()</div>
+                        <div class="function-explanation">
+                            <p>当游戏切至后台</p>
+                        </div>
+        
+                        <!-- onFocusGained -->
+                        <div class="function-name">onFocusGained()</div>
+                        <div class="function-explanation">
+                            <p>当从后台切回游戏里</p>
+                        </div>
+                        
+                        <div class="doc-navigation">
+                            <button class="nav-btn prev" data-prev="intro">
+                                <i class="fas fa-arrow-left"></i> 上一页
                             </button>
                         </div>
                     </div>
