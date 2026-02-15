@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
@@ -11,7 +10,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* 原有样式保留 */
         .docs-selection {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -38,146 +36,10 @@
             margin-bottom: 20px;
             color: var(--accent-color);
         }
-
-        /* 语言选择弹窗样式 */
-        .lang-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(5px);
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .lang-modal.active {
-            display: flex;
-            opacity: 1;
-        }
-        
-        .lang-modal-content {
-            background: var(--bg-color);
-            border-radius: 24px;
-            padding: 40px;
-            max-width: 400px;
-            width: 90%;
-            text-align: center;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            transform: scale(0.95);
-            transition: transform 0.3s ease;
-        }
-        
-        .lang-modal.active .lang-modal-content {
-            transform: scale(1);
-        }
-        
-        .lang-modal h2 {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, var(--accent-color), #ff7b89);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .lang-modal p {
-            color: var(--text-secondary);
-            margin-bottom: 30px;
-        }
-        
-        .lang-options {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-        }
-        
-        .lang-option {
-            flex: 1;
-            padding: 16px 0;
-            border: 2px solid var(--border-color);
-            border-radius: 16px;
-            background: transparent;
-            color: var(--text-color);
-            font-weight: 600;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .lang-option i {
-            font-size: 2rem;
-            color: var(--accent-color);
-        }
-        
-        .lang-option:hover {
-            border-color: var(--accent-color);
-            background: rgba(var(--accent-rgb), 0.1);
-            transform: translateY(-2px);
-        }
-        
-        .lang-option:active {
-            transform: translateY(0);
-        }
-        
-        .close-modal {
-            margin-top: 30px;
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            cursor: pointer;
-            font-size: 0.95rem;
-            text-decoration: underline;
-        }
-        
-        .close-modal:hover {
-            color: var(--accent-color);
-        }
-
-        /* 确保按钮指针事件正常 */
-        .btn {
-            cursor: pointer;
-        }
-
-        /* 移动端适配 */
-        @media (max-width: 480px) {
-            .lang-options {
-                flex-direction: column;
-                gap: 10px;
-            }
-        }
     </style>
 </head>
 <body>
     <canvas id="starfield"></canvas>
-
-    <!-- 语言选择弹窗 -->
-    <div id="langModal" class="lang-modal">
-        <div class="lang-modal-content">
-            <h2 id="modalTitle" data-en="Choose Language" data-zh="选择语言">选择语言</h2>
-            <p id="modalSub" data-en="Select documentation version" data-zh="选择文档版本">选择文档版本</p>
-            <div class="lang-options">
-                <button class="lang-option" id="chooseChinese">
-                    <i class="fas fa-language"></i>
-                    <span data-en="中文" data-zh="中文">中文</span>
-                </button>
-                <button class="lang-option" id="chooseEnglish">
-                    <i class="fas fa-globe"></i>
-                    <span data-en="English" data-zh="英文">英文</span>
-                </button>
-            </div>
-            <button class="close-modal" id="closeModal" data-en="Cancel" data-zh="取消">取消</button>
-        </div>
-    </div>
 
     <nav class="navbar">
         <div class="container navbar-container">
@@ -214,8 +76,7 @@
                         </div>
                         <h3 data-en="Source Code Development" data-zh="源码开发">源码开发</h3>
                         <p data-en="Complete guide for engine source code development and customization" data-zh="引擎源码开发与定制的完整指南">引擎源码开发与定制的完整指南</p>
-                        <!-- 添加自定义属性 data-doc-type 用于区分文档类型 -->
-                        <button class="btn btn-primary doc-link" data-doc-type="source" data-en="View Documentation" data-zh="查看文档">查看文档</button>
+                        <a href="source_dev.html" class="btn btn-primary" data-en="View Documentation" data-zh="查看文档">查看文档</a>
                     </div>
                     
                     <div class="doc-card">
@@ -224,7 +85,7 @@
                         </div>
                         <h3 data-en="Hscript Development" data-zh="Hscript脚本开发">Hscript脚本开发</h3>
                         <p data-en="Guide for creating mods and content using Hscript" data-zh="使用Hscript创建Mod和内容的指南">使用Hscript创建Mod和内容的指南</p>
-                        <button class="btn btn-primary doc-link" data-doc-type="hscript" data-en="View Documentation" data-zh="查看文档">查看文档</button>
+                        <a href="docs/hscript_dev.html" class="btn btn-primary" data-en="View Documentation" data-zh="查看文档">查看文档</a>
                     </div>
 
                     <div class="doc-card">
@@ -233,7 +94,7 @@
                        </div>
                        <h3 data-en="Lua Development" data-zh="Lua开发">Lua开发</h3>
                        <p data-en="Guide for Lua scripting in NovaFlare Engine" data-zh="NovaFlare Engine中的Lua脚本指南">NovaFlare Engine中的Lua脚本指南</p>
-                       <button class="btn btn-primary doc-link" data-doc-type="lua" data-en="View Documentation" data-zh="查看文档">查看文档</button>
+                       <a href="lua_docs.html" class="btn btn-primary" data-en="View Documentation" data-zh="查看文档">查看文档</a>
                    </div>
                 </div>
             </section>
@@ -266,121 +127,5 @@
     <script src="js/starfield.js"></script>
     <script src="js/theme.js"></script>
     <script src="js/language.js"></script>
-    <script>
-        (function() {
-            // 语言弹窗逻辑
-            const modal = document.getElementById('langModal');
-            const closeBtn = document.getElementById('closeModal');
-            const chineseBtn = document.getElementById('chooseChinese');
-            const englishBtn = document.getElementById('chooseEnglish');
-            
-            // 存储当前要跳转的文档类型
-            let currentDocType = null;
-
-            // 所有“查看文档”按钮
-            const docButtons = document.querySelectorAll('.doc-link');
-
-            // 打开弹窗，记录文档类型
-            function openLangModal(docType) {
-                currentDocType = docType;
-                modal.classList.add('active');
-                // 弹窗内容多语言已在显示时由之前的language.js处理，但为了防止切换不及时，手动更新一下？
-                // 可以触发一下更新标题，但language.js通常全局监听，这里不再重复。
-                // 如果有必要，可以调用更新函数，但language.js已经通过观察者或者事件处理了。
-            }
-
-            // 关闭弹窗
-            function closeLangModal() {
-                modal.classList.remove('active');
-                currentDocType = null;
-            }
-
-            // 根据选择的语言跳转
-            function redirectToDocs(lang) {
-                if (!currentDocType) return;
-
-                let url = '';
-                // 根据文档类型和语言拼接URL
-                // 中文文档假设为 *_zh.html，英文文档假设为 *_en.html，但也可以保持原有规则
-                // 原有链接：source_dev.html, docs/hscript_dev.html, lua_docs.html
-                // 假设中文版：source_dev_zh.html, docs/hscript_dev_zh.html, lua_docs_zh.html
-                // 英文版：source_dev_en.html, docs/hscript_dev_en.html, lua_docs_en.html
-                // 但也可以根据实际情况调整，这里使用简单规则：在文件名插入 _语言
-                switch (currentDocType) {
-                    case 'source':
-                        url = lang === 'zh' ? 'source_dev_zh.html' : 'source_dev_en.html';
-                        break;
-                    case 'hscript':
-                        // 注意原链接有 docs/ 前缀
-                        url = lang === 'zh' ? 'docs/hscript_dev_zh.html' : 'docs/hscript_dev_en.html';
-                        break;
-                    case 'lua':
-                        url = lang === 'zh' ? 'lua_docs_zh.html' : 'lua_docs_en.html';
-                        break;
-                    default:
-                        return;
-                }
-                
-                // 如果文件不一定存在，可以回退到原链接，这里不做回退，直接跳转
-                window.location.href = url;
-            }
-
-            // 绑定按钮事件
-            docButtons.forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();  // 阻止任何默认行为（如果是button则无所谓）
-                    const docType = this.getAttribute('data-doc-type');
-                    openLangModal(docType);
-                });
-            });
-
-            // 关闭弹窗
-            closeBtn.addEventListener('click', closeLangModal);
-            
-            // 点击模态背景关闭
-            modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    closeLangModal();
-                }
-            });
-
-            // 语言选择
-            chineseBtn.addEventListener('click', function() {
-                redirectToDocs('zh');
-                closeLangModal(); // 关闭弹窗，实际上跳转后页面关闭
-            });
-
-            englishBtn.addEventListener('click', function() {
-                redirectToDocs('en');
-                closeLangModal();
-            });
-
-            // 键盘ESC关闭
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && modal.classList.contains('active')) {
-                    closeLangModal();
-                }
-            });
-
-            // 额外的：如果language.js切换语言时，可能需要更新弹窗内的文本，但language.js通常会自动处理带有data-en/data-zh的元素
-            // 由于弹窗内元素已有这些属性，language.js会更新。但language.js可能在此时已经执行，为了确保modal内的文字更新，可以手动调用一次？
-            // 这里假设language.js会监听lang-toggle点击，并更新全页，所以无需额外操作。
-        })();
-    </script>
-
-    <!-- 补丁：为了演示，如果没有language.js或theme.js，保证基本功能不报错 -->
-    <script>
-        // 如果js文件缺失或未加载，提供极简后备，防止按钮无效
-        (function silentFallback() {
-            // 确保theme切换按钮不报错
-            const themeBtn = document.getElementById('theme-toggle');
-            if (themeBtn) {
-                themeBtn.addEventListener('click', function() {
-                    document.body.classList.toggle('light-theme'); // 假设有对应样式
-                });
-            }
-            // 简单语言切换演示：切换data-en/zh显示，但因为我们用了language.js，这里不做复杂处理
-        })();
-    </script>
 </body>
 </html>
