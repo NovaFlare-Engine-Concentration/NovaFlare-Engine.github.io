@@ -320,8 +320,8 @@
                 if (allReleases.length === 0) return;
                 
                 let versionNum = 0;
-                if (allReleases[0].prerelease) versionNNum = 1;
-                const latestRelease = allReleases[versionNNum];
+                if (allReleases[0].prerelease) versionNum = 1;
+                const latestRelease = allReleases[versionNum];
                 
                 document.getElementById('latest-version').textContent = latestRelease.tag_name;
                 document.getElementById('release-date').textContent = `(${new Date(latestRelease.published_at).toLocaleDateString()})`;
@@ -342,9 +342,9 @@
                 
                 let versionNum = 0;
                 if(allReleases[0].prerelease) {
-                   versionNNum = 1;
+                   versionNum = 1;
                 }
-                const latestRelease = allReleases[versionNNum];
+                const latestRelease = allReleases[versionNum];
                 
                 document.getElementById('latest-version-card').innerHTML = `
                     <div class="version-header">
